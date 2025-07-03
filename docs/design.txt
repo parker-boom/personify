@@ -1,0 +1,46 @@
+🎨 Personify Design System
+
+## Core Philosophy
+- **OpenAI-inspired**: Clean, bold, modern aesthetic
+- **Minimal palette**: Pure black (#000) + white only for easy theming
+- **Signature element**: Holographic effects on key branding moments
+- **Web-focused**: Optimized for desktop/laptop experience (hackathon scope)
+
+## Color System
+**Light Mode:**
+- Background: White (#FFFFFF)
+- Text: Deep Black (#000000)
+
+**Dark Mode:**
+- Background: Deep Black (#000000) - OLED friendly
+- Text: White (#FFFFFF)
+
+**Accent:**
+- Holographic gradient: Used sparingly on "Personify" branding and key CTAs
+- Only colored elements in the entire app
+
+## Typography
+- **Bold modern fonts** (following OpenAI style)
+- Clean hierarchy with generous spacing
+- Emojis allowed for personality without breaking color rules
+
+## Interactive Elements
+- **Shadows**: Allowed, can be holographic colored for premium feel
+- **Animations**: Subtle, used on signature "Personify" text
+- **Theme Toggle**: Sun/moon icons, localStorage persistence
+
+## Home Page Design
+**Layout:** Minimal, center-aligned content on plain background
+
+**Content Structure:**
+1. **Title:** "Looking to customize ChatGPT to you and your preferences?"
+2. **Subtitle:** "It's time to Personify your AI assistant."
+   - "Personify" = holographic colored + animated (signature brand moment)
+3. **Theme Toggle:** Sun/moon toggle, top-right
+4. **CTA Button:** "Get Started" with holographic colored shadow
+
+## Design Principles
+- **Less is more**: Every element serves a purpose
+- **Brand moments**: Holographic effects only on key "Personify" branding
+- **Accessibility**: High contrast black/white ensures readability
+- **Consistency**: Same spacing, fonts, and patterns across all pages
