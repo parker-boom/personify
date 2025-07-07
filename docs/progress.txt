@@ -1,0 +1,26 @@
+# Progress Log: Personify
+DO NOT USE DATES, PROGRESS HAPPENED CHRONOLOGICALLY TOP TO BOTTOM 
+
+## Grounding and Design
+- **Home page complete**: Title, subtitle, and CTA button implemented per design spec. Layout is centered, responsive, and matches the OpenAI-inspired aesthetic.
+- **Dark mode**: Implemented using a global ThemeService and a reusable ThemeToggleComponent. Theme state is persisted in localStorage and can be toggled from any page.
+- **Design system**: All colors, fonts, and layout strategies follow the design.txt doc. Uses Angular + SCSS for maintainability and learning alignment.
+- **Mobile**: Design is desktop/laptop focused per design.txt; mobile is not a priority for this hackathon.
+- **Docs**: plan.txt remains the guiding document; design.txt is the source of truth for visual/UX decisions; progress.txt logs all major changes and implementation notes.
+
+## Routing Structure Setup
+- **Routing planned for four main pages/components:**
+  1. **Home (`/`)**: Welcome, branding, theme toggle, "Get Started" CTA.
+  2. **Select (`/select`)**: User selects which areas to customize (category selection, bubbles, etc).
+  3. **Flow (`/flow`)**: Main onboarding flow; chat-style Q&A, sidebar, widgets, evolving state.
+  4. **Result (`/result`)**: Final output; custom instructions, copy buttons, "New Chat" CTA, no data stored.
+- This structure sets up the high-level navigation flow for the SPA. Each component will be developed in detail later, but the routing "connective tissue" will be in place for seamless navigation and future work.
+
+---
+
+### Notes for Future Development
+- Always refer to plan.txt for project goals and flow.
+- Use design.txt for color, font, and layout rules.
+- ThemeService and ThemeToggleComponent are the standard for dark mode across the app.
+- Keep progress.txt updated with all major changes and rationale.
+- Routing structure is now defined; each route/component should be developed according to its purpose above.

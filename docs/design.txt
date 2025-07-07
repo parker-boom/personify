@@ -5,6 +5,7 @@
 - **Minimal palette**: Pure black (#000) + white only for easy theming
 - **Signature element**: Holographic effects on key branding moments
 - **Web-focused**: Optimized for desktop/laptop experience (hackathon scope)
+- **Styling**: All styles are written in Angular + SCSS for maintainability and learning alignment
 
 ## Color System
 **Light Mode:**
@@ -27,7 +28,7 @@
 ## Interactive Elements
 - **Shadows**: Allowed, can be holographic colored for premium feel
 - **Animations**: Subtle, used on signature "Personify" text
-- **Theme Toggle**: Sun/moon icons, localStorage persistence
+- **Theme Toggle**: Use the provided ThemeToggleComponent (sun/moon icons, localStorage persistence, powered by ThemeService)
 
 ## Home Page Design
 **Layout:** Minimal, center-aligned content on plain background
@@ -36,7 +37,7 @@
 1. **Title:** "Looking to customize ChatGPT to you and your preferences?"
 2. **Subtitle:** "It's time to Personify your AI assistant."
    - "Personify" = holographic colored + animated (signature brand moment)
-3. **Theme Toggle:** Sun/moon toggle, top-right
+3. **Theme Toggle:** Sun/moon toggle, top-right (use ThemeToggleComponent)
 4. **CTA Button:** "Get Started" with holographic colored shadow
 
 ## Design Principles
@@ -44,3 +45,5 @@
 - **Brand moments**: Holographic effects only on key "Personify" branding
 - **Accessibility**: High contrast black/white ensures readability
 - **Consistency**: Same spacing, fonts, and patterns across all pages
+- **Theme**: All pages must use ThemeService and ThemeToggleComponent for dark/light mode
+- **Desktop-first**: Design is optimized for desktop/laptop; mobile is not a priority for this hackathon
