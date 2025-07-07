@@ -1,0 +1,153 @@
+📊 Personify Data Flow Architecture
+
+## Overview
+This document details how data flows through the Personify app, from JSON configuration to API output.
+
+## JSON Structure
+The app uses a hierarchical JSON structure with categories, subcategories, and questions:
+
+```json
+[
+  {
+    "name": "school",
+    "label": "School & Academic Life", 
+    "weight": 9,
+    "subcategories": [
+      {
+        "name": "grade",
+        "label": "Grade",
+        "weight": 8,
+        "order": 1,
+        "suggested": true,
+        "id": "SAL1",
+        "questions": [
+          {
+            "prompt": "What grade or academic year are you in?",
+            "type": "slider",
+            "range": { "min": 6, "max": 16 },
+            "default": 12
+          }
+        ]
+      }
+    ]
+  }
+]
+```
+
+## Data Flow Through Pages
+
+### 1. Select Page
+**Input**: JSON categories data
+**Process**: 
+- User clicks category circles → reveals subcategory circles
+- User toggles subcategories on/off
+- Suggested subcategories auto-selected when category opened
+- SelectionService stores selected subcategory IDs: `["SAL1", "SAL3", "SAL5", "LS1", "LS2"]`
+
+**Output**: Array of selected subcategory IDs
+
+### 2. Flow Page  
+**Input**: Selected subcategory IDs from SelectionService
+**Process**:
+- FlowService extracts all questions from selected subcategories
+- Creates linear question queue: `[SAL1-q0, SAL3-q0, SAL3-q1, SAL5-q0, LS1-q0, LS2-q0, LS2-q1]`
+- Iterates through questions one by one
+- Collects answers in Map<string, any>
+- Updates progress for sidebar display
+
+**Output**: Complete answers Map for API call
+
+### 3. Result Page
+**Input**: API response only
+**Process**: Displays generated Custom Instructions and memory setup
+**Output**: User copies to ChatGPT
+
+## Service Architecture
+
+### SelectionService
+- Manages selected subcategory IDs across Select/Flow pages
+- Provides methods: `toggleSubcategory()`, `getSelectedSubcategories()`, `isSubcategorySelected()`
+- Uses RxJS BehaviorSubject for reactive state updates
+
+### FlowService  
+- Manages question progression and answers during Flow page
+- Provides methods: `initializeFlow()`, `answerQuestion()`, `nextQuestion()`, `getAllAnswers()`
+- Builds linear question list from hierarchical JSON structure
+- Tracks progress for sidebar updates
+
+### Shared Sidebar Component
+- Displays selection progress on Select page
+- Shows question progress on Flow page  
+- Receives data from both services via observables
+- Canvas-style vertical pane design
+
+## Key Data Transformations
+
+### Hierarchical → Linear (Select → Flow)
+```typescript
+// Input: Selected subcategory IDs
+["SAL1", "SAL3", "SAL5", "LS1", "LS2"]
+
+// Output: Flattened question list
+[
+  { id: "SAL1-q0", subcategoryId: "SAL1", prompt: "What grade...", type: "slider" },
+  { id: "SAL3-q0", subcategoryId: "SAL3", prompt: "What classes...", type: "long_text" },
+  // ... etc
+]
+```
+
+### Progress Tracking (Flow → Sidebar)
+```typescript
+// Input: Current question index + answers
+{ currentQuestionIndex: 3, answers: Map }
+
+// Output: Category progress for sidebar
+[
+  {
+    categoryId: "school",
+    categoryLabel: "School & Academic Life", 
+    subcategories: [
+      { subcategoryId: "SAL1", answeredQuestions: 1, totalQuestions: 1, isComplete: true },
+      { subcategoryId: "SAL3", answeredQuestions: 1, totalQuestions: 2, isComplete: false }
+    ]
+  }
+]
+```
+
+## State Management Strategy
+
+### Why Services Over Components?
+1. **Cross-page state**: Selection data needed on both Select and Flow pages
+2. **Type safety**: Interfaces validate JSON structure at compile time
+3. **Reusability**: Sidebar component can inject same service on any page
+4. **Debugging**: Clear separation makes tracking bugs easier
+5. **Learning**: Demonstrates Angular best practices for state management
+
+### Component Communication
+- **Parent-Child**: @Input/@Output for component-specific data
+- **Cross-page**: Services for shared state
+- **Reactive**: RxJS observables for automatic UI updates
+
+## File Structure
+```
+src/app/
+├── shared/
+│   ├── models/
+│   │   ├── category.interface.ts      // JSON structure types
+│   │   └── flow.interface.ts          // Flow state types
+│   ├── services/
+│   │   ├── selection.ts               // Select page state
+│   │   └── flow.ts                    // Flow page state
+│   └── components/
+│       └── sidebar/                   // Shared progress display
+└── pages/
+    ├── select/                        // Category selection
+    └── flow/                          // Question progression
+```
+
+## Future Considerations
+- **Persistence**: Could add localStorage for session recovery
+- **Validation**: Add runtime validation for JSON structure
+- **Error handling**: Graceful handling of malformed JSON
+- **Performance**: Lazy loading for large question sets
+- **Accessibility**: Screen reader support for progress tracking 

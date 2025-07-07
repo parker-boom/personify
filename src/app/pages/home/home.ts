@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { ThemeService } from '../../theme.service';
 import { ThemeToggleComponent } from '../../theme-toggle/theme-toggle.component';
 
@@ -10,10 +11,12 @@ import { ThemeToggleComponent } from '../../theme-toggle/theme-toggle.component'
   styleUrl: './home.scss',
 })
 export class Home {
-  constructor(public themeService: ThemeService) {}
+  constructor(
+    public themeService: ThemeService,
+    private router: Router
+  ) {}
 
   getStarted() {
-    // Placeholder for navigation or onboarding start
-    alert('Get Started clicked! (Replace with onboarding flow)');
+    this.router.navigate(['/select']);
   }
 }
