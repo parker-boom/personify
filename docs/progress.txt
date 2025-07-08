@@ -1,26 +1,15 @@
 # Progress Log: Personify
 DO NOT USE DATES, PROGRESS HAPPENED CHRONOLOGICALLY TOP TO BOTTOM 
 
-## Grounding and Design
-- **Home page complete**: Title, subtitle, and CTA button implemented per design spec. Layout is centered, responsive, and matches the OpenAI-inspired aesthetic.
-- **Dark mode**: Implemented using a global ThemeService and a reusable ThemeToggleComponent. Theme state is persisted in localStorage and can be toggled from any page.
-- **Design system**: All colors, fonts, and layout strategies follow the design.txt doc. Uses Angular + SCSS for maintainability and learning alignment.
-- **Mobile**: Design is desktop/laptop focused per design.txt; mobile is not a priority for this hackathon.
-- **Docs**: plan.txt remains the guiding document; design.txt is the source of truth for visual/UX decisions; progress.txt logs all major changes and implementation notes.
+## State Management and UI/UX Improvements
+- **Per-category subcategory selection state**: Implemented robust state management using SelectionService. Each category now remembers its selected subcategories, with suggested defaults on first open and persistent user choices on subsequent opens.
+- **Dark/Light mode support**: All relevant UI elements (category label, save button, toggles, etc.) in the select and subcategory overview pages now fully support dark and light mode. Styles adapt cleanly to theme changes.
+- **Theme toggle placement**: The theme toggle button is now consistently placed in the top right, matching the home page, and is always clickable.
+- **Sidebar open on save**: When saving subcategory selections, the sidebar automatically opens to show progress, improving user feedback and flow.
+- **Category circle UI**: Removed the "Click to expand" overlay for a cleaner look. Category circles remain visually distinct and interactive.
+- **Subcategory overview redesign**: Switched from floating circles to a vertical list of rounded rectangles with toggles for clarity and accessibility. Suggested subcategories are pre-selected, and toggling is intuitive.
+- **Save button**: Prominent, accessible, and styled for both themes.
 
-## Routing Structure Setup
-- **Routing planned for four main pages/components:**
-  1. **Home (`/`)**: Welcome, branding, theme toggle, "Get Started" CTA.
-  2. **Select (`/select`)**: User selects which areas to customize (category selection, bubbles, etc).
-  3. **Flow (`/flow`)**: Main onboarding flow; chat-style Q&A, sidebar, widgets, evolving state.
-  4. **Result (`/result`)**: Final output; custom instructions, copy buttons, "New Chat" CTA, no data stored.
-- This structure sets up the high-level navigation flow for the SPA. Each component will be developed in detail later, but the routing "connective tissue" will be in place for seamless navigation and future work.
-
----
-
-### Notes for Future Development
-- Always refer to plan.txt for project goals and flow.
-- Use design.txt for color, font, and layout rules.
-- ThemeService and ThemeToggleComponent are the standard for dark mode across the app.
-- Keep progress.txt updated with all major changes and rationale.
-- Routing structure is now defined; each route/component should be developed according to its purpose above.
+## Routing and Structure
+- **Routing**: Navigation from home to select page is seamless. Select page uses a layout component for consistent structure and sidebar management.
+- **Component structure**: Select page and subcategory overview are modular, with clear separation of concerns and state passed via services and inputs/outputs.

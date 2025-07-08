@@ -1,1 +1,58 @@
-<p>sidebar works!</p>
+<div class="sidebar-container" [class.dark-mode]="themeService.isDarkMode">
+  <div class="sidebar-header">
+    <h2 class="sidebar-title">
+      <span class="sidebar-title-icon">
+        <!-- Magic wand icon (sparkles) for personalization -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 3l-1.5 1.5M17 7l-1.5 1.5M3 21l7.5-7.5M14 10l-1.5 1.5M19 5l-7.5 7.5" stroke-linecap="round"/>
+          <circle cx="5" cy="19" r="1.5"/>
+        </svg>
+      </span>
+      Personalization Setup
+    </h2>
+    <button 
+      class="sidebar-close-btn"
+      (click)="closeSidebar.emit()"
+      [attr.aria-label]="'Close sidebar'"
+    >
+      <!-- Hamburger icon -->
+      <svg class="hamburger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="4" y1="7" x2="20" y2="7" />
+        <line x1="4" y1="12" x2="20" y2="12" />
+        <line x1="4" y1="17" x2="20" y2="17" />
+      </svg>
+    </button>
+  </div>
+  
+  <div class="sidebar-content">
+    <ng-container *ngIf="(selectedCategories$ | async) as selectedCategories; else emptyState">
+      <ng-container *ngIf="selectedCategories.length > 0; else emptyState">
+        <ul class="category-list">
+          <li *ngFor="let category of selectedCategories" class="category-row">
+            <div class="category-header" tabindex="-1">
+              <span class="category-emoji">{{ category.emoji }}</span>
+              <span class="category-label">{{ category.label }}</span>
+              <button class="remove-btn" (click)="removeCategory(category)" aria-label="Remove category" tabindex="-1">
+                <svg viewBox="0 0 20 20" width="18" height="18"><line x1="4" y1="4" x2="16" y2="16" stroke="currentColor" stroke-width="2"/><line x1="16" y1="4" x2="4" y2="16" stroke="currentColor" stroke-width="2"/></svg>
+              </button>
+            </div>
+            <ul class="subcategory-list">
+              <li *ngFor="let sub of category.selectedSubs" class="subcategory-row">
+                <span class="subcategory-label">
+                  <span class="subcategory-bullet">&bull;</span>
+                  {{ sub.label }}
+                </span>
+                <button class="subcategory-remove-btn" (click)="removeSubcategory(category, sub)" aria-label="Remove subcategory" tabindex="-1">
+                  <svg viewBox="0 0 20 20" width="16" height="16"><line x1="4" y1="4" x2="16" y2="16" stroke="currentColor" stroke-width="2"/><line x1="16" y1="4" x2="4" y2="16" stroke="currentColor" stroke-width="2"/></svg>
+                </button>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </ng-container>
+    </ng-container>
+    <ng-template #emptyState>
+      <div class="sidebar-empty">Choose what you want to customize</div>
+    </ng-template>
+  </div>
+</div>

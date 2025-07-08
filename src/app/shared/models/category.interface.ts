@@ -20,6 +20,7 @@ export interface Category {
   name: string;
   label: string;
   weight: number;
+  emoji: string; // Added for sidebar display
   subcategories: Subcategory[];
 }
 

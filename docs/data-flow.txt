@@ -39,12 +39,14 @@ The app uses a hierarchical JSON structure with categories, subcategories, and q
 ### 1. Select Page
 **Input**: JSON categories data
 **Process**: 
-- User clicks category circles → reveals subcategory circles
-- User toggles subcategories on/off
-- Suggested subcategories auto-selected when category opened
-- SelectionService stores selected subcategory IDs: `["SAL1", "SAL3", "SAL5", "LS1", "LS2"]`
+- User clicks category circles → opens subcategory overview
+- Subcategories are shown as a vertical list of rounded rectangles with toggles
+- Suggested subcategories are auto-selected on first open
+- User toggles subcategories on/off; state is saved per category in SelectionService
+- On subsequent opens, previous selections are restored
+- Clicking Save updates SelectionService and automatically opens the sidebar
 
-**Output**: Array of selected subcategory IDs
+**Output**: Array of selected subcategory IDs per category
 
 ### 2. Flow Page  
 **Input**: Selected subcategory IDs from SelectionService
@@ -66,7 +68,8 @@ The app uses a hierarchical JSON structure with categories, subcategories, and q
 
 ### SelectionService
 - Manages selected subcategory IDs across Select/Flow pages
-- Provides methods: `toggleSubcategory()`, `getSelectedSubcategories()`, `isSubcategorySelected()`
+- Stores per-category subcategory selection state (`categorySelections`)
+- Provides methods: `toggleSubcategory()`, `getSelectedSubcategories()`, `isSubcategorySelected()`, `setCategorySelection()`, `getCategorySelection()`
 - Uses RxJS BehaviorSubject for reactive state updates
 
 ### FlowService  
@@ -80,6 +83,7 @@ The app uses a hierarchical JSON structure with categories, subcategories, and q
 - Shows question progress on Flow page  
 - Receives data from both services via observables
 - Canvas-style vertical pane design
+- Sidebar automatically opens on save for user feedback
 
 ## Key Data Transformations
 
@@ -145,9 +149,11 @@ src/app/
     └── flow/                          // Question progression
 ```
 
-## Future Considerations
-- **Persistence**: Could add localStorage for session recovery
-- **Validation**: Add runtime validation for JSON structure
-- **Error handling**: Graceful handling of malformed JSON
-- **Performance**: Lazy loading for large question sets
-- **Accessibility**: Screen reader support for progress tracking 
+## Recent Improvements
+- **Per-category subcategory selection state**: Each category remembers its selected subcategories, with suggested defaults on first open and persistent user choices on subsequent opens.
+- **Dark/Light mode support**: All relevant UI elements in the select and subcategory overview pages now fully support dark and light mode.
+- **Theme toggle placement**: The theme toggle button is consistently placed in the top right, matching the home page, and is always clickable.
+- **Sidebar open on save**: When saving subcategory selections, the sidebar automatically opens to show progress.
+- **Category circle UI**: Removed the "Click to expand" overlay for a cleaner look.
+- **Subcategory overview redesign**: Switched from floating circles to a vertical list of rounded rectangles with toggles for clarity and accessibility.
+- **Save button**: Prominent, accessible, and styled for both themes. 

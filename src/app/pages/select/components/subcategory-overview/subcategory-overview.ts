@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { Category, Subcategory } from '../../../../shared/models/category.interface';
 import { CommonModule, NgStyle } from '@angular/common';
 import { SelectionService } from '../../../../shared/services/selection';
+import { ThemeService } from '../../../../theme.service';
 
 function pastelize(hex: string, amount = 0.7): string {
   const num = parseInt(hex.replace('#', ''), 16);
@@ -25,13 +26,15 @@ const BRAND_COLORS = [
 })
 export class SubcategoryOverview implements OnInit {
   @Input() category!: Category;
-  @Input() darkMode: boolean = false;
   @Output() save = new EventEmitter<string[]>();
 
   subcategories: (Subcategory & { color: string; pastelColor: string })[] = [];
   selectedIds: Set<string> = new Set();
 
-  constructor(private selectionService: SelectionService) {}
+  constructor(
+    private selectionService: SelectionService,
+    public themeService: ThemeService
+  ) {}
 
   ngOnInit() {
     this.subcategories = this.category.subcategories.map((sub, i) => {

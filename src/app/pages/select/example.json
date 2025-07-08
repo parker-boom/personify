@@ -1,8 +1,18 @@
 [
+  {
+    "name": "personal",
+    "label": "Personal Info",
+    "weight": 6,
+    "emoji": "😎",
+    "subcategories": [
+      
+    ]
+  },
     {
       "name": "school",
       "label": "Academic Life",
       "weight": 9,
+      "emoji": "🎓",
       "subcategories": [
         {
           "name": "grade",
@@ -99,6 +109,7 @@
       "name": "learning",
       "label": "Learning Style",
       "weight": 10,
+      "emoji": "🧠",
       "subcategories": [
         {
           "name": "pace",
@@ -188,6 +199,32 @@
           ]
         }
       ]
+    },
+    {
+      "name": "personlity",
+      "label": "How to Respond",
+      "weight": 8,
+      "emoji": "🤖",
+      "subcategories": [
+        {
+          "name": "pace",
+          "label": "Pace",
+          "weight": 8,
+          "order": 1,
+          "suggested": true,
+          "id": "LS1",
+          "questions": [
+            {
+              "prompt": "Do you prefer fast-paced learning or slower, step-by-step explanation?",
+              "type": "slider",
+              "range": { "min": 1, "max": 10 },
+              "default": 5
+            }
+          ]
+        }
+      ]
     }
+    
+    
 ]
   

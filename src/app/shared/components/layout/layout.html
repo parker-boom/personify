@@ -1,7 +1,4 @@
 <div class="layout-container" [class.dark-mode]="themeService.isDarkMode">
-  <!-- Theme Toggle -->
-  <app-theme-toggle></app-theme-toggle>
-
   <!-- Sidebar Toggle Button (when sidebar is closed) -->
   <button 
     *ngIf="!isSidebarOpen" 
@@ -22,30 +19,7 @@
     [class.sidebar-open]="isSidebarOpen"
     [attr.aria-hidden]="!isSidebarOpen"
   >
-    <div class="sidebar-header">
-      <div class="sidebar-title">
-        <svg class="progress-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="9 11 12 14 22 4"></polyline>
-          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
-        </svg>
-        <span>Progress</span>
-      </div>
-      <button 
-        class="sidebar-close-btn"
-        (click)="closeSidebar()"
-        [attr.aria-label]="'Close sidebar'"
-      >
-        <svg class="close-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-      </button>
-    </div>
-    
-    <div class="sidebar-content">
-      <!-- Sidebar content will be injected here later -->
-      <p class="sidebar-placeholder">Progress content coming soon...</p>
-    </div>
+    <app-sidebar (closeSidebar)="closeSidebar()"></app-sidebar>
   </aside>
 
   <!-- Main Content Area -->

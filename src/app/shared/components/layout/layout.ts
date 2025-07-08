@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ThemeService } from '../../../theme.service';
-import { ThemeToggleComponent } from '../../../theme-toggle/theme-toggle.component';
+import { Sidebar } from '../sidebar/sidebar';
 
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [CommonModule, ThemeToggleComponent],
+  imports: [CommonModule, Sidebar],
   templateUrl: './layout.html',
   styleUrl: './layout.scss',
 })

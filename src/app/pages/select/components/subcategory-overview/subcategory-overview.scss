@@ -67,12 +67,16 @@
 
 .dark-mode .subcategory-list-item {
   background: #232323;
-  color: #fff;
+  color: #222; /* Keep text black in dark mode */
   box-shadow: 0 2px 12px 0 rgba(255,255,255,0.07);
   &:hover {
     background: #181818;
     box-shadow: 0 4px 24px 0 rgba(255,255,255,0.13);
   }
+}
+
+.dark-mode .subcategory-list-label {
+  color: #222;
 }
 
 .subcategory-list-label {
@@ -82,9 +86,6 @@
   letter-spacing: -0.01em;
 }
 
-.dark-mode .subcategory-list-label {
-  color: #fff;
-}
 
 .subcategory-toggle-circle {
   width: 32px;
@@ -97,15 +98,37 @@
   justify-content: center;
   margin-left: 1.2rem;
   transition: border-color 0.18s, background 0.18s;
+  
+  svg {
+    color: #bbb; /* Default color for unselected state */
+  }
+  
   &.selected {
     background: currentColor;
     border-color: currentColor;
+    
+    svg {
+      color: currentColor; /* Use the border color for selected state */
+    }
   }
 }
 
 .dark-mode .subcategory-toggle-circle {
-  background: #181818;
+  background: #fff; /* Keep white background in dark mode */
   border-color: #888;
+  
+  svg {
+    color: #888; /* Darker color for unselected state in dark mode */
+  }
+  
+  &.selected {
+    background: currentColor;
+    border-color: currentColor;
+    
+    svg {
+      color: currentColor; /* Use the border color for selected state */
+    }
+  }
 }
 
 .save-btn {

@@ -6,8 +6,12 @@
     background: pastelColor,
     borderColor: color
   }"
+  [class.dark-mode]="themeService.isDarkMode"
   (mouseenter)="onHover()"
   (click)="onClick()"
 >
-  <span class="circle-label" [class.dark-mode-label]="darkMode">{{ label }}</span>
+  <div class="circle-content">
+    <span class="circle-emoji" [ngStyle]="{ fontSize: emojiSize + 'rem' }">{{ emoji }}</span>
+    <span class="circle-label" [ngStyle]="{ fontSize: labelSize + 'rem' }">{{ label }}</span>
+  </div>
 </div>

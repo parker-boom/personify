@@ -10,7 +10,7 @@ export interface CategorySelectionState {
   providedIn: 'root'
 })
 export class SelectionService {
-  private selectionState = new BehaviorSubject<SelectionState>({
+  public selectionState = new BehaviorSubject<SelectionState>({
     selectedSubcategoryIds: [],
     categories: [],
     categorySelections: {} // new: per-category selection

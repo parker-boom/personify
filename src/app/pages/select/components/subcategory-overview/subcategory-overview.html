@@ -1,4 +1,4 @@
-<div class="subcategory-overview">
+<div class="subcategory-overview" [class.dark-mode]="themeService.isDarkMode">
   <!-- Italicized Header -->
   <div class="category-header-text">
     <h2 class="category-title"><em>Choose from <span class="category-name">{{ category.label }}</span>:</em></h2>
@@ -22,6 +22,7 @@
           <polyline points="7 12 10 15 15 9" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
         <svg *ngIf="!isSelected(sub.id)" width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2">
+          <!-- Empty circle for unselected state -->
         </svg>
       </span>
     </div>

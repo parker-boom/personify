@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import categoriesJson from './example.json';
 import { Category } from '../../shared/models/category.interface';
 import { LayoutComponent } from '../../shared/components/layout/layout';
@@ -7,6 +8,8 @@ import { CategoryCircle } from './components/category-circle/category-circle';
 import { SubcategoryOverview } from './components/subcategory-overview/subcategory-overview';
 import { JsonPipe } from '@angular/common';
 import { SelectionService } from '../../shared/services/selection';
+import { ThemeService } from '../../theme.service';
+import { Observable, map } from 'rxjs';
 
 const BRAND_COLORS = [
   '#ff6a00', // orange
@@ -28,8 +31,13 @@ export class Select {
   categories: (Category & { color: string })[] = [];
   selectedCategory: Category | null = null;
   debugCategories: any;
+  hasSelections$!: Observable<boolean>;
 
-  constructor(private selectionService: SelectionService) {
+  constructor(
+    private selectionService: SelectionService,
+    public themeService: ThemeService,
+    private router: Router
+  ) {
     // Debug: Log the raw JSON import
     console.debug('Imported categoriesJson:', categoriesJson);
 
@@ -45,6 +53,14 @@ export class Select {
 
     // Load categories into the selection service
     this.selectionService.loadCategories(this.categories);
+
+    // Initialize the hasSelections observable after selectionService is available
+    this.hasSelections$ = this.selectionService.selectionState$.pipe(
+      map(state => {
+        const categorySelections = Object.values(state.categorySelections);
+        return categorySelections.some(selections => selections.length > 0);
+      })
+    );
   }
 
   onCategoryClick(category: Category): void {
@@ -53,18 +69,10 @@ export class Select {
   }
 
   onSubcategorySave(selectedIds: string[]): void {
-    // Update the selection service with the selected subcategories
-    selectedIds.forEach(id => {
-      if (!this.selectionService.isSubcategorySelected(id)) {
-        this.selectionService.toggleSubcategory(id);
-      }
-    });
-    // Remove any subcategories that were previously selected but are not in selectedIds
-    this.selectionService.getSelectedSubcategoryIds().forEach(id => {
-      if (!selectedIds.includes(id)) {
-        this.selectionService.toggleSubcategory(id);
-      }
-    });
+    if (this.selectedCategory) {
+      // Update the selection service with the selected subcategories for this specific category
+      this.selectionService.setCategorySelection(this.selectedCategory.name, selectedIds);
+    }
     this.selectedCategory = null;
     // Open the sidebar
     setTimeout(() => this.layoutComponent?.openSidebar(), 0);
@@ -72,5 +80,9 @@ export class Select {
 
   onBackToCategories(): void {
     this.selectedCategory = null;
+  }
+
+  startCustomizing(): void {
+    this.router.navigate(['/flow']);
   }
 }

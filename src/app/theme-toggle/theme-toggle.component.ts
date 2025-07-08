@@ -49,14 +49,14 @@ import { ThemeService } from '../theme.service';
   styles: [
     `
       .theme-toggle {
-        position: absolute;
+        position: fixed;
         top: 2rem;
         right: 2rem;
         background: none;
         border: none;
         cursor: pointer;
         outline: none;
-        z-index: 10;
+        z-index: 1000;
         padding: 0.5rem;
         border-radius: 50%;
         transition: background 0.2s;

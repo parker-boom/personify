@@ -1,5 +1,6 @@
 import { CommonModule, NgStyle } from '@angular/common';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { ThemeService } from '../../../../theme.service';
 
 function pastelize(hex: string, amount = 0.6): string {
   // Blend the color with white by the given amount (0-1)
@@ -21,20 +22,33 @@ function pastelize(hex: string, amount = 0.6): string {
 })
 export class CategoryCircle implements OnInit {
   @Input() label!: string;
+  @Input() emoji!: string;
   @Input() weight!: number;
   @Input() color!: string; // base color
-  @Input() darkMode: boolean = false; // can be set by parent if needed
   @Output() clicked = new EventEmitter<void>();
 
-  size = 120; // default size
+  size = 180; // default size
+  emojiSize = 3; // default emoji size in rem
+  labelSize = 1.75; // default label size in rem
   pastelColor = '';
   showOverlay = true;
 
+  constructor(public themeService: ThemeService) {}
+
   ngOnInit() {
-    // Map weight (5-10) to size (120-200px)
+    // Map weight (5-10) to size (190-280px)
     const minWeight = 5, maxWeight = 10;
-    const minSize = 120, maxSize = 200;
+    const minSize = 190, maxSize = 280;
     this.size = minSize + ((this.weight - minWeight) / (maxWeight - minWeight)) * (maxSize - minSize);
+    
+    // Map weight to emoji size (2.5rem - 3.5rem)
+    const minEmojiSize = 2.5, maxEmojiSize = 3.5;
+    this.emojiSize = minEmojiSize + ((this.weight - minWeight) / (maxWeight - minWeight)) * (maxEmojiSize - minEmojiSize);
+    
+    // Map weight to label size (1.5rem - 2rem)
+    const minLabelSize = 1.5, maxLabelSize = 2;
+    this.labelSize = minLabelSize + ((this.weight - minWeight) / (maxWeight - minWeight)) * (maxLabelSize - minLabelSize);
+    
     this.pastelColor = pastelize(this.color, 0.6);
   }
 
