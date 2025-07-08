@@ -1,1 +1,13 @@
-<p>category-circle works!</p>
+<div
+  class="category-circle"
+  [ngStyle]="{
+    width: size + 'px',
+    height: size + 'px',
+    background: pastelColor,
+    borderColor: color
+  }"
+  (mouseenter)="onHover()"
+  (click)="onClick()"
+>
+  <span class="circle-label" [class.dark-mode-label]="darkMode">{{ label }}</span>
+</div>

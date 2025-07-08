@@ -1,7 +1,7 @@
 [
     {
       "name": "school",
-      "label": "School & Academic Life",
+      "label": "Academic Life",
       "weight": 9,
       "subcategories": [
         {
@@ -156,7 +156,7 @@
         },
         {
           "name": "strengths_weaknesses",
-          "label": "Strengths & Weaknesses",
+          "label": "Strengths",
           "weight": 6,
           "order": 4,
           "suggested": false,
@@ -184,21 +184,6 @@
               "prompt": "What kinds of tasks do you usually use ChatGPT for?",
               "type": "multi_select",
               "options": ["Explaining things", "Homework", "Brainstorming", "Summarizing", "Studying", "Writing help", "Project planning"]
-            }
-          ]
-        },
-        {
-          "name": "tool_role",
-          "label": "Tool Role",
-          "weight": 5,
-          "order": 6,
-          "suggested": false,
-          "id": "LS6",
-          "questions": [
-            {
-              "prompt": "How do you want ChatGPT to act when helping you?",
-              "type": "select",
-              "options": ["Tutor", "Coach", "Study Buddy", "Copilot", "Assistant"]
             }
           ]
         }

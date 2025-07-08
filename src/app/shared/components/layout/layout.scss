@@ -13,6 +13,14 @@
     background-color: #000000;
     color: #ffffff;
   }
+
+  app-theme-toggle {
+    position: absolute;
+    top: 2.5rem;
+    right: 2.5rem;
+    z-index: 10;
+    pointer-events: auto;
+  }
 }
 
 // Sidebar Toggle Button (when sidebar is closed)
@@ -21,28 +29,31 @@
   top: 2rem;
   left: 2rem;
   z-index: 100;
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  padding: 0.75rem;
+  background: none;
+  border: none;
+  border-radius: 50%;
+  padding: 0.5rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  .dark-mode & {
-    background: rgba(0, 0, 0, 0.9);
-    border-color: rgba(255, 255, 255, 0.1);
+  .sidebar-icon {
+    width: 28px;
+    height: 28px;
+    stroke: #000;
+    transition: stroke 0.3s;
+  }
+  .layout-container.dark-mode & .sidebar-icon,
+  .dark-mode & .sidebar-icon {
+    stroke: #fff;
   }
 
   &:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-
-  .sidebar-icon {
-    width: 20px;
-    height: 20px;
-    stroke: currentColor;
+    background: none;
+    transform: scale(1.1);
   }
 }
 
@@ -52,9 +63,9 @@
   top: 1rem;
   left: 1rem;
   bottom: 1rem;
-  width: 15%;
-  min-width: 280px;
-  max-width: 350px;
+  width: 18%; // 20% wider than 15%
+  min-width: 336px; // 20% wider than 280px
+  max-width: 420px; // 20% wider than 350px
   background: rgba(255, 255, 255, 0.95);
   border-radius: 16px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
@@ -68,7 +79,7 @@
   .dark-mode & {
     background: rgba(0, 0, 0, 0.95);
     border-color: rgba(255, 255, 255, 0.05);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 32px rgba(255, 255, 255, 0.15); // white shadow for glow
   }
 
   &.sidebar-open {
@@ -99,7 +110,12 @@
   .progress-icon {
     width: 20px;
     height: 20px;
-    stroke: currentColor;
+    stroke: #000;
+    transition: stroke 0.3s;
+  }
+  .layout-container.dark-mode & .progress-icon,
+  .dark-mode & .progress-icon {
+    stroke: #fff;
   }
 }
 
@@ -107,22 +123,26 @@
   background: none;
   border: none;
   padding: 0.5rem;
-  border-radius: 6px;
+  border-radius: 50%;
   cursor: pointer;
   transition: background-color 0.2s ease;
-
-  &:hover {
-    background: rgba(0, 0, 0, 0.05);
-
-    .dark-mode & {
-      background: rgba(255, 255, 255, 0.05);
-    }
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   .close-icon {
     width: 18px;
     height: 18px;
-    stroke: currentColor;
+    stroke: #000;
+    transition: stroke 0.3s;
+  }
+  .layout-container.dark-mode & .close-icon,
+  .dark-mode & .close-icon {
+    stroke: #fff;
+  }
+
+  &:hover {
+    background: none;
   }
 }
 
@@ -138,9 +158,12 @@
   font-style: italic;
   text-align: center;
   margin-top: 2rem;
+  font-size: 1.1rem;
 
+  .layout-container.dark-mode &,
   .dark-mode & {
-    color: rgba(255, 255, 255, 0.5);
+    color: #fff;
+    text-shadow: 0 2px 8px rgba(255,255,255,0.25);
   }
 }
 
@@ -154,16 +177,16 @@
   align-items: center;
 
   &.content-with-sidebar {
-    margin-left: calc(15% + 2rem);
+    margin-left: calc(18% + 2rem);
     
-    @media (max-width: 1200px) {
-      margin-left: calc(280px + 2rem);
+    @media (max-width: 1400px) {
+      margin-left: calc(336px + 2rem);
     }
   }
 }
 
 // Responsive Design
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .sidebar {
     width: 90%;
     min-width: auto;

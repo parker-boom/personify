@@ -1,15 +1,33 @@
 <app-layout>
   <div class="select-content">
-    <div class="content-wrapper">
-      <div class="select-placeholder">
-        <h1 class="page-title">Select Page</h1>
-        <p class="page-description">
-          This is where users will select categories and subcategories to personalize their ChatGPT experience.
+    <div class="select-structure">
+      <!-- Top 1/3: Title and Subtitle -->
+      <div class="select-header">
+        <h1 class="select-title">
+          What would you like to <span class="brand-text">Personify</span>?
+        </h1>
+        <p class="select-subtitle">
+          Please select all of the areas you'd like to share about or specify
         </p>
-        <div class="placeholder-info">
-          <p><strong>Route:</strong> /select</p>
-          <p><strong>Next:</strong> Category circles, subcategory toggles, and sidebar progress</p>
-        </div>
+      </div>
+      <!-- Bottom 2/3: Category Circles OR Subcategory Overview -->
+      <div class="select-categories">
+        <ng-container *ngIf="!selectedCategory; else subcategoryView">
+          <app-category-circle
+            *ngFor="let cat of categories"
+            [label]="cat.label"
+            [weight]="cat.weight"
+            [color]="cat.color"
+            (click)="onCategoryClick(cat)"
+          ></app-category-circle>
+        </ng-container>
+        <ng-template #subcategoryView>
+          <app-subcategory-overview 
+            [category]="selectedCategory!"
+            [darkMode]="false"
+            (save)="onSubcategorySave($event)"
+          ></app-subcategory-overview>
+        </ng-template>
       </div>
     </div>
   </div>

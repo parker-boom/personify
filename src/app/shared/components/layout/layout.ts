@@ -22,4 +22,8 @@ export class LayoutComponent {
   closeSidebar(): void {
     this.isSidebarOpen = false;
   }
+
+  openSidebar(): void {
+    this.isSidebarOpen = true;
+  }
 }

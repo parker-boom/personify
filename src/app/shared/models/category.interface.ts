@@ -26,4 +26,5 @@ export interface Category {
 export interface SelectionState {
   selectedSubcategoryIds: string[];
   categories: Category[];
+  categorySelections: { [categoryName: string]: string[] };
 } 
