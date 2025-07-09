@@ -1,0 +1,174 @@
+.loading-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  transition: background 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  &.dark-mode {
+    background: #000000;
+  }
+}
+
+.animation-container {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin-bottom: 3rem;
+}
+
+.spinner-element {
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform-origin: 0 0;
+  animation: spin 3s linear infinite;
+  opacity: 0.9;
+  z-index: 1;
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: pulse 2s ease-in-out infinite;
+    z-index: 2;
+  }
+}
+
+.element-1 {
+  background: linear-gradient(45deg, #ff6a00, #ff2ecd);
+  animation-delay: 0s;
+  transform: translate(-50%, -50%) rotate(0deg) translateX(105px) rotate(0deg);
+}
+
+.element-2 {
+  background: linear-gradient(45deg, #ff2ecd, #6a5cff);
+  animation-delay: -0.5s;
+  transform: translate(-50%, -50%) rotate(60deg) translateX(105px) rotate(-60deg);
+}
+
+.element-3 {
+  background: linear-gradient(45deg, #6a5cff, #ff6a00);
+  animation-delay: -1s;
+  transform: translate(-50%, -50%) rotate(120deg) translateX(105px) rotate(-120deg);
+}
+
+.element-4 {
+  background: linear-gradient(45deg, #ff6a00, #ff2ecd);
+  animation-delay: -1.5s;
+  transform: translate(-50%, -50%) rotate(180deg) translateX(105px) rotate(-180deg);
+}
+
+.element-5 {
+  background: linear-gradient(45deg, #ff2ecd, #6a5cff);
+  animation-delay: -2s;
+  transform: translate(-50%, -50%) rotate(240deg) translateX(105px) rotate(-240deg);
+}
+
+.element-6 {
+  background: linear-gradient(45deg, #6a5cff, #ff6a00);
+  animation-delay: -2.5s;
+  transform: translate(-50%, -50%) rotate(300deg) translateX(105px) rotate(-300deg);
+}
+
+@keyframes spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg) translateX(105px) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg) translateX(105px) rotate(-360deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+}
+
+.message-container {
+  text-align: center;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-message {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #000000;
+  font-family: "Inter Tight", "Inter", sans-serif;
+  letter-spacing: -0.02em;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  opacity: 1;
+  transform: translateY(0);
+  animation: messageFade 0.5s ease-out;
+
+  .dark-mode & {
+    color: #ffffff;
+  }
+}
+
+@keyframes messageFade {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .animation-container {
+    width: 225px;
+    height: 225px;
+  }
+
+  .spinner-element {
+    width: 67px;
+    height: 67px;
+  }
+
+  .element-1,
+  .element-2,
+  .element-3,
+  .element-4,
+  .element-5,
+  .element-6 {
+    transform: translate(-50%, -50%) rotate(0deg) translateX(78px) rotate(0deg);
+  }
+
+  @keyframes spin {
+    0% {
+      transform: translate(-50%, -50%) rotate(0deg) translateX(78px) rotate(0deg);
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(360deg) translateX(78px) rotate(-360deg);
+    }
+  }
+
+  .loading-message {
+    font-size: 1.5rem;
+  }
+}
+
+ 

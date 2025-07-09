@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { FlowService } from '../../shared/services/flow';
 import { BaseQuestion } from '../../shared/models/question.interface';
 import { Observable, map } from 'rxjs';
@@ -17,7 +18,7 @@ export class Flow implements OnInit {
   allQuestions$: Observable<BaseQuestion[]>;
   progress$: Observable<any>;
 
-  constructor(private flowService: FlowService) {
+  constructor(private flowService: FlowService, private router: Router) {
     this.flowState$ = this.flowService.flowState$;
     
     // Create observables for different parts of the flow state
@@ -67,5 +68,8 @@ export class Flow implements OnInit {
     return this.flowService.isFlowComplete();
   }
 
+  completeFlow() {
+    this.router.navigate(['/loading']);
+  }
 
 }
