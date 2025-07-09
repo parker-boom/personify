@@ -1,13 +1,8 @@
-export interface QuestionWithContext {
-  id: string;
-  subcategoryId: string;
-  categoryId: string;
-  prompt: string;
-  type: 'slider' | 'short_text' | 'long_text' | 'multi_select' | 'dropdown' | 'toggle' | 'select';
-  range?: { min: number; max: number };
-  default?: number;
-  options?: string[];
-  answer?: any;
+import { BaseQuestion } from './question.interface';
+
+export interface QuestionWithContext extends BaseQuestion {
+  // This interface now extends BaseQuestion, so it inherits all the properties
+  // We can add any additional properties specific to the flow context here if needed
 }
 
 export interface FlowProgress {
@@ -32,7 +27,7 @@ export interface SubcategoryProgress {
 }
 
 export interface FlowState {
-  questions: QuestionWithContext[];
+  questions: BaseQuestion[];
   answers: Map<string, any>;
   progress: FlowProgress;
 } 

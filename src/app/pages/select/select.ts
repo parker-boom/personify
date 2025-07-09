@@ -6,8 +6,8 @@ import { Category } from '../../shared/models/category.interface';
 import { LayoutComponent } from '../../shared/components/layout/layout';
 import { CategoryCircle } from './components/category-circle/category-circle';
 import { SubcategoryOverview } from './components/subcategory-overview/subcategory-overview';
-import { JsonPipe } from '@angular/common';
 import { SelectionService } from '../../shared/services/selection';
+import { FlowService } from '../../shared/services/flow';
 import { ThemeService } from '../../theme.service';
 import { Observable, map } from 'rxjs';
 
@@ -22,7 +22,7 @@ const BRAND_COLORS = [
 @Component({
   selector: 'app-select',
   standalone: true,
-  imports: [LayoutComponent, CategoryCircle, SubcategoryOverview, JsonPipe, CommonModule],
+  imports: [LayoutComponent, CategoryCircle, SubcategoryOverview, CommonModule],
   templateUrl: './select.html',
   styleUrl: './select.scss',
 })
@@ -35,6 +35,7 @@ export class Select {
 
   constructor(
     private selectionService: SelectionService,
+    private flowService: FlowService,
     public themeService: ThemeService,
     private router: Router
   ) {
@@ -83,6 +84,8 @@ export class Select {
   }
 
   startCustomizing(): void {
+    // Initialize the flow with user selections before navigating
+    this.flowService.initializeFlowFromSelections();
     this.router.navigate(['/flow']);
   }
 }

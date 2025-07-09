@@ -5,6 +5,22 @@
     "weight": 6,
     "emoji": "😎",
     "subcategories": [
+      {
+        "name": "grade",
+        "label": "Grade",
+        "weight": 8,
+        "order": 1,
+        "suggested": true,
+        "id": "PI1",
+        "questions": [
+          {
+            "prompt": "Who are you?",
+            "type": "slider",
+            "range": { "min": 6, "max": 16 },
+            "default": 12
+          }
+        ]
+      }
       
     ]
   },
@@ -212,7 +228,7 @@
           "weight": 8,
           "order": 1,
           "suggested": true,
-          "id": "LS1",
+          "id": "PER1",
           "questions": [
             {
               "prompt": "Do you prefer fast-paced learning or slower, step-by-step explanation?",

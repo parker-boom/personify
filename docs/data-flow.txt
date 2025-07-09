@@ -12,6 +12,7 @@ The app uses a hierarchical JSON structure with categories, subcategories, and q
     "name": "school",
     "label": "School & Academic Life", 
     "weight": 9,
+    "emoji": "🎓",
     "subcategories": [
       {
         "name": "grade",
@@ -45,6 +46,7 @@ The app uses a hierarchical JSON structure with categories, subcategories, and q
 - User toggles subcategories on/off; state is saved per category in SelectionService
 - On subsequent opens, previous selections are restored
 - Clicking Save updates SelectionService and automatically opens the sidebar
+- "Start customizing" button appears when user has selections and routes to /flow
 
 **Output**: Array of selected subcategory IDs per category
 
@@ -71,6 +73,7 @@ The app uses a hierarchical JSON structure with categories, subcategories, and q
 - Stores per-category subcategory selection state (`categorySelections`)
 - Provides methods: `toggleSubcategory()`, `getSelectedSubcategories()`, `isSubcategorySelected()`, `setCategorySelection()`, `getCategorySelection()`
 - Uses RxJS BehaviorSubject for reactive state updates
+- **NEW**: Reactive selection detection for UI state management
 
 ### FlowService  
 - Manages question progression and answers during Flow page
@@ -78,12 +81,28 @@ The app uses a hierarchical JSON structure with categories, subcategories, and q
 - Builds linear question list from hierarchical JSON structure
 - Tracks progress for sidebar updates
 
-### Shared Sidebar Component
-- Displays selection progress on Select page
-- Shows question progress on Flow page  
-- Receives data from both services via observables
-- Canvas-style vertical pane design
-- Sidebar automatically opens on save for user feedback
+### ThemeService
+- **NEW**: Central theme management with localStorage persistence
+- Provides `isDarkMode$` observable for reactive theme changes
+- Applied globally at app level for consistent theming
+
+## Component Architecture
+
+### Global Components
+- **App Level**: Theme toggle positioned absolutely in top-right across all pages
+- **Layout Component**: Provides consistent structure with sidebar management (used by Select page)
+- **Sidebar Component**: Shows selection progress on Select page, question progress on Flow page
+
+### Select Page Components
+- **Select Component**: Main page with category circles and subcategory overview
+- **Category Circle**: Displays category with emoji, scaled label, and color
+- **Subcategory Overview**: Shows toggles for subcategory selection
+
+### Theme Integration
+- **App Level**: Theme toggle always visible in top-right
+- **Layout Level**: Dark mode class applied to layout container
+- **Component Level**: Individual components use ThemeService for reactive theming
+- **Design Rule**: Black/white elements invert, colored elements (holographic gradients) stay the same
 
 ## Key Data Transformations
 
@@ -118,6 +137,15 @@ The app uses a hierarchical JSON structure with categories, subcategories, and q
 ]
 ```
 
+### Selection State Detection (Select → UI)
+```typescript
+// Input: SelectionService state
+{ categorySelections: { "school": ["SAL1", "SAL3"], "learning": ["LS1"] } }
+
+// Output: Boolean for button visibility
+true // Button shows because selections exist
+```
+
 ## State Management Strategy
 
 ### Why Services Over Components?
@@ -126,15 +154,19 @@ The app uses a hierarchical JSON structure with categories, subcategories, and q
 3. **Reusability**: Sidebar component can inject same service on any page
 4. **Debugging**: Clear separation makes tracking bugs easier
 5. **Learning**: Demonstrates Angular best practices for state management
+6. **Theme consistency**: ThemeService provides global theme state
 
 ### Component Communication
 - **Parent-Child**: @Input/@Output for component-specific data
 - **Cross-page**: Services for shared state
 - **Reactive**: RxJS observables for automatic UI updates
+- **Theme**: ThemeService for global theme state
 
 ## File Structure
 ```
 src/app/
+├── app.html                    // Global theme toggle
+├── theme.service.ts            // Global theme management
 ├── shared/
 │   ├── models/
 │   │   ├── category.interface.ts      // JSON structure types
@@ -143,17 +175,33 @@ src/app/
 │   │   ├── selection.ts               // Select page state
 │   │   └── flow.ts                    // Flow page state
 │   └── components/
+│       ├── layout/                    // Consistent page structure
 │       └── sidebar/                   // Shared progress display
 └── pages/
     ├── select/                        // Category selection
+    │   ├── components/
+    │   │   ├── category-circle/       // Category display
+    │   │   └── subcategory-overview/  // Subcategory selection
+    │   └── select.ts                  // Main select logic
     └── flow/                          // Question progression
 ```
 
 ## Recent Improvements
-- **Per-category subcategory selection state**: Each category remembers its selected subcategories, with suggested defaults on first open and persistent user choices on subsequent opens.
-- **Dark/Light mode support**: All relevant UI elements in the select and subcategory overview pages now fully support dark and light mode.
-- **Theme toggle placement**: The theme toggle button is consistently placed in the top right, matching the home page, and is always clickable.
-- **Sidebar open on save**: When saving subcategory selections, the sidebar automatically opens to show progress.
-- **Category circle UI**: Removed the "Click to expand" overlay for a cleaner look.
-- **Subcategory overview redesign**: Switched from floating circles to a vertical list of rounded rectangles with toggles for clarity and accessibility.
-- **Save button**: Prominent, accessible, and styled for both themes. 
+- **Global theme integration**: Theme toggle at app level, consistent across all pages
+- **Dynamic category circles**: Emoji display with weight-based scaling
+- **Reactive selection detection**: Automatic button visibility based on selections
+- **Enhanced UX**: Clear titles, conditional navigation, improved visual hierarchy
+- **Dark mode compliance**: All components properly support theme switching
+- **Component isolation**: Clear separation between Select and Flow page concerns
+- **Question system architecture**: Type-safe question classes with factory pattern
+- **Data transformation pipeline**: Hierarchical selections → linear questions
+- **State synchronization**: Fixed per-category and global selection tracking
+- **Debug infrastructure**: Comprehensive logging for data flow verification
+
+## Next Steps for Flow Development
+1. **Verify data flow**: Test selection → flow transformation with console logs
+2. **Question UI components**: Create specific UI components for each question type (slider, text, multi-select, etc.)
+3. **Answer collection**: Implement answer storage and validation in FlowService
+4. **Navigation UI**: Add proper navigation between questions with progress indicators
+5. **Result generation**: Build API integration for generating custom instructions
+6. **Flow completion**: Implement final result page with copy-to-clipboard functionality 

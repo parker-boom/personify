@@ -1,6 +1,20 @@
 # Progress Log: Personify
 DO NOT USE DATES, PROGRESS HAPPENED CHRONOLOGICALLY TOP TO BOTTOM 
 
+## Theme Integration & UI Improvements
+- **Global theme toggle**: Moved theme toggle to app level (app.html) for consistent placement across all pages. Removed duplicate toggles from layout and home components.
+- **Select page theme integration**: Fixed hardcoded dark mode issues. Select page now properly integrates with ThemeService and responds to theme changes.
+- **Subcategory overview dark mode**: Updated to use ThemeService directly instead of input props. Text labels remain black in dark mode for readability on colored backgrounds.
+- **Category circle dark mode**: Integrated ThemeService and ensured text stays black in dark mode as requested.
+- **Sidebar dark mode**: Added ThemeService to sidebar component and applied dark mode classes. Fixed remove button hover colors to show white X in dark mode.
+- **Dynamic font scaling**: Category circles now scale emoji and label sizes based on category weight (2.5-3.5rem for emoji, 1.5-2rem for labels).
+
+## Select Page Enhancements
+- **Category circle improvements**: Added emoji display above labels with proper centering. Emoji and labels scale with category weight for better visual hierarchy.
+- **Title and subtitle updates**: Changed from "What would you like to Personify?" to "What should ChatGPT know about you?" with clearer subtitle "Select the areas you'd like to personalize".
+- **Start customizing button**: Added conditional "Start customizing" button that appears when user has selections. Matches home page design with holographic shadow and chevron animation. Routes to /flow page.
+- **Selection state detection**: Implemented reactive selection detection using SelectionService observable to show/hide the start button.
+
 ## State Management and UI/UX Improvements
 - **Per-category subcategory selection state**: Implemented robust state management using SelectionService. Each category now remembers its selected subcategories, with suggested defaults on first open and persistent user choices on subsequent opens.
 - **Dark/Light mode support**: All relevant UI elements (category label, save button, toggles, etc.) in the select and subcategory overview pages now fully support dark and light mode. Styles adapt cleanly to theme changes.
@@ -9,6 +23,18 @@ DO NOT USE DATES, PROGRESS HAPPENED CHRONOLOGICALLY TOP TO BOTTOM
 - **Category circle UI**: Removed the "Click to expand" overlay for a cleaner look. Category circles remain visually distinct and interactive.
 - **Subcategory overview redesign**: Switched from floating circles to a vertical list of rounded rectangles with toggles for clarity and accessibility. Suggested subcategories are pre-selected, and toggling is intuitive.
 - **Save button**: Prominent, accessible, and styled for both themes.
+
+## Question System Architecture
+- **Question type classes**: Created comprehensive question type system with BaseQuestion abstract class and specific implementations (SliderQuestion, TextQuestion, MultiSelectQuestion, etc.). Provides type safety and extensibility.
+- **QuestionFactory service**: Implemented factory pattern for creating typed question instances from JSON data. Supports all question types with proper context and metadata.
+- **Onboarding questions**: Added configuration-driven onboarding questions that appear at the beginning of the flow. Easy to modify without touching code.
+- **Flow service enhancement**: Extended FlowService to transform hierarchical selections into linear question lists. Integrates onboarding questions with user selections.
+
+## Flow Page Implementation
+- **Data transformation**: FlowService now converts selected subcategory IDs into linear question arrays using QuestionFactory. Maintains proper ordering and context.
+- **State synchronization**: Fixed SelectionService to properly sync per-category selections with global selectedSubcategoryIds array.
+- **Debug implementation**: Added comprehensive logging to track data flow from selection to question generation. Flow page displays simple question list for verification.
+- **Navigation foundation**: Added methods for question navigation (next, previous, goToQuestion) in FlowService for future implementation.
 
 ## Routing and Structure
 - **Routing**: Navigation from home to select page is seamless. Select page uses a layout component for consistent structure and sidebar management.

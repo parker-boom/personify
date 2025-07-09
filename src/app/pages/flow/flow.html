@@ -1,4 +1,17 @@
-<div class="flow-placeholder">
+<div class="flow-container">
   <h1>Flow Page</h1>
-  <p>This is the main onboarding/chat flow. (Route: /flow)</p>
+  
+  <div *ngIf="getAllQuestions().length > 0; else noQuestions">
+    <h2>Questions ({{ getTotalQuestions() }} total):</h2>
+    <div *ngFor="let question of getAllQuestions(); let i = index">
+      <p><strong>{{ i + 1 }}.</strong> {{ question.prompt }}</p>
+      <p style="margin-left: 20px; color: #666;">
+        Type: {{ question.type }} | Category: {{ question.categoryId }} | Subcategory: {{ question.subcategoryId }}
+      </p>
+    </div>
+  </div>
+  
+  <ng-template #noQuestions>
+    <p>No questions available. Go back to select page and choose categories.</p>
+  </ng-template>
 </div>

@@ -24,26 +24,67 @@
 - **Bold modern fonts** (following OpenAI style)
 - Clean hierarchy with generous spacing
 - Emojis allowed for personality without breaking color rules
+- **Dynamic scaling**: Category circle text scales with weight (1.5-2rem for labels, 2.5-3.5rem for emojis)
 
 ## Interactive Elements
 - **Shadows**: Allowed, can be holographic colored for premium feel
-- **Animations**: Subtle, used on signature "Personify" text
-- **Theme Toggle**: Use the provided ThemeToggleComponent (sun/moon icons, localStorage persistence, powered by ThemeService)
+- **Animations**: Subtle, used on signature "Personify" text and CTA buttons
+- **Theme Toggle**: Global placement in top-right corner, always visible across all pages
+- **Hover Effects**: Lift animations on buttons, scale effects on category circles
 
-## Home Page Design
+## Theme Implementation
+- **Global Theme Service**: Centralized theme management with localStorage persistence
+- **App-level Toggle**: Theme toggle positioned absolutely in top-right across all pages
+- **Component Integration**: All components use ThemeService for reactive theme changes
+- **Design Rule**: Black/white elements invert, colored elements (holographic gradients) stay unchanged
+- **Special Cases**: Category circles and subcategory labels remain black for readability on colored backgrounds
+
+## Page-Specific Design
+
+### Home Page
 **Layout:** Minimal, center-aligned content on plain background
 
 **Content Structure:**
-1. **Title:** "Looking to customize ChatGPT to you and your preferences?"
+1. **Title:** "Looking to personalize your ChatGPT?"
 2. **Subtitle:** "It's time to Personify your AI assistant."
    - "Personify" = holographic colored + animated (signature brand moment)
-3. **Theme Toggle:** Sun/moon toggle, top-right (use ThemeToggleComponent)
+3. **Theme Toggle:** Sun/moon toggle, top-right (global placement)
 4. **CTA Button:** "Get Started" with holographic colored shadow
+
+### Select Page
+**Layout:** Uses LayoutComponent for consistent structure with sidebar
+
+**Content Structure:**
+1. **Title:** "What should ChatGPT know about you?"
+2. **Subtitle:** "Select the areas you'd like to personalize"
+3. **Category Circles:** Dynamic sizing based on weight, emoji + label display
+4. **Subcategory Overview:** Vertical list with toggles, black text on colored backgrounds
+5. **Start Button:** Conditional "Start customizing" button with holographic shadow
+6. **Sidebar:** Progress display with selection management
+
+**Category Circle Design:**
+- **Dynamic sizing:** 190px - 280px based on weight
+- **Emoji display:** Large emoji above label, scales with weight
+- **Text scaling:** Labels scale from 1.5rem to 2rem based on weight
+- **Color system:** Pastel backgrounds with colored borders
+- **Text color:** Always black for readability
+
+### Flow Page
+**Layout:** Uses LayoutComponent with sidebar for progress tracking
+**Note:** Sidebar shows question progress, not selection progress
+
+## Component Architecture
+- **App Level:** Global theme toggle, always visible
+- **Layout Component:** Consistent page structure with sidebar management
+- **Sidebar Component:** Shared across Select and Flow pages for different purposes
+- **Select Components:** Category circles and subcategory overview
+- **Theme Integration:** All components use ThemeService for reactive theming
 
 ## Design Principles
 - **Less is more**: Every element serves a purpose
-- **Brand moments**: Holographic effects only on key "Personify" branding
+- **Brand moments**: Holographic effects only on key "Personify" branding and CTAs
 - **Accessibility**: High contrast black/white ensures readability
 - **Consistency**: Same spacing, fonts, and patterns across all pages
-- **Theme**: All pages must use ThemeService and ThemeToggleComponent for dark/light mode
+- **Theme**: All pages must use ThemeService for dark/light mode
 - **Desktop-first**: Design is optimized for desktop/laptop; mobile is not a priority for this hackathon
+- **Component isolation**: Clear separation between page concerns (Select vs Flow)

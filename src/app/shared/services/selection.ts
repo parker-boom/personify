@@ -33,8 +33,13 @@ export class SelectionService {
   setCategorySelection(categoryName: string, subcategoryIds: string[]): void {
     const currentState = this.selectionState.value;
     const newCategorySelections = { ...currentState.categorySelections, [categoryName]: subcategoryIds };
+    
+    // Update the global selectedSubcategoryIds array to include these selections
+    const allSelectedIds = Object.values(newCategorySelections).flat();
+    
     this.selectionState.next({
       ...currentState,
+      selectedSubcategoryIds: allSelectedIds,
       categorySelections: newCategorySelections
     });
   }

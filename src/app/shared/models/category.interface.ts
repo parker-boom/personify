@@ -1,6 +1,8 @@
+import { QuestionType } from './question.interface';
+
 export interface Question {
   prompt: string;
-  type: 'slider' | 'short_text' | 'long_text' | 'multi_select' | 'dropdown' | 'toggle' | 'select';
+  type: QuestionType;
   range?: { min: number; max: number };
   default?: number;
   options?: string[];
