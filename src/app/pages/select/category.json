@@ -1,8 +1,95 @@
 [
   {
+    "name": "personal",
+    "label": "Personal Info",
+    "weight": 7,
+    "emoji": "😎",
+    "subcategories": [
+      {
+        "name": "fun_facts",
+        "label": "Fun Fact",
+        "weight": 7,
+        "order": 2,
+        "suggested": true,
+        "questions": [
+          {
+            "prompt": "Tell me a fun or random fact about you!",
+            "type": "long_text"
+          },
+          {
+            "prompt": "Want me to remember this and reference it now and then?",
+            "type": "toggle"
+          }
+        ],
+        "id": "PI1"
+      },
+      {
+        "name": "age_gender",
+        "label": "Age & Gender",
+        "weight": 6,
+        "order": 3,
+        "suggested": false,
+        "questions": [
+          {
+            "prompt": "How old are you?",
+            "type": "slider",
+            "range": {
+              "min": 10,
+              "max": 25
+            },
+            "default": 18
+          },
+          {
+            "prompt": "What gender should I refer to you as, if any?",
+            "type": "dropdown",
+            "options": ["Male", "Female", "Nonbinary", "Other"]
+          }
+        ],
+        "id": "PI2"
+      },
+      {
+        "name": "interests",
+        "label": "Interests",
+        "weight": 9,
+        "order": 4,
+        "suggested": true,
+        "questions": [
+          {
+            "prompt": "What are some things you love doing outside of school?",
+            "type": "long_text"
+          },
+          {
+            "prompt": "What is your absolute favorite thing in the world?",
+            "type": "long_text"
+          },
+          {
+            "prompt": "Anything you'd want me to bring up or remember?",
+            "type": "long_text"
+          }
+        ],
+        "id": "PI3"
+      },
+      {
+        "name": "goals",
+        "label": "Goals",
+        "weight": 8,
+        "order": 5,
+        "suggested": false,
+        "questions": [
+          {
+            "prompt": "Do you have any goals right now \u2014 academic, personal, or otherwise?",
+            "type": "long_text"
+          }
+        ],
+        "id": "PI4"
+      }
+    ]
+  },
+  {
     "name": "school",
-    "label": "School & Academic Life",
-    "weight": 9,
+    "label": "Academics",
+    "weight": 10,
+    "emoji": "🎓",
     "subcategories": [
       {
         "name": "grade",
@@ -111,7 +198,8 @@
   {
     "name": "learning",
     "label": "Learning Style",
-    "weight": 10,
+    "weight": 8,
+    "emoji": "🧠",
     "subcategories": [
       {
         "name": "pace",
@@ -242,94 +330,10 @@
     ]
   },
   {
-    "name": "personal",
-    "label": "Personal Info",
-    "weight": 8,
-    "subcategories": [
-      {
-        "name": "fun_facts",
-        "label": "Fun Fact",
-        "weight": 7,
-        "order": 2,
-        "suggested": true,
-        "questions": [
-          {
-            "prompt": "Tell me a fun or random fact about you!",
-            "type": "long_text"
-          },
-          {
-            "prompt": "Want me to remember this and reference it now and then?",
-            "type": "toggle"
-          }
-        ],
-        "id": "PI1"
-      },
-      {
-        "name": "age_gender",
-        "label": "Age & Gender",
-        "weight": 6,
-        "order": 3,
-        "suggested": false,
-        "questions": [
-          {
-            "prompt": "How old are you?",
-            "type": "slider",
-            "range": {
-              "min": 10,
-              "max": 25
-            },
-            "default": 18
-          },
-          {
-            "prompt": "What gender should I refer to you as, if any?",
-            "type": "dropdown",
-            "options": ["Male", "Female", "Nonbinary", "Other"]
-          }
-        ],
-        "id": "PI2"
-      },
-      {
-        "name": "interests",
-        "label": "Interests",
-        "weight": 9,
-        "order": 4,
-        "suggested": true,
-        "questions": [
-          {
-            "prompt": "What are some things you love doing outside of school?",
-            "type": "long_text"
-          },
-          {
-            "prompt": "What is your absolute favorite thing in the world?",
-            "type": "long_text"
-          },
-          {
-            "prompt": "Anything you'd want me to bring up or remember?",
-            "type": "long_text"
-          }
-        ],
-        "id": "PI3"
-      },
-      {
-        "name": "goals",
-        "label": "Goals",
-        "weight": 8,
-        "order": 5,
-        "suggested": false,
-        "questions": [
-          {
-            "prompt": "Do you have any goals right now \u2014 academic, personal, or otherwise?",
-            "type": "long_text"
-          }
-        ],
-        "id": "PI4"
-      }
-    ]
-  },
-  {
     "name": "response",
     "label": "Response Style",
-    "weight": 10,
+    "weight": 6,
+    "emoji": "🤖",
     "subcategories": [
       {
         "name": "tone",

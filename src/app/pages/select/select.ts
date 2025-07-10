@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import categoriesJson from './example.json';
+import categoriesJson from './category.json';
 import { Category } from '../../shared/models/category.interface';
 import { LayoutComponent } from '../../shared/components/layout/layout';
 import { CategoryCircle } from './components/category-circle/category-circle';
@@ -57,9 +57,9 @@ export class Select {
 
     // Initialize the hasSelections observable after selectionService is available
     this.hasSelections$ = this.selectionService.selectionState$.pipe(
-      map(state => {
+      map((state) => {
         const categorySelections = Object.values(state.categorySelections);
-        return categorySelections.some(selections => selections.length > 0);
+        return categorySelections.some((selections) => selections.length > 0);
       })
     );
   }
@@ -72,7 +72,10 @@ export class Select {
   onSubcategorySave(selectedIds: string[]): void {
     if (this.selectedCategory) {
       // Update the selection service with the selected subcategories for this specific category
-      this.selectionService.setCategorySelection(this.selectedCategory.name, selectedIds);
+      this.selectionService.setCategorySelection(
+        this.selectedCategory.name,
+        selectedIds
+      );
     }
     this.selectedCategory = null;
     // Open the sidebar
