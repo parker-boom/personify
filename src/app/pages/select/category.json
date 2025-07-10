@@ -1,0 +1,476 @@
+[
+  {
+    "name": "school",
+    "label": "School & Academic Life",
+    "weight": 9,
+    "subcategories": [
+      {
+        "name": "grade",
+        "label": "Grade",
+        "weight": 8,
+        "order": 1,
+        "suggested": true,
+        "questions": [
+          {
+            "prompt": "What grade or academic year are you in?",
+            "type": "slider",
+            "range": {
+              "min": 6,
+              "max": 16
+            },
+            "default": 12
+          }
+        ],
+        "id": "SAL1"
+      },
+      {
+        "name": "major",
+        "label": "Major / Field",
+        "weight": 7,
+        "order": 2,
+        "suggested": false,
+        "questions": [
+          {
+            "prompt": "What is your major or academic focus?",
+            "type": "short_text"
+          },
+          {
+            "prompt": "Are you focusing or minoring in a subject?",
+            "type": "short_text"
+          }
+        ],
+        "id": "SAL2"
+      },
+      {
+        "name": "classes",
+        "label": "Classes",
+        "weight": 9,
+        "order": 3,
+        "suggested": true,
+        "questions": [
+          {
+            "prompt": "What classes are you currently taking?",
+            "type": "long_text"
+          },
+          {
+            "prompt": "Which classes do you most want help with?",
+            "type": "short_text"
+          }
+        ],
+        "id": "SAL3"
+      },
+      {
+        "name": "clubs",
+        "label": "Clubs & Activities",
+        "weight": 5,
+        "order": 4,
+        "suggested": false,
+        "questions": [
+          {
+            "prompt": "Are you involved in any clubs or extracurricular activities?",
+            "type": "long_text"
+          },
+          {
+            "prompt": "Are there any other academic things you want your AI to know about?",
+            "type": "long_text"
+          }
+        ],
+        "id": "SAL4"
+      },
+      {
+        "name": "favorite_subjects",
+        "label": "Favorite Subjects",
+        "weight": 6,
+        "order": 5,
+        "suggested": false,
+        "questions": [
+          {
+            "prompt": "What are your favorite subjects?",
+            "type": "multi_select",
+            "options": [
+              "Math",
+              "Science",
+              "English",
+              "History",
+              "CS",
+              "Art",
+              "PE",
+              "Language",
+              "Other"
+            ]
+          },
+          {
+            "prompt": "What subjects do you tend to struggle in?",
+            "type": "long_text"
+          }
+        ],
+        "id": "SAL5"
+      }
+    ]
+  },
+  {
+    "name": "learning",
+    "label": "Learning Style",
+    "weight": 10,
+    "subcategories": [
+      {
+        "name": "pace",
+        "label": "Pace",
+        "weight": 8,
+        "order": 1,
+        "suggested": true,
+        "questions": [
+          {
+            "prompt": "Do you prefer fast-paced learning or slower, step-by-step explanation?",
+            "type": "slider",
+            "range": {
+              "min": 1,
+              "max": 10
+            },
+            "default": 5
+          }
+        ],
+        "id": "LS1"
+      },
+      {
+        "name": "style",
+        "label": "Learning Mode",
+        "weight": 9,
+        "order": 2,
+        "suggested": true,
+        "questions": [
+          {
+            "prompt": "What helps you learn best?",
+            "type": "multi_select",
+            "options": [
+              "Examples",
+              "Analogies",
+              "Visuals",
+              "Step-by-step",
+              "Concept-first",
+              "Metaphors",
+              "Other"
+            ]
+          },
+          {
+            "prompt": "What should ChatGPT know about your learning style?",
+            "type": "long_text"
+          }
+        ],
+        "id": "LS2"
+      },
+      {
+        "name": "feedback",
+        "label": "Feedback Style",
+        "weight": 7,
+        "order": 3,
+        "suggested": true,
+        "questions": [
+          {
+            "prompt": "How should ChatGPT correct you?",
+            "type": "dropdown",
+            "options": [
+              "Be direct",
+              "Be gentle",
+              "Ask questions first",
+              "Only correct when asked"
+            ]
+          },
+          {
+            "prompt": "Is it okay if ChatGPT points out mistakes without being asked?",
+            "type": "toggle"
+          }
+        ],
+        "id": "LS3"
+      },
+      {
+        "name": "strengths_weaknesses",
+        "label": "Strengths & Weaknesses",
+        "weight": 6,
+        "order": 4,
+        "suggested": false,
+        "questions": [
+          {
+            "prompt": "What subjects or topics do you feel most confident in?",
+            "type": "long_text"
+          },
+          {
+            "prompt": "What topics tend to trip you up or frustrate you?",
+            "type": "long_text"
+          }
+        ],
+        "id": "LS4"
+      },
+      {
+        "name": "tasks",
+        "label": "Tasks",
+        "weight": 6,
+        "order": 5,
+        "suggested": false,
+        "questions": [
+          {
+            "prompt": "What kinds of tasks do you usually use ChatGPT for?",
+            "type": "multi_select",
+            "options": [
+              "Explaining things",
+              "Homework",
+              "Brainstorming",
+              "Summarizing",
+              "Studying",
+              "Writing help",
+              "Project planning"
+            ]
+          }
+        ],
+        "id": "LS5"
+      },
+      {
+        "name": "tool_role",
+        "label": "Tool Role",
+        "weight": 5,
+        "order": 6,
+        "suggested": false,
+        "questions": [
+          {
+            "prompt": "How do you want ChatGPT to act when helping you?",
+            "type": "select",
+            "options": ["Tutor", "Coach", "Study Buddy", "Copilot", "Assistant"]
+          }
+        ],
+        "id": "LS6"
+      }
+    ]
+  },
+  {
+    "name": "personal",
+    "label": "Personal Info",
+    "weight": 8,
+    "subcategories": [
+      {
+        "name": "fun_facts",
+        "label": "Fun Fact",
+        "weight": 7,
+        "order": 2,
+        "suggested": true,
+        "questions": [
+          {
+            "prompt": "Tell me a fun or random fact about you!",
+            "type": "long_text"
+          },
+          {
+            "prompt": "Want me to remember this and reference it now and then?",
+            "type": "toggle"
+          }
+        ],
+        "id": "PI1"
+      },
+      {
+        "name": "age_gender",
+        "label": "Age & Gender",
+        "weight": 6,
+        "order": 3,
+        "suggested": false,
+        "questions": [
+          {
+            "prompt": "How old are you?",
+            "type": "slider",
+            "range": {
+              "min": 10,
+              "max": 25
+            },
+            "default": 18
+          },
+          {
+            "prompt": "What gender should I refer to you as, if any?",
+            "type": "dropdown",
+            "options": ["Male", "Female", "Nonbinary", "Other"]
+          }
+        ],
+        "id": "PI2"
+      },
+      {
+        "name": "interests",
+        "label": "Interests",
+        "weight": 9,
+        "order": 4,
+        "suggested": true,
+        "questions": [
+          {
+            "prompt": "What are some things you love doing outside of school?",
+            "type": "long_text"
+          },
+          {
+            "prompt": "What is your absolute favorite thing in the world?",
+            "type": "long_text"
+          },
+          {
+            "prompt": "Anything you'd want me to bring up or remember?",
+            "type": "long_text"
+          }
+        ],
+        "id": "PI3"
+      },
+      {
+        "name": "goals",
+        "label": "Goals",
+        "weight": 8,
+        "order": 5,
+        "suggested": false,
+        "questions": [
+          {
+            "prompt": "Do you have any goals right now \u2014 academic, personal, or otherwise?",
+            "type": "long_text"
+          }
+        ],
+        "id": "PI4"
+      }
+    ]
+  },
+  {
+    "name": "response",
+    "label": "Response Style",
+    "weight": 10,
+    "subcategories": [
+      {
+        "name": "tone",
+        "label": "Tone",
+        "weight": 9,
+        "order": 1,
+        "suggested": true,
+        "questions": [
+          {
+            "prompt": "What tone do you want your AI to use?",
+            "type": "dropdown",
+            "options": [
+              "Friendly",
+              "Professional",
+              "Casual",
+              "Supportive",
+              "Direct",
+              "Chill"
+            ]
+          },
+          {
+            "prompt": "Should the tone change based on topic or stay consistent?",
+            "type": "toggle"
+          }
+        ],
+        "id": "RS1"
+      },
+      {
+        "name": "length",
+        "label": "Response Length",
+        "weight": 8,
+        "order": 2,
+        "suggested": true,
+        "questions": [
+          {
+            "prompt": "Do you prefer short and to-the-point responses or more detailed ones?",
+            "type": "slider",
+            "range": {
+              "min": 1,
+              "max": 10
+            },
+            "default": 6
+          }
+        ],
+        "id": "RS2"
+      },
+      {
+        "name": "personality",
+        "label": "Personality",
+        "weight": 9,
+        "order": 3,
+        "suggested": true,
+        "questions": [
+          {
+            "prompt": "Should the AI use emojis, jokes, or playful phrasing?",
+            "type": "multi_select",
+            "options": ["Emojis", "Light Humor", "Playful Phrasing", "None"]
+          },
+          {
+            "prompt": "How formal should your AI sound?",
+            "type": "slider",
+            "range": {
+              "min": 1,
+              "max": 10
+            },
+            "default": 5
+          },
+          {
+            "prompt": "How direct should your AI be?",
+            "type": "slider",
+            "range": {
+              "min": 1,
+              "max": 10
+            },
+            "default": 5
+          },
+          {
+            "prompt": "How creative should your AI be?",
+            "type": "slider",
+            "range": {
+              "min": 1,
+              "max": 10
+            },
+            "default": 5
+          }
+        ],
+        "id": "RS3"
+      },
+      {
+        "name": "encouragement",
+        "label": "Encouragement",
+        "weight": 7,
+        "order": 4,
+        "suggested": false,
+        "questions": [
+          {
+            "prompt": "Do you want the AI to be motivational and encouraging?",
+            "type": "toggle"
+          },
+          {
+            "prompt": "When you're stuck, should the AI give positive reinforcement?",
+            "type": "toggle"
+          }
+        ],
+        "id": "RS4"
+      },
+      {
+        "name": "formatting",
+        "label": "Formatting",
+        "weight": 6,
+        "order": 5,
+        "suggested": false,
+        "questions": [
+          {
+            "prompt": "What kind of formatting do you prefer?",
+            "type": "multi_select",
+            "options": [
+              "Bullet Points",
+              "Step-by-Step",
+              "Paragraphs",
+              "Headings",
+              "Code Blocks"
+            ]
+          }
+        ],
+        "id": "RS5"
+      },
+      {
+        "name": "off_limits",
+        "label": "Off Limits",
+        "weight": 5,
+        "order": 6,
+        "suggested": false,
+        "questions": [
+          {
+            "prompt": "Are there any tones, styles, or behaviors you'd like your AI to avoid?",
+            "type": "long_text"
+          }
+        ],
+        "id": "RS6"
+      }
+    ]
+  }
+]
