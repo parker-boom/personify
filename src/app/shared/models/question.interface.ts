@@ -1,4 +1,12 @@
-export type QuestionType = 'slider' | 'short_text' | 'long_text' | 'multi_select' | 'dropdown' | 'toggle' | 'select';
+export type QuestionType =
+  | 'slider'
+  | 'short_text'
+  | 'long_text'
+  | 'multi_select'
+  | 'dropdown'
+  | 'toggle'
+  | 'select'
+  | 'statement';
 
 export interface QuestionContext {
   categoryId: string;
@@ -35,7 +43,8 @@ export class SliderQuestion extends BaseQuestion {
   constructor(data: any, context: QuestionContext) {
     super(data, context);
     this.range = data.range || { min: 1, max: 10 };
-    this.default = data.default || Math.round((this.range.min + this.range.max) / 2);
+    this.default =
+      data.default || Math.round((this.range.min + this.range.max) / 2);
   }
 }
 
@@ -92,4 +101,10 @@ export class SelectQuestion extends BaseQuestion {
     this.options = data.options || [];
     this.default = data.default;
   }
-} 
+}
+
+export class StatementQuestion extends BaseQuestion {
+  constructor(data: any, context: QuestionContext) {
+    super(data, context);
+  }
+}

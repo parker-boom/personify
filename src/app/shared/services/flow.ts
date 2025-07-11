@@ -1,14 +1,24 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { QuestionWithContext, FlowProgress, FlowState, CategoryProgress, SubcategoryProgress } from '../models/flow.interface';
+import {
+  QuestionWithContext,
+  FlowProgress,
+  FlowState,
+  CategoryProgress,
+  SubcategoryProgress,
+} from '../models/flow.interface';
 import { Category, Subcategory } from '../models/category.interface';
 import { QuestionFactory } from './question-factory';
 import { BaseQuestion, QuestionContext } from '../models/question.interface';
-import { ONBOARDING_QUESTIONS, ONBOARDING_CONTEXT } from '../config/onboarding-questions';
+import {
+  ONBOARDING_QUESTIONS,
+  ONBOARDING_CONTEXT,
+  CATEGORY_STATEMENTS,
+} from '../config/onboarding-questions';
 import { SelectionService } from './selection';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FlowService {
   private flowState = new BehaviorSubject<FlowState>({
@@ -18,8 +28,8 @@ export class FlowService {
       currentQuestionIndex: 0,
       totalQuestions: 0,
       answeredQuestions: 0,
-      categoryProgress: []
-    }
+      categoryProgress: [],
+    },
   });
 
   flowState$ = this.flowState.asObservable();
@@ -30,10 +40,19 @@ export class FlowService {
   ) {}
 
   // Initialize flow with selected subcategories
-  initializeFlow(selectedSubcategoryIds: string[], categories: Category[]): void {
-    const questions = this.buildQuestionList(selectedSubcategoryIds, categories);
-    const progress = this.buildInitialProgress(selectedSubcategoryIds, categories);
-    
+  initializeFlow(
+    selectedSubcategoryIds: string[],
+    categories: Category[]
+  ): void {
+    const questions = this.buildQuestionList(
+      selectedSubcategoryIds,
+      categories
+    );
+    const progress = this.buildInitialProgress(
+      selectedSubcategoryIds,
+      categories
+    );
+
     this.flowState.next({
       questions,
       answers: new Map(),
@@ -41,8 +60,8 @@ export class FlowService {
         currentQuestionIndex: 0,
         totalQuestions: questions.length,
         answeredQuestions: 0,
-        categoryProgress: progress
-      }
+        categoryProgress: progress,
+      },
     });
   }
 
@@ -50,24 +69,24 @@ export class FlowService {
   initializeFlowFromSelections(): void {
     const selectedIds = this.selectionService.getSelectedSubcategoryIds();
     const categories = this.selectionService.getCategories();
-    
+
     console.log('FlowService - Selected IDs:', selectedIds);
     console.log('FlowService - Categories:', categories);
-    
+
     // Build linear question list from selected subcategories
     const selectedQuestions = this.buildQuestionList(selectedIds, categories);
     console.log('FlowService - Selected Questions:', selectedQuestions);
-    
+
     // Add onboarding questions at the beginning
     const onboardingQuestions = this.buildOnboardingQuestions();
     console.log('FlowService - Onboarding Questions:', onboardingQuestions);
-    
+
     const allQuestions = [...onboardingQuestions, ...selectedQuestions];
     console.log('FlowService - All Questions:', allQuestions);
-    
+
     // Build progress tracking
     const progress = this.buildInitialProgress(selectedIds, categories);
-    
+
     this.flowState.next({
       questions: allQuestions,
       answers: new Map(),
@@ -75,8 +94,8 @@ export class FlowService {
         currentQuestionIndex: 0,
         totalQuestions: allQuestions.length,
         answeredQuestions: 0,
-        categoryProgress: progress
-      }
+        categoryProgress: progress,
+      },
     });
   }
 
@@ -90,7 +109,7 @@ export class FlowService {
   answerQuestion(answer: any): void {
     const state = this.flowState.value;
     const currentQuestion = this.getCurrentQuestion();
-    
+
     if (!currentQuestion) return;
 
     const newAnswers = new Map(state.answers);
@@ -101,7 +120,7 @@ export class FlowService {
     this.flowState.next({
       ...state,
       answers: newAnswers,
-      progress: newProgress
+      progress: newProgress,
     });
   }
 
@@ -109,7 +128,7 @@ export class FlowService {
   nextQuestion(): boolean {
     const state = this.flowState.value;
     const nextIndex = state.progress.currentQuestionIndex + 1;
-    
+
     if (nextIndex >= state.questions.length) {
       return false; // Flow complete
     }
@@ -118,8 +137,8 @@ export class FlowService {
       ...state,
       progress: {
         ...state.progress,
-        currentQuestionIndex: nextIndex
-      }
+        currentQuestionIndex: nextIndex,
+      },
     });
 
     return true;
@@ -129,7 +148,7 @@ export class FlowService {
   previousQuestion(): boolean {
     const state = this.flowState.value;
     const prevIndex = state.progress.currentQuestionIndex - 1;
-    
+
     if (prevIndex < 0) {
       return false;
     }
@@ -138,8 +157,8 @@ export class FlowService {
       ...state,
       progress: {
         ...state.progress,
-        currentQuestionIndex: prevIndex
-      }
+        currentQuestionIndex: prevIndex,
+      },
     });
 
     return true;
@@ -169,39 +188,94 @@ export class FlowService {
         ...state,
         progress: {
           ...state.progress,
-          currentQuestionIndex: index
-        }
+          currentQuestionIndex: index,
+        },
       };
       this.flowState.next(newState);
     }
   }
 
   // Private helper methods
-  private buildQuestionList(selectedSubcategoryIds: string[], categories: Category[]): BaseQuestion[] {
+  private buildQuestionList(
+    selectedSubcategoryIds: string[],
+    categories: Category[]
+  ): BaseQuestion[] {
     const questions: BaseQuestion[] = [];
-    
+
     console.log('buildQuestionList - Selected IDs:', selectedSubcategoryIds);
     console.log('buildQuestionList - Categories:', categories);
-    
-    categories.forEach(category => {
+
+    // Track which categories have questions to avoid empty category statements
+    const categoriesWithQuestions = new Set<string>();
+
+    // First pass: collect all questions and track which categories have questions
+    categories.forEach((category) => {
       console.log(`Processing category: ${category.name}`);
-      category.subcategories.forEach(subcategory => {
-        console.log(`  Checking subcategory: ${subcategory.id} (${subcategory.name})`);
+      let categoryHasQuestions = false;
+
+      category.subcategories.forEach((subcategory) => {
+        console.log(
+          `  Checking subcategory: ${subcategory.id} (${subcategory.name})`
+        );
         if (selectedSubcategoryIds.includes(subcategory.id)) {
-          console.log(`    ✓ Selected! Adding ${subcategory.questions.length} questions`);
+          console.log(
+            `    ✓ Selected! Adding ${subcategory.questions.length} questions`
+          );
+          categoryHasQuestions = true;
+        } else {
+          console.log(`    ✗ Not selected`);
+        }
+      });
+
+      if (categoryHasQuestions) {
+        categoriesWithQuestions.add(category.name);
+      }
+    });
+
+    // Second pass: build questions with category statements
+    let questionOrder = 0;
+    categories.forEach((category) => {
+      // Only add category statement if this category has questions
+      if (categoriesWithQuestions.has(category.name)) {
+        const categoryStatement = CATEGORY_STATEMENTS.find(
+          (stmt) => stmt.categoryId === category.name
+        );
+
+        if (categoryStatement) {
+          console.log(`Adding category statement for ${category.name}`);
+          const statementContext: QuestionContext = {
+            categoryId: category.name,
+            subcategoryId: 'category-intro',
+            order: questionOrder++,
+          };
+
+          const statementQuestion = this.questionFactory.createQuestion(
+            categoryStatement,
+            statementContext
+          );
+          questions.push(statementQuestion);
+        }
+      }
+
+      // Add questions for this category
+      category.subcategories.forEach((subcategory) => {
+        if (selectedSubcategoryIds.includes(subcategory.id)) {
+          console.log(
+            `    ✓ Adding ${subcategory.questions.length} questions for ${subcategory.name}`
+          );
           const context: QuestionContext = {
             categoryId: category.name,
             subcategoryId: subcategory.id,
-            order: 0
+            order: questionOrder,
           };
-          
-          const categoryQuestions = this.questionFactory.createQuestionsFromJson(
-            subcategory.questions, 
-            context
-          );
+
+          const categoryQuestions =
+            this.questionFactory.createQuestionsFromJson(
+              subcategory.questions,
+              context
+            );
           questions.push(...categoryQuestions);
-        } else {
-          console.log(`    ✗ Not selected`);
+          questionOrder += categoryQuestions.length;
         }
       });
     });
@@ -212,47 +286,53 @@ export class FlowService {
 
   private buildOnboardingQuestions(): BaseQuestion[] {
     return this.questionFactory.createQuestionsFromJson(
-      ONBOARDING_QUESTIONS, 
+      ONBOARDING_QUESTIONS,
       ONBOARDING_CONTEXT
     );
   }
 
-  private buildInitialProgress(selectedSubcategoryIds: string[], categories: Category[]): CategoryProgress[] {
-    return categories.map(category => ({
+  private buildInitialProgress(
+    selectedSubcategoryIds: string[],
+    categories: Category[]
+  ): CategoryProgress[] {
+    return categories.map((category) => ({
       categoryId: category.name,
       categoryLabel: category.label,
       subcategories: category.subcategories
-        .filter(sub => selectedSubcategoryIds.includes(sub.id))
-        .map(sub => ({
+        .filter((sub) => selectedSubcategoryIds.includes(sub.id))
+        .map((sub) => ({
           subcategoryId: sub.id,
           subcategoryLabel: sub.label,
           totalQuestions: sub.questions.length,
           answeredQuestions: 0,
-          isComplete: false
-        }))
+          isComplete: false,
+        })),
     }));
   }
 
-  private updateProgress(progress: FlowProgress, answeredQuestion: QuestionWithContext): FlowProgress {
-    const newCategoryProgress = progress.categoryProgress.map(cat => ({
+  private updateProgress(
+    progress: FlowProgress,
+    answeredQuestion: QuestionWithContext
+  ): FlowProgress {
+    const newCategoryProgress = progress.categoryProgress.map((cat) => ({
       ...cat,
-      subcategories: cat.subcategories.map(sub => {
+      subcategories: cat.subcategories.map((sub) => {
         if (sub.subcategoryId === answeredQuestion.subcategoryId) {
           const newAnsweredQuestions = sub.answeredQuestions + 1;
           return {
             ...sub,
             answeredQuestions: newAnsweredQuestions,
-            isComplete: newAnsweredQuestions >= sub.totalQuestions
+            isComplete: newAnsweredQuestions >= sub.totalQuestions,
           };
         }
         return sub;
-      })
+      }),
     }));
 
     return {
       ...progress,
       answeredQuestions: progress.answeredQuestions + 1,
-      categoryProgress: newCategoryProgress
+      categoryProgress: newCategoryProgress,
     };
   }
 }

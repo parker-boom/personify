@@ -15,10 +15,6 @@
           {
             "prompt": "Tell me a fun or random fact about you!",
             "type": "long_text"
-          },
-          {
-            "prompt": "Want me to remember this and reference it now and then?",
-            "type": "toggle"
           }
         ],
         "id": "PI1"
@@ -42,7 +38,7 @@
           {
             "prompt": "What gender should I refer to you as, if any?",
             "type": "dropdown",
-            "options": ["Male", "Female", "Nonbinary", "Other"]
+            "options": ["Male", "Female", "Nonbinary", "Prefer not to say"]
           }
         ],
         "id": "PI2"
@@ -60,10 +56,6 @@
           },
           {
             "prompt": "What is your absolute favorite thing in the world?",
-            "type": "long_text"
-          },
-          {
-            "prompt": "Anything you'd want me to bring up or remember?",
             "type": "long_text"
           }
         ],
@@ -102,7 +94,7 @@
             "prompt": "What grade or academic year are you in?",
             "type": "slider",
             "range": {
-              "min": 6,
+              "min": 5,
               "max": 16
             },
             "default": 12
@@ -158,7 +150,7 @@
             "type": "long_text"
           },
           {
-            "prompt": "Are there any other academic things you want your AI to know about?",
+            "prompt": "Are there any other academic things you are involved with?",
             "type": "long_text"
           }
         ],
@@ -239,10 +231,6 @@
               "Metaphors",
               "Other"
             ]
-          },
-          {
-            "prompt": "What should ChatGPT know about your learning style?",
-            "type": "long_text"
           }
         ],
         "id": "LS2"
@@ -272,24 +260,6 @@
         "id": "LS3"
       },
       {
-        "name": "strengths_weaknesses",
-        "label": "Strengths & Weaknesses",
-        "weight": 6,
-        "order": 4,
-        "suggested": false,
-        "questions": [
-          {
-            "prompt": "What subjects or topics do you feel most confident in?",
-            "type": "long_text"
-          },
-          {
-            "prompt": "What topics tend to trip you up or frustrate you?",
-            "type": "long_text"
-          }
-        ],
-        "id": "LS4"
-      },
-      {
         "name": "tasks",
         "label": "Tasks",
         "weight": 6,
@@ -297,7 +267,7 @@
         "suggested": false,
         "questions": [
           {
-            "prompt": "What kinds of tasks do you usually use ChatGPT for?",
+            "prompt": "What kinds of academic tasks do you usually use ChatGPT for?",
             "type": "multi_select",
             "options": [
               "Explaining things",
@@ -310,7 +280,7 @@
             ]
           }
         ],
-        "id": "LS5"
+        "id": "LS4"
       },
       {
         "name": "tool_role",
@@ -325,13 +295,13 @@
             "options": ["Tutor", "Coach", "Study Buddy", "Copilot", "Assistant"]
           }
         ],
-        "id": "LS6"
+        "id": "LS5"
       }
     ]
   },
   {
     "name": "response",
-    "label": "Response Style",
+    "label": "How to Respond",
     "weight": 6,
     "emoji": "🤖",
     "subcategories": [
@@ -343,7 +313,7 @@
         "suggested": true,
         "questions": [
           {
-            "prompt": "What tone do you want your AI to use?",
+            "prompt": "What tone do you want ChatGPT to use?",
             "type": "dropdown",
             "options": [
               "Friendly",
@@ -388,12 +358,12 @@
         "suggested": true,
         "questions": [
           {
-            "prompt": "Should the AI use emojis, jokes, or playful phrasing?",
+            "prompt": "Should ChatGPT use emojis, jokes, or playful phrasing?",
             "type": "multi_select",
             "options": ["Emojis", "Light Humor", "Playful Phrasing", "None"]
           },
           {
-            "prompt": "How formal should your AI sound?",
+            "prompt": "How formal should ChatGPT sound?",
             "type": "slider",
             "range": {
               "min": 1,
@@ -402,7 +372,7 @@
             "default": 5
           },
           {
-            "prompt": "How direct should your AI be?",
+            "prompt": "How direct should ChatGPT be?",
             "type": "slider",
             "range": {
               "min": 1,
@@ -411,7 +381,7 @@
             "default": 5
           },
           {
-            "prompt": "How creative should your AI be?",
+            "prompt": "How creative should your ChatGPT be?",
             "type": "slider",
             "range": {
               "min": 1,
@@ -430,11 +400,11 @@
         "suggested": false,
         "questions": [
           {
-            "prompt": "Do you want the AI to be motivational and encouraging?",
+            "prompt": "Do you want ChatGPT to be motivational and encouraging?",
             "type": "toggle"
           },
           {
-            "prompt": "When you're stuck, should the AI give positive reinforcement?",
+            "prompt": "When you're stuck, should ChatGPT give positive reinforcement?",
             "type": "toggle"
           }
         ],
@@ -469,7 +439,7 @@
         "suggested": false,
         "questions": [
           {
-            "prompt": "Are there any tones, styles, or behaviors you'd like your AI to avoid?",
+            "prompt": "Are there any tones, styles, or behaviors you'd like ChatGPT to avoid?",
             "type": "long_text"
           }
         ],
