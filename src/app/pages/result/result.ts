@@ -13,14 +13,38 @@ import { ThemeService } from '../../theme.service';
 export class Result {
   // Placeholder/mock data for now – will be replaced by API later
   traitsText = `I value curiosity, clarity and kindness. Please keep answers concise, cite sources when possible and proactively ask follow-up questions if requirements are ambiguous.`;
-  extraText = `I prefer metric units, use British English spelling, and I’m learning Japanese—sprinkle in occasional vocabulary explanations when relevant.`;
+  extraText = `I prefer metric units, use British English spelling, and I'm learning Japanese—sprinkle in occasional vocabulary explanations when relevant.`;
   memoryLink = 'https://openai.com/personify/save-to-memory';
+
+  // Copy animation states
+  copyingTraits = false;
+  copyingExtra = false;
+  copyingMemory = false;
 
   constructor(public themeService: ThemeService) {}
 
-  copyToClipboard(content: string): void {
+  copyToClipboard(
+    content: string,
+    type: 'traits' | 'extra' | 'memory' = 'traits'
+  ): void {
     if (navigator && navigator.clipboard) {
       navigator.clipboard.writeText(content);
+
+      // Set the appropriate copying state
+      switch (type) {
+        case 'traits':
+          this.copyingTraits = true;
+          setTimeout(() => (this.copyingTraits = false), 1000);
+          break;
+        case 'extra':
+          this.copyingExtra = true;
+          setTimeout(() => (this.copyingExtra = false), 1000);
+          break;
+        case 'memory':
+          this.copyingMemory = true;
+          setTimeout(() => (this.copyingMemory = false), 1000);
+          break;
+      }
     }
   }
 }

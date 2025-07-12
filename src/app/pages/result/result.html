@@ -11,38 +11,96 @@
 
   <!-- Settings path helper -->
   <div class="settings-helper">
-    <span class="settings-text">SETTINGS</span>
-    <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <span class="settings-bubble">SETTINGS</span>
+    <svg
+      class="arrow-icon"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+    >
       <polyline points="9 6 15 12 9 18"></polyline>
     </svg>
-    <span class="settings-text">CUSTOMIZE CHATGPT</span>
+    <span class="settings-bubble">CUSTOMIZE CHATGPT</span>
   </div>
 
   <!-- Two copy cards -->
   <div class="copy-card-wrapper">
     <!-- Card 1 -->
-    <div class="copy-card" (click)="copyToClipboard(traitsText)">
+    <div class="copy-card" (click)="copyToClipboard(traitsText, 'traits')">
       <p class="card-question">What traits should ChatGPT have?</p>
-      <textarea [(ngModel)]="traitsText" class="card-textarea" readonly></textarea>
-      <button class="copy-btn">
-        COPY
-        <svg class="clipboard-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-        </svg>
+      <textarea
+        [(ngModel)]="traitsText"
+        class="card-textarea"
+        readonly
+      ></textarea>
+      <button class="copy-btn" [class.copied]="copyingTraits">
+        <span *ngIf="!copyingTraits">
+          COPY
+          <svg
+            class="clipboard-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path
+              d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+            ></path>
+          </svg>
+        </span>
+        <span *ngIf="copyingTraits">
+          COPIED
+          <svg
+            class="check-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </span>
       </button>
     </div>
 
     <!-- Card 2 -->
-    <div class="copy-card" (click)="copyToClipboard(extraText)">
+    <div class="copy-card" (click)="copyToClipboard(extraText, 'extra')">
       <p class="card-question">Anything else ChatGPT should know?</p>
-      <textarea [(ngModel)]="extraText" class="card-textarea" readonly></textarea>
-      <button class="copy-btn">
-        COPY
-        <svg class="clipboard-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-        </svg>
+      <textarea
+        [(ngModel)]="extraText"
+        class="card-textarea"
+        readonly
+      ></textarea>
+      <button class="copy-btn" [class.copied]="copyingExtra">
+        <span *ngIf="!copyingExtra">
+          COPY
+          <svg
+            class="clipboard-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path
+              d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+            ></path>
+          </svg>
+        </span>
+        <span *ngIf="copyingExtra">
+          COPIED
+          <svg
+            class="check-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </span>
       </button>
     </div>
   </div>
@@ -51,22 +109,27 @@
   <div class="memory-section">
     <p class="memory-subtitle"><em>Want ChatGPT to remember even more?</em></p>
 
-    <button class="memory-btn" (click)="copyToClipboard(memoryLink)">
+    <button
+      class="memory-btn"
+      (click)="copyToClipboard(memoryLink, 'memory')"
+      [class.copied]="copyingMemory"
+    >
       <span class="logo-combo">
-        <!-- OpenAI Swirl -->
-        <svg class="openai-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 2.1a5 5 0 0 1 4.33 2.5 5 5 0 0 1 5.57 7.07 5 5 0 0 1-2.55 9.33H12"></path>
-          <path d="M4.12 6.34a5 5 0 0 1 4.1-4.24 5 5 0 0 1 4.57 1.25"></path>
-          <path d="M2.5 12a5 5 0 0 1 5-5h14"></path>
-          <path d="M19.88 17.66a5 5 0 0 1-4.1 4.24 5 5 0 0 1-4.57-1.25"></path>
-          <path d="M21.5 12a5 5 0 0 1-5 5H2.5"></path>
-          <path d="M9.67 20.79A5 5 0 0 1 4.1 19 5 5 0 0 1 2.5 12"></path>
-        </svg>
-        <!-- Personify Gradient Letter -->
-        <span class="logo-personify brand-text">P</span>
+        <!-- Fused Logo -->
+        <img
+          class="fused-logo"
+          src="/images/fusedLogo.png"
+          alt="Personify + OpenAI"
+        />
       </span>
       <span class="memory-label">Save to Memory</span>
-      <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <svg
+        class="chevron-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
         <polyline points="9 6 15 12 9 18"></polyline>
       </svg>
     </button>

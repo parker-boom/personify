@@ -10,5 +10,5 @@ export const routes: Routes = [
   { path: 'select', component: Select },
   { path: 'flow', component: Flow },
   { path: 'loading', component: LoadingComponent },
-  { path: 'result', component: Result },
+  { path: 'results', component: Result },
 ];
