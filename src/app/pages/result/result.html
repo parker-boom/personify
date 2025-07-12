@@ -1,4 +1,137 @@
-<div class="result-placeholder">
-  <h1>Result Page</h1>
-  <p>This is the final output/results page. (Route: /result)</p>
+<div class="result-container" [class.dark-mode]="themeService.isDarkMode">
+  <!-- Title -->
+  <h1 class="result-title">
+    Time to <span class="brand-text">Personify</span> Your ChatGPT
+  </h1>
+
+  <!-- Copy instruction subtitle -->
+  <p class="copy-instruction">
+    <strong>Copy these &amp; paste them in ChatGPT:</strong>
+  </p>
+
+  <!-- Settings path helper -->
+  <div class="settings-helper">
+    <span class="settings-bubble">SETTINGS</span>
+    <svg
+      class="arrow-icon"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+    >
+      <polyline points="9 6 15 12 9 18"></polyline>
+    </svg>
+    <span class="settings-bubble">CUSTOMIZE CHATGPT</span>
+  </div>
+
+  <!-- Two copy cards -->
+  <div class="copy-card-wrapper">
+    <!-- Card 1 -->
+    <div class="copy-card" (click)="copyToClipboard(traitsText, 'traits')">
+      <p class="card-question">What traits should ChatGPT have?</p>
+      <textarea
+        [(ngModel)]="traitsText"
+        class="card-textarea"
+        readonly
+      ></textarea>
+      <button class="copy-btn" [class.copied]="copyingTraits">
+        <span *ngIf="!copyingTraits">
+          COPY
+          <svg
+            class="clipboard-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path
+              d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+            ></path>
+          </svg>
+        </span>
+        <span *ngIf="copyingTraits">
+          COPIED
+          <svg
+            class="check-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </span>
+      </button>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="copy-card" (click)="copyToClipboard(extraText, 'extra')">
+      <p class="card-question">Anything else ChatGPT should know?</p>
+      <textarea
+        [(ngModel)]="extraText"
+        class="card-textarea"
+        readonly
+      ></textarea>
+      <button class="copy-btn" [class.copied]="copyingExtra">
+        <span *ngIf="!copyingExtra">
+          COPY
+          <svg
+            class="clipboard-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path
+              d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+            ></path>
+          </svg>
+        </span>
+        <span *ngIf="copyingExtra">
+          COPIED
+          <svg
+            class="check-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Memory section -->
+  <div class="memory-section">
+    <p class="memory-subtitle"><em>Want ChatGPT to remember even more?</em></p>
+
+    <button
+      class="memory-btn"
+      (click)="copyToClipboard(memoryLink, 'memory')"
+      [class.copied]="copyingMemory"
+    >
+      <span class="logo-combo">
+        <!-- Fused Logo -->
+        <img
+          class="fused-logo"
+          src="/images/fusedLogo.png"
+          alt="Personify + OpenAI"
+        />
+      </span>
+      <span class="memory-label">Save to Memory</span>
+      <svg
+        class="chevron-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <polyline points="9 6 15 12 9 18"></polyline>
+      </svg>
+    </button>
+  </div>
 </div>
