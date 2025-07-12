@@ -12,4 +12,5 @@ export interface ChatMessage {
   timestamp: number; // For ordering/animation
   showProfilePicture?: boolean; // For bot messages, only on last in a sequence
   answer?: any; // User's answer for sent user messages
+  isVisible?: boolean; // For progressive loading animation
 }

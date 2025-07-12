@@ -1,4 +1,12 @@
-import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   BaseQuestionComponent,
@@ -13,7 +21,12 @@ import { SliderQuestion } from '../../../../shared/models/question.interface';
   imports: [CommonModule, TextBubbleWrapper],
   template: `
     <app-text-bubble-wrapper [config]="bubbleConfig" (onSend)="handleSend()">
-      <div class="slider-question-container">
+      <div
+        #containerRef
+        class="slider-question-container"
+        tabindex="0"
+        (keydown)="onContainerKeyDown($event)"
+      >
         <!-- Unsent Mode: Interactive Slider -->
         <div *ngIf="!config.isSent" class="slider-interactive">
           <div class="slider-row">
@@ -59,8 +72,10 @@ import { SliderQuestion } from '../../../../shared/models/question.interface';
 })
 export class SliderQuestionComponent
   extends BaseQuestionComponent
-  implements OnInit, OnChanges
+  implements OnInit, OnChanges, AfterViewInit
 {
+  @ViewChild('containerRef') containerRef!: ElementRef<HTMLDivElement>;
+
   value = 5;
   min = 1;
   max = 10;
@@ -79,6 +94,15 @@ export class SliderQuestionComponent
     document.addEventListener('mouseup', this.stopDrag);
     document.addEventListener('touchmove', this.onDragMove);
     document.addEventListener('touchend', this.stopDrag);
+  }
+
+  ngAfterViewInit() {
+    // Auto-focus the container when it's available and not in sent mode
+    if (this.containerRef && !this.config.isSent) {
+      setTimeout(() => {
+        this.containerRef.nativeElement.focus();
+      }, 100);
+    }
   }
 
   ngOnDestroy() {
@@ -155,6 +179,13 @@ export class SliderQuestionComponent
       this.value--;
     } else if (event.key === 'ArrowRight' && this.value < this.max) {
       this.value++;
+    }
+  }
+
+  onContainerKeyDown(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      this.handleSend();
     }
   }
 }

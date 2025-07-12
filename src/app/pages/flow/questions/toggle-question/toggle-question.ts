@@ -1,4 +1,12 @@
-import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   BaseQuestionComponent,
@@ -13,30 +21,36 @@ import { ToggleQuestion } from '../../../../shared/models/question.interface';
   imports: [CommonModule, TextBubbleWrapper],
   template: `
     <app-text-bubble-wrapper [config]="bubbleConfig" (onSend)="handleSend()">
-      <div class="toggle-question-container">
+      <div
+        #containerRef
+        class="toggle-question-container"
+        tabindex="0"
+        (keydown)="onContainerKeyDown($event)"
+      >
         <!-- Unsent Mode: Interactive Toggle -->
         <div *ngIf="!config.isSent" class="toggle-interactive">
-          <div class="toggle-box">
-            <div
-              class="toggle-option yes"
-              [class.selected]="selected === true"
-              (click)="select(true)"
+          <div class="toggle-options">
+            <button
+              class="toggle-option left"
+              [class.selected]="selectedValue === false"
+              (click)="selectValue(false)"
+              type="button"
             >
-              YES
-            </div>
-            <div class="toggle-divider"></div>
-            <div
-              class="toggle-option no"
-              [class.selected]="selected === false"
-              (click)="select(false)"
+              {{ leftOption }}
+            </button>
+            <button
+              class="toggle-option right"
+              [class.selected]="selectedValue === true"
+              (click)="selectValue(true)"
+              type="button"
             >
-              NO
-            </div>
+              {{ rightOption }}
+            </button>
           </div>
         </div>
         <!-- Sent Mode: Display Selected Value -->
         <div *ngIf="config.isSent" class="sent-text">
-          {{ selected === true ? 'YES' : selected === false ? 'NO' : '' }}
+          {{ selectedValue ? rightOption : leftOption }}
         </div>
       </div>
     </app-text-bubble-wrapper>
@@ -45,13 +59,26 @@ import { ToggleQuestion } from '../../../../shared/models/question.interface';
 })
 export class ToggleQuestionComponent
   extends BaseQuestionComponent
-  implements OnInit, OnChanges
+  implements OnInit, OnChanges, AfterViewInit
 {
-  selected: boolean | null = null;
+  @ViewChild('containerRef') containerRef!: ElementRef<HTMLDivElement>;
+
+  leftOption = 'No';
+  rightOption = 'Yes';
+  selectedValue: boolean | null = null;
 
   override ngOnInit() {
     this.updateBubbleConfig();
     this.initializeQuestion();
+  }
+
+  ngAfterViewInit() {
+    // Auto-focus the container when it's available and not in sent mode
+    if (this.containerRef && !this.config.isSent) {
+      setTimeout(() => {
+        this.containerRef.nativeElement.focus();
+      }, 100);
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -69,20 +96,20 @@ export class ToggleQuestionComponent
   protected initializeQuestion(): void {
     // If in sent mode and we have an answer, set the selected value
     if (this.config.isSent && this.config.answer) {
-      this.selected = this.config.answer === 'YES';
+      this.selectedValue = this.config.answer === 'YES';
     } else {
-      this.selected = null;
+      this.selectedValue = null;
     }
     this.updateSendButtonState();
   }
 
-  select(value: boolean): void {
-    this.selected = value;
+  selectValue(value: boolean): void {
+    this.selectedValue = value;
     this.updateSendButtonState();
   }
 
   protected override handleSend(): void {
-    if (this.selected !== null) {
+    if (this.selectedValue !== null) {
       this.submitAnswer();
     }
   }
@@ -92,11 +119,20 @@ export class ToggleQuestionComponent
   }
 
   protected get isSendEnabled(): boolean {
-    return this.selected !== null;
+    return this.selectedValue !== null;
   }
 
   protected override submitAnswer(): void {
-    this.answer = this.selected ? 'YES' : 'NO';
+    this.answer = this.selectedValue ? 'YES' : 'NO';
     super.submitAnswer();
+  }
+
+  onContainerKeyDown(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      if (this.isSendEnabled) {
+        this.handleSend();
+      }
+    }
   }
 }

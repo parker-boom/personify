@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FlowService } from '../../shared/services/flow';
@@ -6,7 +6,14 @@ import {
   BaseQuestion,
   QuestionType,
 } from '../../shared/models/question.interface';
-import { Observable, map } from 'rxjs';
+import {
+  Observable,
+  map,
+  combineLatest,
+  BehaviorSubject,
+  timer,
+  switchMap,
+} from 'rxjs';
 import { LayoutComponent } from '../../shared/components/layout/layout';
 import { ShortTextQuestionComponent } from './questions/short-text-question/short-text-question';
 import { LongTextQuestionComponent } from './questions/long-text-question/long-text-question';
@@ -35,18 +42,92 @@ import { FlowState } from '../../shared/models/flow.interface';
   templateUrl: './flow.html',
   styleUrl: './flow.scss',
 })
-export class Flow implements OnInit {
+export class Flow implements OnInit, OnDestroy {
   messages$: Observable<ChatMessage[]>;
+  private visibilitySubject = new BehaviorSubject<{
+    [messageId: string]: boolean;
+  }>({});
+  private lastMessageCount = 0;
 
   constructor(private flowService: FlowService, private router: Router) {
-    this.messages$ = this.flowService.flowState$.pipe(
-      map((state) => this.generateChatMessages(state))
+    this.messages$ = combineLatest([
+      this.flowService.flowState$.pipe(
+        map((state) => this.generateChatMessages(state))
+      ),
+      this.visibilitySubject.asObservable(),
+    ]).pipe(
+      map(([messages, visibility]) =>
+        messages.map((msg) => ({
+          ...msg,
+          isVisible: visibility[msg.id] || false,
+        }))
+      )
     );
   }
 
   ngOnInit() {
     // Initialize flow from user selections
     this.flowService.initializeFlowFromSelections();
+
+    // Watch for new messages and trigger progressive loading
+    this.flowService.flowState$
+      .pipe(map((state) => this.generateChatMessages(state)))
+      .subscribe((messages) => {
+        this.handleNewMessages(messages);
+      });
+
+    // Auto-scroll when messages become visible
+    this.visibilitySubject.subscribe(() => {
+      setTimeout(() => this.scrollToBottom(), 100);
+    });
+  }
+
+  ngOnDestroy() {
+    // Clean up subscriptions
+  }
+
+  private scrollToBottom(): void {
+    const conversationArea = document.querySelector('.conversation-area');
+    if (conversationArea) {
+      conversationArea.scrollTop = conversationArea.scrollHeight;
+    }
+  }
+
+  private handleNewMessages(messages: ChatMessage[]) {
+    const newMessages = messages.slice(this.lastMessageCount);
+    this.lastMessageCount = messages.length;
+
+    if (newMessages.length === 0) {
+      // Check for updated messages (sent state changes)
+      this.handleStateChanges(messages);
+      return;
+    }
+
+    // Progressive loading with delays for truly new messages
+    newMessages.forEach((message, index) => {
+      const delay = message.sender === 'bot' ? 2000 : 2000; // Bot: 2s, User: 2s
+      const totalDelay = index * delay;
+
+      timer(totalDelay).subscribe(() => {
+        const currentVisibility = this.visibilitySubject.value;
+        this.visibilitySubject.next({
+          ...currentVisibility,
+          [message.id]: true,
+        });
+      });
+    });
+  }
+
+  private handleStateChanges(messages: ChatMessage[]) {
+    // Handle instant visibility for messages that changed state (unsent -> sent)
+    const currentVisibility = this.visibilitySubject.value;
+    messages.forEach((message) => {
+      if (message.isSent && !currentVisibility[message.id]) {
+        // This is likely a user message that just got sent - make it visible instantly
+        currentVisibility[message.id] = true;
+      }
+    });
+    this.visibilitySubject.next(currentVisibility);
   }
 
   // Generate chat messages from FlowService state
@@ -73,6 +154,17 @@ export class Flow implements OnInit {
 
       if (question.type === 'statement') {
         // Statement messages are always from bot and always sent
+        // Show profile picture for:
+        // 1. First statement (i === 0)
+        // 2. Previous question wasn't a statement
+        // 3. Category statements (subcategoryId === 'statement' and categoryId !== 'onboarding')
+        const isFirstStatement = i === 0;
+        const previousWasNotStatement =
+          state.questions[i - 1]?.type !== 'statement';
+        const isCategoryStatement =
+          question.subcategoryId === 'statement' &&
+          question.categoryId !== 'onboarding';
+
         messages.push({
           id: `statement-${question.id}`,
           sender: 'bot',
@@ -81,7 +173,7 @@ export class Flow implements OnInit {
           isSent: true,
           timestamp: Date.now(),
           showProfilePicture:
-            i === 0 || state.questions[i - 1]?.type !== 'statement',
+            isFirstStatement || previousWasNotStatement || isCategoryStatement,
         });
       } else {
         // Bot question message
@@ -122,10 +214,29 @@ export class Flow implements OnInit {
       isBotMessage: message.sender === 'bot',
       isSent: message.sender === 'bot' ? true : message.isSent, // Bot messages are always "sent"
       showProfilePicture: message.showProfilePicture,
-      maxWidth: message.sender === 'bot' ? '420px' : '340px',
       showSendButton: message.sender === 'user' && !message.isSent,
       sendButtonDisabled: false, // Let the question component handle this
     };
+  }
+
+  // Get CSS classes for message positioning and spacing
+  getMessageClasses(message: ChatMessage, index: number): string {
+    const classes = [];
+
+    // Basic positioning class
+    classes.push(message.sender === 'bot' ? 'bot-row' : 'user-row');
+
+    // Add instant class for user messages that just got sent (no animation)
+    if (message.sender === 'user' && message.isSent) {
+      classes.push('instant');
+    }
+
+    return classes.join(' ');
+  }
+
+  // Track by function for ngFor performance
+  trackByMessageId(index: number, message: ChatMessage): string {
+    return message.id;
   }
 
   // Returns the config for a question component (for user input or sent answer)
@@ -212,6 +323,13 @@ export class Flow implements OnInit {
     // Handle the answer through the FlowService
     if (message.relatedQuestionId) {
       this.flowService.handleUserAnswer(answer, message.relatedQuestionId);
+
+      // Instantly show the sent version (no delay for user answer transformation)
+      const currentVisibility = this.visibilitySubject.value;
+      this.visibilitySubject.next({
+        ...currentVisibility,
+        [`input-${message.relatedQuestionId}`]: true, // Ensure sent message is visible
+      });
     } else {
       console.error('No relatedQuestionId found in message:', message);
     }

@@ -2,24 +2,23 @@
   display: flex;
   align-items: flex-end;
   gap: 0.75rem;
-  margin-bottom: 1rem;
   position: relative;
   width: 100%; // Ensure full width utilization
 
   &.bot-message {
     align-self: flex-start;
     justify-content: flex-start; // Align content to the left
-    // Removed margin-left
+    margin-bottom: 1rem; // Closer spacing for bot messages
 
     .bubble-content {
-      background: #000;
-      color: white;
+      background: var(--bot-bg-color);
+      color: var(--bot-text-color);
       border-radius: 1.25rem 1.25rem 1.25rem 0.25rem;
-      max-width: 750px; // Bot message max-width increased by 25%
+      max-width: var(--bot-message-max-width, 520px); // Add fallback value
 
       .dark-mode & {
-        background: #000;
-        color: white;
+        background: var(--bot-bg-color);
+        color: var(--bot-text-color);
       }
     }
   }
@@ -28,6 +27,7 @@
     align-self: flex-end;
     flex-direction: row-reverse;
     justify-content: flex-end; // Align content to the right
+    margin-bottom: 1.5rem; // More spacing for user messages
 
     .bubble-content {
       background: #007aff;
@@ -57,12 +57,12 @@
 
   // Only apply sent/unsent styling to user messages, not bot messages
   &.user-message.sent .bubble-content {
-    background: #333;
-    color: white;
+    background: var(--user-sent-bg-color);
+    color: var(--user-sent-text-color);
 
     .dark-mode & {
-      background: #333;
-      color: white;
+      background: var(--user-sent-bg-color);
+      color: var(--user-sent-text-color);
     }
   }
 
@@ -87,7 +87,9 @@
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #fff;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+    margin-left: 5px;
     display: flex;
     align-items: center;
     justify-content: center;

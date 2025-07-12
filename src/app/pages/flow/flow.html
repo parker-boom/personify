@@ -2,10 +2,17 @@
   <div class="flow-container">
     <div class="conversation-area chat-scrollable">
       <!-- Chat message history -->
-      <ng-container *ngFor="let message of messages$ | async; let i = index">
+      <ng-container
+        *ngFor="
+          let message of messages$ | async;
+          let i = index;
+          trackBy: trackByMessageId
+        "
+      >
         <div
           class="chat-row"
-          [ngClass]="message.sender === 'bot' ? 'bot-row' : 'user-row'"
+          [ngClass]="getMessageClasses(message, i)"
+          [class.visible]="message.isVisible"
         >
           <!-- Bot statement or question -->
           <ng-container *ngIf="message.sender === 'bot'">

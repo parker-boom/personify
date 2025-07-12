@@ -1,4 +1,12 @@
-import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -17,6 +25,7 @@ import { TextBubbleWrapper } from '../text-bubble-wrapper/text-bubble-wrapper';
         <!-- Unsent Mode: Input Field -->
         <div *ngIf="!config.isSent" class="input-container">
           <input
+            #inputRef
             type="text"
             [(ngModel)]="answer"
             (ngModelChange)="onAnswerChange()"
@@ -38,8 +47,10 @@ import { TextBubbleWrapper } from '../text-bubble-wrapper/text-bubble-wrapper';
 })
 export class ShortTextQuestionComponent
   extends BaseQuestionComponent
-  implements OnInit, OnChanges
+  implements OnInit, OnChanges, AfterViewInit
 {
+  @ViewChild('inputRef') inputRef!: ElementRef<HTMLInputElement>;
+
   override ngOnInit() {
     this.updateBubbleConfig();
     this.initializeQuestion();
@@ -48,6 +59,15 @@ export class ShortTextQuestionComponent
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['config']) {
       this.updateBubbleConfig();
+    }
+  }
+
+  ngAfterViewInit() {
+    // Auto-focus the input when it's available and not in sent mode
+    if (this.inputRef && !this.config.isSent) {
+      setTimeout(() => {
+        this.inputRef.nativeElement.focus();
+      }, 100);
     }
   }
 

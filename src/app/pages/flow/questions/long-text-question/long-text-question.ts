@@ -1,4 +1,12 @@
-import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -17,9 +25,11 @@ import { TextBubbleWrapper } from '../text-bubble-wrapper/text-bubble-wrapper';
         <!-- Unsent Mode: Input Field -->
         <div *ngIf="!config.isSent" class="input-container">
           <textarea
+            #textareaRef
             [(ngModel)]="answer"
             (ngModelChange)="onAnswerChange()"
             (input)="onTextareaInput($event)"
+            (keydown)="onKeyDown($event)"
             placeholder="Type your answer..."
             class="long-text-input"
             [disabled]="config.isSent || false"
@@ -38,11 +48,22 @@ import { TextBubbleWrapper } from '../text-bubble-wrapper/text-bubble-wrapper';
 })
 export class LongTextQuestionComponent
   extends BaseQuestionComponent
-  implements OnInit, OnChanges
+  implements OnInit, OnChanges, AfterViewInit
 {
+  @ViewChild('textareaRef') textareaRef!: ElementRef<HTMLTextAreaElement>;
+
   override ngOnInit() {
     this.updateBubbleConfig();
     this.initializeQuestion();
+  }
+
+  ngAfterViewInit() {
+    // Auto-focus the textarea when it's available and not in sent mode
+    if (this.textareaRef && !this.config.isSent) {
+      setTimeout(() => {
+        this.textareaRef.nativeElement.focus();
+      }, 100);
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -58,7 +79,7 @@ export class LongTextQuestionComponent
     if (this.config.isSent) {
       this.bubbleConfig.maxWidth = '620px';
     } else {
-      this.bubbleConfig.maxWidth = '550px';
+      this.bubbleConfig.maxWidth = '650px';
     }
   }
 
@@ -96,6 +117,16 @@ export class LongTextQuestionComponent
     textarea.rows = 1; // Reset rows to 1
     if (textarea.scrollHeight > textarea.offsetHeight) {
       textarea.rows = Math.ceil(textarea.scrollHeight / textarea.offsetHeight); // Expand rows if content exceeds height
+    }
+  }
+
+  onKeyDown(event: KeyboardEvent): void {
+    // Regular Enter to send (changed from Ctrl+Enter for consistency)
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      if (this.isSendEnabled) {
+        this.handleSend();
+      }
     }
   }
 }

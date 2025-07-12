@@ -1,5 +1,5 @@
 .long-text-container {
-  min-width: 430px;
+  min-width: 550px;
   position: relative;
   width: 100%;
 }
@@ -70,7 +70,6 @@
 // Sent mode: Wider expand to fit content with text wrapping
 .text-bubble.sent .long-text-container {
   .sent-text {
-    width: 100%;
     min-height: auto;
     display: block;
   }

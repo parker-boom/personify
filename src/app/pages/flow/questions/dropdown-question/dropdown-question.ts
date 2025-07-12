@@ -1,4 +1,12 @@
-import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   BaseQuestionComponent,
@@ -13,7 +21,12 @@ import { DropdownQuestion } from '../../../../shared/models/question.interface';
   imports: [CommonModule, TextBubbleWrapper],
   template: `
     <app-text-bubble-wrapper [config]="bubbleConfig" (onSend)="handleSend()">
-      <div class="dropdown-question-container">
+      <div
+        #containerRef
+        class="dropdown-question-container"
+        tabindex="0"
+        (keydown)="onContainerKeyDown($event)"
+      >
         <!-- Unsent Mode: Interactive Dropdown -->
         <div *ngIf="!config.isSent" class="dropdown-interactive">
           <div
@@ -46,8 +59,10 @@ import { DropdownQuestion } from '../../../../shared/models/question.interface';
 })
 export class DropdownQuestionComponent
   extends BaseQuestionComponent
-  implements OnInit, OnChanges
+  implements OnInit, OnChanges, AfterViewInit
 {
+  @ViewChild('containerRef') containerRef!: ElementRef<HTMLDivElement>;
+
   options: string[] = [];
   selectedOption: string = '';
   dropdownOpen = false;
@@ -56,6 +71,15 @@ export class DropdownQuestionComponent
     this.updateBubbleConfig();
     this.initializeQuestion();
     document.addEventListener('click', this.closeDropdownOnClick);
+  }
+
+  ngAfterViewInit() {
+    // Auto-focus the container when it's available and not in sent mode
+    if (this.containerRef && !this.config.isSent) {
+      setTimeout(() => {
+        this.containerRef.nativeElement.focus();
+      }, 100);
+    }
   }
 
   ngOnDestroy() {
@@ -117,5 +141,14 @@ export class DropdownQuestionComponent
   protected override submitAnswer(): void {
     this.answer = this.selectedOption;
     super.submitAnswer();
+  }
+
+  onContainerKeyDown(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      if (this.isSendEnabled) {
+        this.handleSend();
+      }
+    }
   }
 }

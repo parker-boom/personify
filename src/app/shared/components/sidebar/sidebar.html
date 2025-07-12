@@ -2,22 +2,14 @@
   <div class="sidebar-header">
     <h2 class="sidebar-title">
       <span class="sidebar-title-icon">
-        <!-- Magic wand icon (sparkles) for personalization -->
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <path
-            d="M21 3l-1.5 1.5M17 7l-1.5 1.5M3 21l7.5-7.5M14 10l-1.5 1.5M19 5l-7.5 7.5"
-            stroke-linecap="round"
-          />
-          <circle cx="5" cy="19" r="1.5" />
-        </svg>
+        <img
+          src="/images/favicon.png"
+          alt="Personify icon"
+          class="sidebar-icon-image"
+        />
       </span>
       <ng-container *ngIf="!(isFlowMode$ | async); else flowTitle">
-        Personalization Setup
+        Selected Topics
       </ng-container>
       <ng-template #flowTitle> Progress </ng-template>
     </h2>
@@ -101,6 +93,17 @@
             </ul>
           </li>
         </ul>
+
+        <!-- End Early Button - appears after 5 questions -->
+        <div
+          class="end-early-container"
+          *ngIf="progress.answeredQuestions >= 5"
+        >
+          <button class="end-early-btn">
+            <span class="end-early-text">Skip the Rest</span>
+            <span class="end-early-arrow">></span>
+          </button>
+        </div>
       </ng-container>
     </ng-container>
 

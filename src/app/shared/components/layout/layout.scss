@@ -1,13 +1,13 @@
 // Import global styles
-@import '../../../app.scss';
+@import "../../../app.scss";
 
 .layout-container {
-  min-height: 100vh;
+  height: 100vh; // Fixed height, no scrolling
   background-color: #ffffff;
   color: #000000;
   transition: background-color 0.3s ease, color 0.3s ease;
   position: relative;
-  overflow-x: hidden;
+  overflow: hidden; // Prevent page-level scrolling
 
   &.dark-mode {
     background-color: #000000;
@@ -105,7 +105,7 @@
   align-items: center;
   gap: 0.75rem;
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
 
   .progress-icon {
     width: 20px;
@@ -163,22 +163,23 @@
   .layout-container.dark-mode &,
   .dark-mode & {
     color: #fff;
-    text-shadow: 0 2px 8px rgba(255,255,255,0.25);
+    text-shadow: 0 2px 8px rgba(255, 255, 255, 0.25);
   }
 }
 
 // Main Content Area
 .main-content {
-  min-height: 100vh;
-  padding: 2rem;
+  height: 100vh; // Fixed height instead of min-height
+  padding: 0; // Remove padding to prevent overflow
   transition: margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: stretch; // Stretch to fill height
+  overflow: hidden; // Prevent any overflow
 
   &.content-with-sidebar {
     margin-left: calc(18% + 2rem);
-    
+
     @media (max-width: 1400px) {
       margin-left: calc(336px + 2rem);
     }

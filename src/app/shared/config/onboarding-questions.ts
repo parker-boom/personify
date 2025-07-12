@@ -4,7 +4,7 @@ export const ONBOARDING_QUESTIONS = [
   {
     id: 'onboarding-intro',
     prompt:
-      "Hi, it's nice to finally meet you! Throughout this conversation I am going to ask you a few questions so I can understand you better. I'm only asking about the things you specifically wanted to share and once we're done, I'll set you up with a personalized ChatGPT experience.",
+      'Hi! I am going to ask you some questions based on what you requested, and using your answers, I will help update your ChatGPT to know you better.',
     type: 'statement' as const,
     order: 0,
     categoryId: 'onboarding',
@@ -12,8 +12,7 @@ export const ONBOARDING_QUESTIONS = [
   },
   {
     id: 'onboarding-name',
-    prompt:
-      "Let's get going, we both have stuff to do! First, what do most people call you?",
+    prompt: "Let's get started with an easy one. What's your name?",
     type: 'short_text' as const,
     order: 1,
     categoryId: 'onboarding',
@@ -23,7 +22,7 @@ export const ONBOARDING_QUESTIONS = [
   {
     id: 'onboarding-usage',
     prompt:
-      "That's a great name! Next, I want to hear what you plan to use ChatGPT for. Feel free to go into detail, just trying to get a sense of what you're looking for.",
+      "It's nice to meet you. Can you please tell me the types of things you currently use ChatGPT for? Just trying to get a sense of what you're looking for.",
     type: 'long_text' as const,
     order: 2,
     categoryId: 'onboarding',
@@ -32,7 +31,7 @@ export const ONBOARDING_QUESTIONS = [
   {
     id: 'onboarding-personality',
     prompt:
-      'Those are all great things to do with ChatGPT! One more general question, if your ChatGPT had to embody a person, fictional or real, dead or alive, who would it be? Why them?',
+      "Got it, that defintely helps. Here's a fun one: if ChatGPT could represent any character or person, who would you want it to be? Why them?",
     type: 'long_text' as const,
     order: 3,
     categoryId: 'onboarding',
@@ -41,7 +40,7 @@ export const ONBOARDING_QUESTIONS = [
   {
     id: 'onboarding-transition',
     prompt:
-      "I wasn't expecting that answer! I'll make sure to make it a reality. Now that I know you a little bit, I am going to dive into some more specific areas, looks like we have some things to talk about!",
+      "Sounds right to me. Now that I have a general idea of who you are, I am going to ask you some more specific questions. Feel free tell me as much or as little as you'd like. When we're all done, I'll personalize ChatGPT to your needs.",
     type: 'statement' as const,
     order: 4,
     categoryId: 'onboarding',
@@ -54,28 +53,28 @@ export const CATEGORY_STATEMENTS = [
     id: 'personal-statement',
     categoryId: 'personal',
     prompt:
-      'Now I am going to ask you a few questions about you personally. These will help ChatGPT understand what makes you... you! Share as much or as little as you want.',
+      "Let's continue with some personal questions. This information will help ChatGPT get a better idea of who you are.",
     type: 'statement' as const,
   },
   {
     id: 'school-statement',
     categoryId: 'school',
     prompt:
-      "Now onto the important stuff, seems like you're a student! I want to learn more about your academic life, so ChatGPT can tailor your learning to your needs.",
+      "Now onto the important stuff, seems like you're a student! I want to learn more about your academic life, so ChatGPT can get you the right information.",
     type: 'statement' as const,
   },
   {
     id: 'learning-statement',
     categoryId: 'learning',
     prompt:
-      "It's not just about what you learn, but how you learn it. I am now going to ask you a few questions about how you prefer to learn things, hopefully this makes ChatGPT a better tutor!",
+      'Moving on, I am  going to ask you a few questions about how you prefer to learn things. This will make ChatGPT more useful for studying!',
     type: 'statement' as const,
   },
   {
     id: 'response-statement',
     categoryId: 'response',
     prompt:
-      "Obviously, you have preferences about how ChatGPT responds. Sometimes it feels like if ADHD was a chatbot, so let's figure out if you like that high energy or if you prefer something else.",
+      'Now I want to know how you like ChatGPT to respond. Please just share your preferences for how its personality should be.',
     type: 'statement' as const,
   },
 ];

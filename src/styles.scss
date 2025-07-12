@@ -1,6 +1,23 @@
 // Base styles for Personify
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Inter+Tight:wght@500;700&display=swap");
 
+// CSS Custom Properties for Flow Components
+:root {
+  --bot-message-max-width: 580px;
+  --bot-text-color: #ffffff;
+  --user-sent-text-color: #fff;
+  --user-sent-bg-color: #422517;
+  --bot-bg-color: #62156b;
+}
+
+/*
+  --bot-message-max-width: 580px;
+  --bot-text-color: #ffffff;
+  --user-sent-text-color: #fff;
+  --user-sent-bg-color: #270000;
+  --bot-bg-color: #62156b;
+
+*/
 html,
 body {
   height: 100%;

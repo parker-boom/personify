@@ -4,6 +4,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  outline: none; // Remove default focus outline
+  border-radius: 8px; // Add border radius for focus ring
+
+  &:focus {
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5); // Blue focus ring
+  }
 }
 
 .dropdown-interactive {

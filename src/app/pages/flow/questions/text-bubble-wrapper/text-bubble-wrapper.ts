@@ -21,7 +21,7 @@ export interface TextBubbleConfig {
       [class.user-message]="!config.isBotMessage"
       [class.sent]="config.isSent"
       [class.unsent]="!config.isSent"
-      [style.max-width]="config.maxWidth || '400px'"
+      [style.max-width]="config.maxWidth || null"
     >
       <!-- Profile Picture for Bot Messages -->
       <div
@@ -29,15 +29,13 @@ export interface TextBubbleConfig {
         class="profile-picture"
       >
         <div class="avatar">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-            <circle cx="12" cy="7" r="4"></circle>
-          </svg>
+          <img
+            src="/images/favicon.png"
+            alt="Bot"
+            class="bot-avatar-image"
+            width="32"
+            height="32"
+          />
         </div>
       </div>
 
@@ -72,7 +70,6 @@ export class TextBubbleWrapper {
     isBotMessage: true,
     isSent: true,
     showProfilePicture: true,
-    maxWidth: '400px',
     showSendButton: false,
     sendButtonDisabled: false,
   };

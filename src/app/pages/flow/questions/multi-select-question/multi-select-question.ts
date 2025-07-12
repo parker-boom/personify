@@ -1,4 +1,12 @@
-import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   BaseQuestionComponent,
@@ -18,7 +26,12 @@ interface MultiSelectOption {
   imports: [CommonModule, TextBubbleWrapper],
   template: `
     <app-text-bubble-wrapper [config]="bubbleConfig" (onSend)="handleSend()">
-      <div class="multi-select-container">
+      <div
+        #containerRef
+        class="multi-select-container"
+        tabindex="0"
+        (keydown)="onContainerKeyDown($event)"
+      >
         <!-- Unsent Mode: Interactive Options -->
         <div *ngIf="!config.isSent" class="options-container">
           <div class="select-all-text">SELECT ALL THAT APPLY</div>
@@ -50,14 +63,25 @@ interface MultiSelectOption {
 })
 export class MultiSelectQuestionComponent
   extends BaseQuestionComponent
-  implements OnInit, OnChanges
+  implements OnInit, OnChanges, AfterViewInit
 {
+  @ViewChild('containerRef') containerRef!: ElementRef<HTMLDivElement>;
+
   options: MultiSelectOption[] = [];
   selectedOptions: MultiSelectOption[] = [];
 
   override ngOnInit() {
     this.updateBubbleConfig();
     this.initializeQuestion();
+  }
+
+  ngAfterViewInit() {
+    // Auto-focus the container when it's available and not in sent mode
+    if (this.containerRef && !this.config.isSent) {
+      setTimeout(() => {
+        this.containerRef.nativeElement.focus();
+      }, 100);
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -131,5 +155,14 @@ export class MultiSelectQuestionComponent
     const selectedValues = this.selectedOptions.map((option) => option.value);
     this.answer = selectedValues;
     super.submitAnswer();
+  }
+
+  onContainerKeyDown(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      if (this.isSendEnabled) {
+        this.handleSend();
+      }
+    }
   }
 }
