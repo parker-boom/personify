@@ -8,7 +8,6 @@ import {
 export interface QuestionComponentConfig {
   question: BaseQuestion;
   isSent?: boolean;
-  onAnswer?: (answer: any) => void;
   answer?: any; // Add answer property for sent mode
 }
 
@@ -44,9 +43,6 @@ export abstract class BaseQuestionComponent {
   protected submitAnswer(): void {
     if (this.answer !== null && this.answer !== undefined) {
       this.answerSubmitted.emit(this.answer);
-      if (this.config.onAnswer) {
-        this.config.onAnswer(this.answer);
-      }
     }
   }
 

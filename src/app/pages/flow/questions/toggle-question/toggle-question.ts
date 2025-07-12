@@ -67,7 +67,12 @@ export class ToggleQuestionComponent
   }
 
   protected initializeQuestion(): void {
-    this.selected = null;
+    // If in sent mode and we have an answer, set the selected value
+    if (this.config.isSent && this.config.answer) {
+      this.selected = this.config.answer === 'YES';
+    } else {
+      this.selected = null;
+    }
     this.updateSendButtonState();
   }
 

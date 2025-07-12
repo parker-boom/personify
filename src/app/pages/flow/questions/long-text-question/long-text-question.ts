@@ -63,8 +63,12 @@ export class LongTextQuestionComponent
   }
 
   protected initializeQuestion(): void {
-    // Initialize with empty answer
-    this.answer = '';
+    // Initialize with config answer if in sent mode, otherwise empty
+    if (this.config.isSent && this.config.answer) {
+      this.answer = this.config.answer;
+    } else {
+      this.answer = '';
+    }
     this.updateSendButtonState();
   }
 

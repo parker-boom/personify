@@ -68,6 +68,13 @@ export class Sidebar {
 
   constructor(public themeService: ThemeService) {}
 
+  getCurrentQuestionNumber(
+    answeredQuestions: number,
+    totalQuestions: number
+  ): number {
+    return Math.min(answeredQuestions + 1, totalQuestions);
+  }
+
   removeCategory(category: Category) {
     this.selectionService.setCategorySelection(category.name, []);
   }

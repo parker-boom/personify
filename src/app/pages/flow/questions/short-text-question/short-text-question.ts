@@ -66,14 +66,25 @@ export class ShortTextQuestionComponent
   }
 
   protected initializeQuestion(): void {
-    // Initialize with empty answer
-    this.answer = '';
+    // Initialize with config answer if in sent mode, otherwise empty
+    if (this.config.isSent && this.config.answer) {
+      this.answer = this.config.answer;
+    } else {
+      this.answer = '';
+    }
     this.updateSendButtonState();
   }
 
   protected override handleSend(): void {
     if (this.answer && this.answer.trim()) {
       this.submitAnswer();
+    }
+  }
+
+  // Override submitAnswer to add logging
+  protected override submitAnswer(): void {
+    if (this.answer !== null && this.answer !== undefined) {
+      this.answerSubmitted.emit(this.answer);
     }
   }
 

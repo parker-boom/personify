@@ -85,6 +85,18 @@ export class MultiSelectQuestionComponent
       }));
     }
 
+    // If in sent mode and we have an answer, select the appropriate options
+    if (
+      this.config.isSent &&
+      this.config.answer &&
+      Array.isArray(this.config.answer)
+    ) {
+      const savedAnswers = this.config.answer as string[];
+      this.options.forEach((option) => {
+        option.selected = savedAnswers.includes(option.value);
+      });
+    }
+
     this.updateSelectedOptions();
     this.updateSendButtonState();
   }

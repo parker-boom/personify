@@ -47,7 +47,14 @@
       <ng-container *ngIf="flowProgress$ | async as progress">
         <div class="progress-summary">
           <p class="progress-text">
-            Question {{ progress.currentQuestionIndex + 1 }} of
+            Question
+            {{
+              getCurrentQuestionNumber(
+                progress.answeredQuestions,
+                progress.totalQuestions
+              )
+            }}
+            of
             {{ progress.totalQuestions }}
           </p>
           <div class="progress-bar">
