@@ -1,0 +1,213 @@
+$brand-gradient: linear-gradient(90deg, #ff6a00 0%, #ff2ecd 50%, #6a5cff 100%);
+
+.result-container {
+  width: 100vw;
+  min-height: 100vh;
+  padding: 4rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background: inherit;
+}
+
+.result-title {
+  font-size: 3.25rem;
+  font-weight: 700;
+  text-align: center;
+  margin: 0 0 1.5rem;
+  font-family: "Inter Tight", "Inter", sans-serif;
+}
+
+.brand-text {
+  background: $brand-gradient;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  animation: holo-fade 2s ease-in-out infinite alternate;
+}
+
+.copy-instruction {
+  font-size: 1.25rem;
+  margin: 0 0 1rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.settings-helper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.settings-text {
+  padding: 0.35rem 0.75rem;
+  border: 2px solid currentColor;
+  border-radius: 0.5rem;
+}
+
+.arrow-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.copy-card-wrapper {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  margin-bottom: 3rem;
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+  }
+}
+
+.copy-card {
+  flex: 1 1 0;
+  background: #fff;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+
+  .dark-mode & {
+    background: #0f0f0f;
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
+  }
+}
+
+.card-question {
+  margin: 1rem 1rem 0.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.card-textarea {
+  flex: 1 1 auto;
+  min-height: 160px;
+  padding: 1rem;
+  border: none;
+  resize: vertical;
+  font-size: 0.95rem;
+  font-family: "Inter", sans-serif;
+  color: inherit;
+  background: transparent;
+  outline: none;
+  cursor: pointer;
+}
+
+.copy-btn {
+  width: 100%;
+  border: none;
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  background: #ececec;
+  color: #333;
+  font-weight: 700;
+  padding: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: #dcdcdc;
+  }
+
+  .dark-mode & {
+    background: #1e1e1e;
+    color: #fff;
+
+    &:hover {
+      background: #2c2c2c;
+    }
+  }
+}
+
+.clipboard-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.memory-section {
+  text-align: center;
+  margin-top: auto;
+  margin-bottom: 2rem;
+}
+
+.memory-subtitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.memory-btn {
+  padding: 1rem 2rem;
+  border-radius: 0.875rem;
+  border: 2px solid #a9a9a9;
+  background: #f3f3f3;
+  color: #333;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: #e1e1e1;
+  }
+
+  .dark-mode & {
+    background: #1e1e1e;
+    border-color: #555;
+    color: #fff;
+
+    &:hover {
+      background: #2b2b2b;
+    }
+  }
+}
+
+.memory-logo,
+.chevron-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.logo-combo {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.openai-logo {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.logo-personify {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+@keyframes holo-fade {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.7;
+  }
+}
