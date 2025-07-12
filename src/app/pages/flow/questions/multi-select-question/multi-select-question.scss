@@ -1,0 +1,113 @@
+.multi-select-container {
+  width: 100%;
+}
+
+.options-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.select-all-text {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #000;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
+
+  .dark-mode & {
+    color: #bbb;
+  }
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.option-button {
+  height: 3rem;
+  padding: 0 1rem;
+  border: 2px solid #666;
+  border-radius: 1rem;
+  background: #f5f5f5;
+  color: #333;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  &:hover {
+    background: #e8e8e8;
+    border-color: #555;
+  }
+
+  &.selected {
+    background: #000;
+    border-color: #fff;
+    color: white;
+    font-weight: 700;
+  }
+
+  .dark-mode & {
+    background: #2a2a2a;
+    border-color: #555;
+    color: #e0e0e0;
+
+    &:hover {
+      background: #333;
+      border-color: #666;
+    }
+
+    &.selected {
+      background: #555;
+      border-color: #555;
+      color: white;
+    }
+  }
+}
+
+.sent-options {
+  .options-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    width: 100%;
+  }
+}
+
+.option-display {
+  height: 3rem;
+  padding: 0 1rem;
+  border: 2px solid #666;
+  border-radius: 1rem;
+  background: #666;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  .dark-mode & {
+    background: #555;
+    border-color: #555;
+    color: white;
+  }
+}

@@ -1,0 +1,166 @@
+So if we think statically, the overall high level design of the flow page is easy. It works like text chains. At the end of the interaction, you can scroll up and down, more recent stuff closer to the bottom, the bot sends 1 or 2 texts (depending on if statement too or just a question) and a little profile logo appears just left at the bottom of the that 1st (if only) or 2nd text in a row. Then the users respones which are question boxes (varifying of type and specified later) and appear right after the bots questions. 
+
+ 
+
+So behind the scenes things are more complicated lets play this out like it's the start.  
+ 
+At the start a user recieves a statement, and a question from the bot, these are because they are at the top of the questions list held in state. So they are sent, with a 2 second gap between them, and then a 1 second gap and the users question box is sent to respond. At the bottom left of the 2nd message I see the logo circle simulating a PFP of who sent the chat. Of course after a statement is sent it's marked as complete, and once a question receives an answer, it is marked off and the next thing is sent. After this happens back and forth a bit, this components height will exceed the view height at which it becomes scrollable, as the newest stuff continue to appear at the bottom. 
+
+-- 
+
+For users question boxes they get a bit complex because there are different types. But there's two main types really.  
+The two types are 
+
+Text based ones which will be typable in, and the send mechanism will be a little up arrow send button in the bototm right or clicking enter 
+
+UI based ones wich you will select things then click a SEND > button to confirm your choices  
+
+ 
+
+Overall the types we have present for questions: 
+Short Text, Long Text, Multiselect, Dropdown, Slider, Toggle 
+
+ 
+
+Short Text, just automatically does a less wide text box and when text gets too long it just shifts the starting text left, button in bottom right to send 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+Long text, a bit of a wider text box and when text gets long it goes to the next line, with the button in bottom right and empty space above it. Same behavior as typing long text on texting app 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+Multiselect, shows a "SELECT ALL THAT APPLY" in small but bold text, then some bigger wide rounded rectangles with each of the options, clicking any toggles it. Decently wide, max of 3 elements in one tow next to each other. Then a small send circle in the bottom right or clicking enter sends. This will all appear in one "text message bubble" 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Dropdown: just a simple drop dwon that says Select intially, and has all options list, not super wide, again Then a small send circle in the bottom right or clicking enter sends. all in one text message bubble 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+Slider, a draggable slide element where you see a bunch of circles and can move a bigger circle to the one you select, and a number on the left displaying it. Low and high numbers are shown on each end, pretty wide element. Then a small send circle in the bottom right or clicking enter sends in one text bubble
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Toggle is very simple just a toggle towars text probably YES/NO on each end then the bottom right send button 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+That means for the text entrys, after the text is sent, it should look like a text was sent, and is no longer editable. And after a send button is clicked for non-text, it locks in the current state of the interactive element and gets rid of the send button. 
+ 
+THE MAIN GOAL is for these to feel like interactive elements, yes, but to feel like a text exchange on a texting app with this bot guiding you. So it's text will only come through with same max length and line wrapping, in a probably medium grey colored rounded rectangle with the clasic lower left corner text thing to the "PFP". For the users messages, the interaction ones are like text drafts. How the text you're typing looks like it isnt sent yet But ones you did before have a darker color to indicate they were sent, and still the bottom right conrer thing so it feels like a text.  

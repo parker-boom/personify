@@ -1,4 +1,5 @@
 import { BaseQuestion } from './question.interface';
+import { ChatMessage } from './chat-message.interface';
 
 export interface QuestionWithContext extends BaseQuestion {
   // This interface now extends BaseQuestion, so it inherits all the properties
@@ -15,6 +16,7 @@ export interface FlowProgress {
 export interface CategoryProgress {
   categoryId: string;
   categoryLabel: string;
+  categoryEmoji?: string;
   subcategories: SubcategoryProgress[];
 }
 
@@ -30,4 +32,5 @@ export interface FlowState {
   questions: BaseQuestion[];
   answers: Map<string, any>;
   progress: FlowProgress;
-} 
+  messages?: ChatMessage[];
+}

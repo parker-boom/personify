@@ -1,0 +1,69 @@
+.short-text-container {
+  position: relative;
+  width: 100%;
+}
+
+.input-container {
+  position: relative;
+  width: 100%;
+}
+
+.short-text-input {
+  width: 100%;
+  height: 40px;
+  padding: 0.5rem 0.25rem 0.5rem 0.25rem;
+  border: none;
+  border-radius: 1.25rem;
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.4;
+  background: transparent;
+  color: inherit;
+  outline: none;
+  resize: none;
+  font-family: inherit;
+
+  &::placeholder {
+    color: rgba(150, 150, 150, 0.7);
+    .dark-mode & {
+      color: rgba(150, 150, 150, 0.5);
+    }
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+}
+
+.sent-text {
+  padding: 0.5rem 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.4;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  min-height: 20px;
+  display: block;
+  width: 100%;
+}
+
+// Unsent mode: Fixed width container
+.text-bubble.unsent .short-text-container {
+  .short-text-input {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+// Sent mode: Expand to fit content
+.text-bubble.sent .short-text-container {
+  .sent-text {
+    width: 100%;
+  }
+}

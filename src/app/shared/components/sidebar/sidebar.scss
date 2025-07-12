@@ -2,6 +2,10 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  .dark-mode & {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  }
 }
 
 .sidebar-header {
@@ -51,13 +55,13 @@
   justify-content: center;
   color: #888;
   &:hover {
-    background: rgba(0,0,0,0.08);
+    background: rgba(0, 0, 0, 0.08);
     color: #222;
   }
   .dark-mode & {
     color: #bbb;
     &:hover {
-      background: rgba(255,255,255,0.08);
+      background: rgba(255, 255, 255, 0.08);
       color: #fff;
     }
   }
@@ -73,6 +77,92 @@
   flex: 1;
   padding: 1.5rem;
   overflow-y: auto;
+}
+
+// Progress tracking styles
+.progress-summary {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  .dark-mode & {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.progress-text {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0 0 0.75rem 0;
+  font-weight: 500;
+  .dark-mode & {
+    color: #bbb;
+  }
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+  .dark-mode & {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff6a00 0%, #ff2ecd 50%, #6a5cff 100%);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+// Progress status indicators
+.subcategory-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-right: 0.5rem;
+  color: #888;
+  background: rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+
+  &.completed {
+    color: #4caf50;
+    background: rgba(76, 175, 80, 0.1);
+  }
+
+  &.current {
+    color: #ff6a00;
+    background: rgba(255, 106, 0, 0.1);
+  }
+
+  .dark-mode & {
+    background: rgba(255, 255, 255, 0.1);
+    color: #bbb;
+
+    &.completed {
+      background: rgba(76, 175, 80, 0.2);
+    }
+
+    &.current {
+      background: rgba(255, 106, 0, 0.2);
+    }
+  }
+}
+
+.subcategory-progress {
+  font-size: 0.8rem;
+  color: #888;
+  font-weight: 500;
+  .dark-mode & {
+    color: #bbb;
+  }
 }
 
 .category-list {
@@ -128,13 +218,13 @@
   align-items: center;
   justify-content: center;
   &:hover {
-    background: rgba(0,0,0,0.08);
+    background: rgba(0, 0, 0, 0.08);
     color: #d32f2f;
   }
   .dark-mode & {
     color: #bbb;
     &:hover {
-      background: rgba(255,255,255,0.08);
+      background: rgba(255, 255, 255, 0.08);
       color: #fff;
     }
   }
@@ -204,13 +294,13 @@
   align-items: center;
   justify-content: center;
   &:hover {
-    background: rgba(0,0,0,0.08);
+    background: rgba(0, 0, 0, 0.08);
     color: #d32f2f;
   }
   .dark-mode & {
     color: #bbb;
     &:hover {
-      background: rgba(255,255,255,0.08);
+      background: rgba(255, 255, 255, 0.08);
       color: #fff;
     }
   }

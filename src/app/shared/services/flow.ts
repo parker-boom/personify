@@ -16,6 +16,7 @@ import {
   CATEGORY_STATEMENTS,
 } from '../config/onboarding-questions';
 import { SelectionService } from './selection';
+import { ChatMessage } from '../models/chat-message.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +31,7 @@ export class FlowService {
       answeredQuestions: 0,
       categoryProgress: [],
     },
+    messages: [], // Chat message history
   });
 
   flowState$ = this.flowState.asObservable();
@@ -96,6 +98,7 @@ export class FlowService {
         answeredQuestions: 0,
         categoryProgress: progress,
       },
+      messages: [],
     });
   }
 
@@ -295,19 +298,50 @@ export class FlowService {
     selectedSubcategoryIds: string[],
     categories: Category[]
   ): CategoryProgress[] {
-    return categories.map((category) => ({
-      categoryId: category.name,
-      categoryLabel: category.label,
-      subcategories: category.subcategories
-        .filter((sub) => selectedSubcategoryIds.includes(sub.id))
-        .map((sub) => ({
-          subcategoryId: sub.id,
-          subcategoryLabel: sub.label,
-          totalQuestions: sub.questions.length,
-          answeredQuestions: 0,
-          isComplete: false,
-        })),
-    }));
+    const progress: CategoryProgress[] = [];
+
+    // Add Introduction category for onboarding questions
+    const onboardingQuestions = this.buildOnboardingQuestions();
+    if (onboardingQuestions.length > 0) {
+      progress.push({
+        categoryId: 'introduction',
+        categoryLabel: 'Introduction',
+        categoryEmoji: '👋',
+        subcategories: [
+          {
+            subcategoryId: 'introduction',
+            subcategoryLabel: 'Getting to know you',
+            totalQuestions: onboardingQuestions.length,
+            answeredQuestions: 0,
+            isComplete: false,
+          },
+        ],
+      });
+    }
+
+    // Add categories with selected subcategories
+    categories.forEach((category) => {
+      const selectedSubs = category.subcategories.filter((sub) =>
+        selectedSubcategoryIds.includes(sub.id)
+      );
+
+      if (selectedSubs.length > 0) {
+        progress.push({
+          categoryId: category.name,
+          categoryLabel: category.label,
+          categoryEmoji: category.emoji,
+          subcategories: selectedSubs.map((sub) => ({
+            subcategoryId: sub.id,
+            subcategoryLabel: sub.label,
+            totalQuestions: sub.questions.length,
+            answeredQuestions: 0,
+            isComplete: false,
+          })),
+        });
+      }
+    });
+
+    return progress;
   }
 
   private updateProgress(
@@ -317,7 +351,14 @@ export class FlowService {
     const newCategoryProgress = progress.categoryProgress.map((cat) => ({
       ...cat,
       subcategories: cat.subcategories.map((sub) => {
-        if (sub.subcategoryId === answeredQuestion.subcategoryId) {
+        // Handle both regular subcategories and introduction category
+        const isMatchingSubcategory =
+          sub.subcategoryId === answeredQuestion.subcategoryId;
+        const isIntroductionQuestion =
+          answeredQuestion.categoryId === 'onboarding' &&
+          cat.categoryId === 'introduction';
+
+        if (isMatchingSubcategory || isIntroductionQuestion) {
           const newAnsweredQuestions = sub.answeredQuestions + 1;
           return {
             ...sub,
@@ -334,5 +375,233 @@ export class FlowService {
       answeredQuestions: progress.answeredQuestions + 1,
       categoryProgress: newCategoryProgress,
     };
+  }
+
+  // Get current subcategory being worked on
+  getCurrentSubcategoryId(): string | null {
+    const state = this.flowState.value;
+    const currentQuestion = this.getCurrentQuestion();
+    if (!currentQuestion) return null;
+
+    // Handle onboarding questions
+    if (currentQuestion.categoryId === 'onboarding') {
+      return 'introduction';
+    }
+
+    return currentQuestion.subcategoryId;
+  }
+
+  // Check if a subcategory is currently being worked on
+  isSubcategoryCurrent(subcategoryId: string): boolean {
+    return this.getCurrentSubcategoryId() === subcategoryId;
+  }
+
+  // NEW: Add a method to push a message to the chat history
+  private addMessage(message: ChatMessage) {
+    const state = this.flowState.value;
+    const messages = state.messages ? [...state.messages] : [];
+    messages.push(message);
+    this.flowState.next({
+      ...state,
+      messages,
+    });
+  }
+
+  // NEW: Add a method to clear/reset messages (for new flow)
+  private clearMessages() {
+    const state = this.flowState.value;
+    this.flowState.next({
+      ...state,
+      messages: [],
+    });
+  }
+
+  // NEW: Start the chat flow with initial messages
+  startChatFlow(): void {
+    this.clearMessages();
+    const state = this.flowState.value;
+
+    if (state.questions.length === 0) {
+      console.warn('No questions available for chat flow');
+      return;
+    }
+
+    // Schedule the first question(s) to appear
+    this.scheduleNextBotMessages();
+  }
+
+  // NEW: Handle user answer and schedule next bot messages
+  handleUserAnswer(answer: any, questionId: string): void {
+    const state = this.flowState.value;
+    const currentQuestion = this.getCurrentQuestion();
+
+    if (!currentQuestion || currentQuestion.id !== questionId) {
+      console.warn('Question not found or not current');
+      return;
+    }
+
+    // Add user answer to chat history
+    const userMessage: ChatMessage = {
+      id: `answer-${questionId}`,
+      sender: 'user',
+      type: 'answer',
+      content: answer,
+      relatedQuestionId: questionId,
+      isSent: true,
+      timestamp: Date.now(),
+    };
+    this.addMessage(userMessage);
+
+    // Store answer in state
+    const newAnswers = new Map(state.answers);
+    newAnswers.set(questionId, answer);
+
+    // Update progress
+    const newProgress = this.updateProgress(state.progress, currentQuestion);
+
+    // Update state
+    this.flowState.next({
+      ...state,
+      answers: newAnswers,
+      progress: newProgress,
+    });
+
+    // Move to next question
+    const hasNext = this.nextQuestion();
+
+    if (hasNext) {
+      // Schedule next bot messages after 1 second delay
+      setTimeout(() => {
+        this.scheduleNextBotMessages();
+      }, 1000);
+    } else {
+      // Flow complete - could trigger completion logic here
+      console.log('Chat flow complete');
+    }
+  }
+
+  // NEW: Schedule bot messages to appear with delays
+  private scheduleNextBotMessages(): void {
+    const state = this.flowState.value;
+    const currentQuestion = this.getCurrentQuestion();
+
+    if (!currentQuestion) {
+      console.warn('No current question to schedule');
+      return;
+    }
+
+    // Check if there's a statement before this question
+    const currentIndex = state.progress.currentQuestionIndex;
+    const previousQuestion =
+      currentIndex > 0 ? state.questions[currentIndex - 1] : null;
+
+    let messagesToSchedule: ChatMessage[] = [];
+    let totalDelay = 0;
+
+    // If previous question was a statement, schedule it first
+    if (previousQuestion && previousQuestion.type === 'statement') {
+      const statementMessage: ChatMessage = {
+        id: `statement-${previousQuestion.id}`,
+        sender: 'bot',
+        type: 'statement',
+        content: previousQuestion.prompt,
+        isSent: false,
+        timestamp: Date.now(),
+        showProfilePicture: false, // Will be set later
+      };
+      messagesToSchedule.push(statementMessage);
+      totalDelay += 2000; // 2 second delay for statement
+    }
+
+    // Schedule the current question
+    const questionMessage: ChatMessage = {
+      id: `question-${currentQuestion.id}`,
+      sender: 'bot',
+      type: 'question',
+      content: currentQuestion.prompt,
+      questionType: currentQuestion.type,
+      isSent: false,
+      timestamp: Date.now(),
+      showProfilePicture: true, // Always show profile pic on last bot message
+    };
+    messagesToSchedule.push(questionMessage);
+
+    // Add messages to chat history (unsent)
+    messagesToSchedule.forEach((message) => {
+      this.addMessage(message);
+    });
+
+    // Schedule message sending with delays
+    messagesToSchedule.forEach((message, index) => {
+      const delay = index === 0 ? 2000 : 2000; // 2s for first, 2s for second
+
+      setTimeout(() => {
+        this.markMessageAsSent(message.id);
+
+        // If this is the last bot message, schedule user input after 2 seconds
+        if (index === messagesToSchedule.length - 1) {
+          setTimeout(() => {
+            this.scheduleUserInput(currentQuestion);
+          }, 2000);
+        }
+      }, delay);
+    });
+  }
+
+  // NEW: Schedule user input to appear
+  private scheduleUserInput(question: BaseQuestion): void {
+    const userInputMessage: ChatMessage = {
+      id: `input-${question.id}`,
+      sender: 'user',
+      type: 'question',
+      content: question.prompt,
+      questionType: question.type,
+      relatedQuestionId: question.id,
+      isSent: false,
+      timestamp: Date.now(),
+    };
+
+    this.addMessage(userInputMessage);
+  }
+
+  // NEW: Mark a message as sent (visible in chat)
+  private markMessageAsSent(messageId: string): void {
+    const state = this.flowState.value;
+    const messages = state.messages ? [...state.messages] : [];
+
+    const messageIndex = messages.findIndex((msg) => msg.id === messageId);
+    if (messageIndex !== -1) {
+      messages[messageIndex] = {
+        ...messages[messageIndex],
+        isSent: true,
+      };
+
+      this.flowState.next({
+        ...state,
+        messages,
+      });
+    }
+  }
+
+  // NEW: Update profile picture visibility for bot messages
+  private updateProfilePictureVisibility(): void {
+    const state = this.flowState.value;
+    const messages = state.messages ? [...state.messages] : [];
+
+    // Find the last bot message and ensure it has profile picture
+    for (let i = messages.length - 1; i >= 0; i--) {
+      if (messages[i].sender === 'bot') {
+        messages[i] = {
+          ...messages[i],
+          showProfilePicture: true,
+        };
+        break;
+      }
+    }
+
+    this.flowState.next({
+      ...state,
+      messages,
+    });
   }
 }

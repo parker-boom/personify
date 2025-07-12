@@ -28,12 +28,7 @@
         "questions": [
           {
             "prompt": "How old are you?",
-            "type": "slider",
-            "range": {
-              "min": 10,
-              "max": 25
-            },
-            "default": 18
+            "type": "short_text"
           },
           {
             "prompt": "What gender should I refer to you as, if any?",
@@ -92,12 +87,7 @@
         "questions": [
           {
             "prompt": "What grade or academic year are you in?",
-            "type": "slider",
-            "range": {
-              "min": 5,
-              "max": 16
-            },
-            "default": 12
+            "type": "short_text"
           }
         ],
         "id": "SAL1"
@@ -325,7 +315,7 @@
             ]
           },
           {
-            "prompt": "Should the tone change based on topic or stay consistent?",
+            "prompt": "Should the tone change based on thet topic?",
             "type": "toggle"
           }
         ],

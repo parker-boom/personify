@@ -1,23 +1,60 @@
-<div class="flow-container">
-  <h1>Flow Page</h1>
-  
-  <div *ngIf="getAllQuestions().length > 0; else noQuestions">
-    <h2>Questions ({{ getTotalQuestions() }} total):</h2>
-    <div *ngFor="let question of getAllQuestions(); let i = index">
-      <p><strong>{{ i + 1 }}.</strong> {{ question.prompt }}</p>
-      <p style="margin-left: 20px; color: #666;">
-        Type: {{ question.type }} | Category: {{ question.categoryId }} | Subcategory: {{ question.subcategoryId }}
-      </p>
+<app-layout>
+  <div class="flow-container">
+    <div class="conversation-area chat-scrollable">
+      <!-- Chat message history -->
+      <ng-container *ngFor="let message of messages$ | async; let i = index">
+        <app-text-bubble-wrapper
+          [config]="getBubbleConfig(message, i)"
+          (onSend)="onSend(message)"
+        >
+          <!-- Bot statement or question -->
+          <ng-container *ngIf="message.sender === 'bot'">
+            <div class="bot-message-content">{{ message.content }}</div>
+          </ng-container>
+
+          <!-- User answer (sent) -->
+          <ng-container *ngIf="message.sender === 'user' && message.isSent">
+            <div class="user-message-content">{{ message.content }}</div>
+          </ng-container>
+
+          <!-- User input (draft/question) -->
+          <ng-container *ngIf="message.sender === 'user' && !message.isSent">
+            <!-- Render the appropriate question component here -->
+            <ng-container [ngSwitch]="message.questionType">
+              <app-short-text-question
+                *ngSwitchCase="'short_text'"
+                [config]="getQuestionConfig(message)"
+                (answerSubmitted)="onAnswerSubmitted($event, message)"
+              ></app-short-text-question>
+              <app-long-text-question
+                *ngSwitchCase="'long_text'"
+                [config]="getQuestionConfig(message)"
+                (answerSubmitted)="onAnswerSubmitted($event, message)"
+              ></app-long-text-question>
+              <app-multi-select-question
+                *ngSwitchCase="'multi_select'"
+                [config]="getQuestionConfig(message)"
+                (answerSubmitted)="onAnswerSubmitted($event, message)"
+              ></app-multi-select-question>
+              <app-slider-question
+                *ngSwitchCase="'slider'"
+                [config]="getQuestionConfig(message)"
+                (answerSubmitted)="onAnswerSubmitted($event, message)"
+              ></app-slider-question>
+              <app-dropdown-question
+                *ngSwitchCase="'dropdown'"
+                [config]="getQuestionConfig(message)"
+                (answerSubmitted)="onAnswerSubmitted($event, message)"
+              ></app-dropdown-question>
+              <app-toggle-question
+                *ngSwitchCase="'toggle'"
+                [config]="getQuestionConfig(message)"
+                (answerSubmitted)="onAnswerSubmitted($event, message)"
+              ></app-toggle-question>
+            </ng-container>
+          </ng-container>
+        </app-text-bubble-wrapper>
+      </ng-container>
     </div>
   </div>
-  
-  <ng-template #noQuestions>
-    <p>No questions available. Go back to select page and choose categories.</p>
-  </ng-template>
-  
-  <div class="flow-actions">
-    <button (click)="completeFlow()" class="complete-button">
-      Complete Flow & Generate AI Setup
-    </button>
-  </div>
-</div>
+</app-layout>

@@ -1,0 +1,72 @@
+.toggle-question-container {
+  width: 100%;
+  max-width: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.toggle-interactive {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.toggle-box {
+  width: 100%;
+  min-width: 220px;
+  max-width: 350px;
+  height: 3rem;
+  background: #fafafa;
+  border: 3px solid #222;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #222;
+  user-select: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.toggle-option {
+  flex: 1 1 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  border-radius: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #222;
+}
+
+.toggle-option.selected {
+  background: #000;
+  color: #fff;
+}
+
+.toggle-divider {
+  width: 1px;
+  height: 70%;
+  background: #fff;
+  border-radius: 2px;
+}
+
+// Sent state: plain text, matching .sent-text from short-text-question.scss
+.sent-text {
+  padding: 0.5rem 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.4;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  min-height: 20px;
+  display: block;
+  width: 100%;
+}

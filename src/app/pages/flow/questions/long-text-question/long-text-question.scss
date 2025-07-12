@@ -1,0 +1,77 @@
+.long-text-container {
+  min-width: 430px;
+  position: relative;
+  width: 100%;
+}
+
+.input-container {
+  position: relative;
+  width: 100%;
+}
+
+.long-text-input {
+  width: 100%;
+
+  min-height: 40px;
+  max-height: 200px;
+  padding: 0.5rem 1.5rem 0.5rem 0.5rem;
+  border: none;
+  border-radius: 1.25rem;
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.4;
+  background: transparent;
+  color: inherit;
+  outline: none;
+  resize: none;
+  font-family: inherit;
+  overflow-y: auto;
+
+  &::placeholder {
+    color: rgba(150, 150, 150, 0.7);
+    .dark-mode & {
+      color: rgba(150, 150, 150, 0.5);
+    }
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+}
+
+.sent-text {
+  padding: 0.5rem 1rem;
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.4;
+  word-wrap: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
+  min-height: 40px;
+  display: block;
+  width: 100%;
+}
+
+// Unsent mode: Wider fixed width container (35% more than short text)
+.text-bubble.unsent .long-text-container {
+  .long-text-input {
+    max-width: 100%;
+    // Remove single-line constraints - allow text wrapping
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+}
+
+// Sent mode: Wider expand to fit content with text wrapping
+.text-bubble.sent .long-text-container {
+  .sent-text {
+    width: 100%;
+    min-height: auto;
+    display: block;
+  }
+}

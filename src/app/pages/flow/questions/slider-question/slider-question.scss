@@ -1,0 +1,154 @@
+.slider-question-container {
+  width: 100%;
+  max-width: 650px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.slider-interactive {
+  width: 100%;
+  display: flex;
+  min-width: 400px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.slider-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding-right: 0.75rem;
+}
+
+.slider-value {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #222;
+  width: 3rem;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.slider-track-container {
+  flex: 1;
+  display: flex;
+  min-width: 400px;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.slider-track {
+  position: relative;
+  width: 100%;
+  min-width: 400px;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.slider-track::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 3px;
+  background: #222;
+  border-radius: 2px;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.slider-tick {
+  position: relative;
+  flex: 1 1 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.slider-dot {
+  width: 16px;
+  height: 16px;
+  background: #bbb;
+  border-radius: 50%;
+  border: 2px solid #888;
+  transition: background 0.2s, border 0.2s;
+  box-sizing: border-box;
+}
+
+.slider-dot.selected {
+  background: #222;
+  border-color: #222;
+}
+
+.slider-thumb {
+  position: absolute;
+  top: 50%;
+  width: 32px;
+  height: 32px;
+  background: #000;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  transition: box-shadow 0.2s;
+}
+
+.slider-thumb:focus {
+  outline: 2px solid #007aff;
+  box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.15);
+}
+
+.slider-labels {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #444;
+  margin-top: 0.25rem;
+}
+
+.slider-label.left {
+  text-align: left;
+}
+.slider-label.right {
+  text-align: right;
+}
+
+.slider-sent {
+  width: 100%;
+  display: flex;
+  color: #fff;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin: 1rem 0;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+.sent-value {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+.sent-outof {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.sent-max {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #fff;
+}
