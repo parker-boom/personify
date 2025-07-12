@@ -48,7 +48,7 @@ $brand-gradient: linear-gradient(90deg, #ff6a00 0%, #ff2ecd 50%, #6a5cff 100%);
 
 .settings-bubble {
   padding: 0.5rem 1rem;
-  background: #a0a0a0; // Medium grey background
+  background: #343434;
   color: #fff;
   border-radius: 0.75rem;
   font-weight: 700;
@@ -130,7 +130,7 @@ $brand-gradient: linear-gradient(90deg, #ff6a00 0%, #ff2ecd 50%, #6a5cff 100%);
   border: none;
   border-bottom-left-radius: 1rem;
   border-bottom-right-radius: 1rem;
-  background: #949494;
+  background: #d2d2d2;
   color: #000000;
   font-size: 1.25rem;
   font-weight: 700;
@@ -188,14 +188,15 @@ $brand-gradient: linear-gradient(90deg, #ff6a00 0%, #ff2ecd 50%, #6a5cff 100%);
 }
 
 .memory-btn {
-  width: 400px;
+  min-width: 400px;
   padding: 1.5rem 2rem;
   border-radius: 1.5rem;
-  border: 2px solid #666;
-  background: #4a4a4a;
-  color: #fff;
+  border: 3px solid transparent;
+  background: linear-gradient(#ffffff, #d0d0d0) padding-box,
+    $brand-gradient border-box;
+  color: #000;
   font-weight: 700;
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   display: inline-flex;
   align-items: center;
   justify-content: flex-start;
@@ -205,42 +206,32 @@ $brand-gradient: linear-gradient(90deg, #ff6a00 0%, #ff2ecd 50%, #6a5cff 100%);
   box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.15);
 
   &:hover {
-    background: #565656;
+    background: linear-gradient(#f5f5f5, #f5f5f5) padding-box,
+      $brand-gradient border-box;
     transform: translateY(-2px);
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25);
   }
 
-  &.copied {
-    background: $brand-gradient;
-    color: white;
-    border-color: transparent;
-    transform: scale(1.02);
-
-    .dark-mode & {
-      background: $brand-gradient;
-      color: white;
-    }
-  }
-
   .dark-mode & {
-    background: #2a2a2a;
-    border-color: #444;
+    background: linear-gradient(#1a1a1a, #1a1a1a) padding-box,
+      $brand-gradient border-box;
     color: #fff;
 
     &:hover {
-      background: #353535;
+      background: linear-gradient(#2a2a2a, #2a2a2a) padding-box,
+        $brand-gradient border-box;
     }
   }
 }
 
 .fused-logo {
-  width: 3rem;
-  height: 3rem;
+  width: 4rem;
+  height: 4rem;
   border-radius: 0.5rem;
 }
 
 .memory-label {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: 700;
 }
 
