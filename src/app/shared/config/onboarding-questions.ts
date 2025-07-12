@@ -84,3 +84,11 @@ export const ONBOARDING_CONTEXT: QuestionContext = {
   subcategoryId: 'introduction',
   order: 0,
 };
+
+export const ENDING_STATEMENT = {
+  id: 'ending-statement',
+  categoryId: 'end',
+  prompt:
+    "We're all done! I'll use this information to personalize ChatGPT for you, just click the magic button below to finish up!!",
+  type: 'statement' as const,
+};

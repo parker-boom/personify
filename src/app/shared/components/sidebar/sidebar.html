@@ -94,14 +94,17 @@
           </li>
         </ul>
 
-        <!-- End Early Button - appears after 5 questions -->
+        <!-- End Early Button - appears after 5 questions but hides when all answered -->
         <div
           class="end-early-container"
-          *ngIf="progress.answeredQuestions >= 5"
+          *ngIf="
+            progress.answeredQuestions >= 5 &&
+            progress.answeredQuestions < progress.totalQuestions
+          "
         >
-          <button class="end-early-btn">
+          <button class="end-early-btn" (click)="skipRest()">
             <span class="end-early-text">Skip the Rest</span>
-            <span class="end-early-arrow">></span>
+            <span class="end-early-arrow">✨</span>
           </button>
         </div>
       </ng-container>

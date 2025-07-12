@@ -5,6 +5,7 @@ import { Category, Subcategory } from '../../models/category.interface';
 import { CommonModule } from '@angular/common';
 import { Observable, map, combineLatest } from 'rxjs';
 import { ThemeService } from '../../../theme.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -18,6 +19,7 @@ export class Sidebar {
 
   private selectionService = inject(SelectionService);
   private flowService = inject(FlowService);
+  private router = inject(Router);
 
   // For Select page: Show selections with remove buttons
   selectedCategories$: Observable<
@@ -85,5 +87,66 @@ export class Sidebar {
       category.name,
       current.filter((id) => id !== subcategory.id)
     );
+  }
+
+  skipRest() {
+    // Skip the rest of the flow - collect answers and navigate to loading
+    console.log('⏭️  User chose to skip the rest of the flow');
+    this.collectAndLogAnswers();
+    this.closeSidebar.emit();
+    this.router.navigate(['/loading']);
+  }
+
+  // Collect all answers and log them to console (same as flow component)
+  private collectAndLogAnswers() {
+    const state = this.flowService.getCurrentState();
+    const allAnswers = this.flowService.getAllAnswers();
+
+    console.log('🎯 ===== FINAL ANSWER COLLECTION (SKIP) =====');
+    console.log('📊 Total Questions:', state.questions.length);
+    console.log('📝 Total Answers:', allAnswers.size);
+    console.log(
+      '📋 Completion Status:',
+      this.flowService.isFlowComplete() ? 'Complete' : 'Incomplete (Skipped)'
+    );
+
+    // Convert answers to structured format for logging
+    const answersArray = Array.from(allAnswers.entries()).map(
+      ([questionId, answer]) => {
+        const question = state.questions.find((q) => q.id === questionId);
+        return {
+          questionId,
+          questionPrompt: question?.prompt || 'Unknown',
+          questionType: question?.type || 'Unknown',
+          categoryId: question?.categoryId || 'Unknown',
+          subcategoryId: question?.subcategoryId || 'Unknown',
+          answer,
+          answerType: typeof answer,
+          answerLength: Array.isArray(answer) ? answer.length : undefined,
+        };
+      }
+    );
+
+    console.table(answersArray);
+
+    // Log structured data for API consumption
+    console.log('📤 API-Ready Data Structure:');
+    console.log(
+      JSON.stringify(
+        {
+          totalQuestions: state.questions.length,
+          totalAnswers: allAnswers.size,
+          isComplete: this.flowService.isFlowComplete(),
+          wasSkipped: true,
+          answers: answersArray,
+        },
+        null,
+        2
+      )
+    );
+
+    console.log('🎯 ===== END ANSWER COLLECTION (SKIP) =====');
+
+    return answersArray;
   }
 }

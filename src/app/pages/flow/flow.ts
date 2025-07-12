@@ -24,6 +24,7 @@ import { ToggleQuestionComponent } from './questions/toggle-question/toggle-ques
 import { ChatMessage } from '../../shared/models/chat-message.interface';
 import { TextBubbleWrapper } from './questions/text-bubble-wrapper/text-bubble-wrapper';
 import { FlowState } from '../../shared/models/flow.interface';
+import { ENDING_STATEMENT } from '../../shared/config/onboarding-questions';
 
 @Component({
   selector: 'app-flow',
@@ -205,6 +206,30 @@ export class Flow implements OnInit, OnDestroy {
       }
     }
 
+    // Add ending statement if flow is complete
+    if (state.isComplete) {
+      messages.push({
+        id: 'ending-statement',
+        sender: 'bot',
+        type: 'statement',
+        content: ENDING_STATEMENT.prompt,
+        isSent: true,
+        timestamp: Date.now(),
+        showProfilePicture: true,
+      });
+
+      // Add end-of-flow button
+      messages.push({
+        id: 'end-flow-button',
+        sender: 'bot',
+        type: 'end-flow-button',
+        content: 'Personify',
+        isSent: true,
+        timestamp: Date.now(),
+        showProfilePicture: false,
+      });
+    }
+
     return messages;
   }
 
@@ -364,6 +389,72 @@ export class Flow implements OnInit, OnDestroy {
   }
 
   completeFlow() {
+    this.router.navigate(['/loading']);
+  }
+
+  // Collect all answers and log them to console
+  collectAndLogAnswers() {
+    const state = this.flowService.getCurrentState();
+    const allAnswers = this.flowService.getAllAnswers();
+
+    console.log('🎯 ===== FINAL ANSWER COLLECTION =====');
+    console.log('📊 Total Questions:', state.questions.length);
+    console.log('📝 Total Answers:', allAnswers.size);
+    console.log(
+      '📋 Completion Status:',
+      this.flowService.isFlowComplete() ? 'Complete' : 'Incomplete'
+    );
+
+    // Convert answers to structured format for logging
+    const answersArray = Array.from(allAnswers.entries()).map(
+      ([questionId, answer]) => {
+        const question = state.questions.find((q) => q.id === questionId);
+        return {
+          questionId,
+          questionPrompt: question?.prompt || 'Unknown',
+          questionType: question?.type || 'Unknown',
+          categoryId: question?.categoryId || 'Unknown',
+          subcategoryId: question?.subcategoryId || 'Unknown',
+          answer,
+          answerType: typeof answer,
+          answerLength: Array.isArray(answer) ? answer.length : undefined,
+        };
+      }
+    );
+
+    console.table(answersArray);
+
+    // Log structured data for API consumption
+    console.log('📤 API-Ready Data Structure:');
+    console.log(
+      JSON.stringify(
+        {
+          totalQuestions: state.questions.length,
+          totalAnswers: allAnswers.size,
+          isComplete: this.flowService.isFlowComplete(),
+          answers: answersArray,
+        },
+        null,
+        2
+      )
+    );
+
+    console.log('🎯 ===== END ANSWER COLLECTION =====');
+
+    return answersArray;
+  }
+
+  // Skip the rest of the flow - collect answers and go to loading
+  skipRest() {
+    console.log('⏭️  User chose to skip the rest of the flow');
+    this.collectAndLogAnswers();
+    this.router.navigate(['/loading']);
+  }
+
+  // Complete the flow - collect answers and go to loading
+  finishFlow() {
+    console.log('✅ User completed the full flow');
+    this.collectAndLogAnswers();
     this.router.navigate(['/loading']);
   }
 }

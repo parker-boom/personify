@@ -93,3 +93,62 @@
     color: #e0e0e0;
   }
 }
+
+// End flow button styles
+.end-flow-button-container {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+  width: 100%;
+}
+
+.end-flow-button {
+  border: none;
+  cursor: pointer;
+  padding: 1rem 2rem;
+  border-radius: 2rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  font-family: "Inter Tight", "Inter", sans-serif;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: all 0.3s ease;
+  background: linear-gradient(90deg, #ff6a00 0%, #ff2ecd 50%, #6a5cff 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(255, 106, 0, 0.2);
+  animation: pulse-glow 2s ease-in-out infinite alternate;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(255, 106, 0, 0.3),
+      0 6px 25px rgba(255, 46, 205, 0.3), 0 6px 25px rgba(106, 92, 255, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.button-text {
+  font-weight: 700;
+}
+
+.button-icon {
+  font-size: 1.3rem;
+  transition: transform 0.2s ease;
+}
+
+.end-flow-button:hover .button-icon {
+  transform: scale(1.1);
+}
+
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 4px 15px rgba(255, 106, 0, 0.2);
+  }
+  100% {
+    box-shadow: 0 4px 15px rgba(255, 106, 0, 0.4);
+  }
+}

@@ -16,12 +16,25 @@
         >
           <!-- Bot statement or question -->
           <ng-container *ngIf="message.sender === 'bot'">
-            <app-text-bubble-wrapper
-              [config]="getBubbleConfig(message, i)"
-              (onSend)="onSend(message)"
-            >
-              <div class="bot-message-content">{{ message.content }}</div>
-            </app-text-bubble-wrapper>
+            <!-- End flow button -->
+            <ng-container *ngIf="message.type === 'end-flow-button'">
+              <div class="end-flow-button-container">
+                <button class="end-flow-button" (click)="finishFlow()">
+                  <span class="button-text">{{ message.content }}</span>
+                  <span class="button-icon">✨</span>
+                </button>
+              </div>
+            </ng-container>
+
+            <!-- Regular bot messages -->
+            <ng-container *ngIf="message.type !== 'end-flow-button'">
+              <app-text-bubble-wrapper
+                [config]="getBubbleConfig(message, i)"
+                (onSend)="onSend(message)"
+              >
+                <div class="bot-message-content">{{ message.content }}</div>
+              </app-text-bubble-wrapper>
+            </ng-container>
           </ng-container>
 
           <!-- User input (draft/question) or sent answer -->

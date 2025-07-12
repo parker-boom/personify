@@ -1,5 +1,9 @@
 export type ChatSender = 'bot' | 'user';
-export type ChatMessageType = 'statement' | 'question' | 'answer';
+export type ChatMessageType =
+  | 'statement'
+  | 'question'
+  | 'answer'
+  | 'end-flow-button';
 
 export interface ChatMessage {
   id: string;
