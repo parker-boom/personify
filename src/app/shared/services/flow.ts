@@ -430,7 +430,7 @@ export class FlowService {
     this.scheduleNextBotMessages();
   }
 
-  // NEW: Handle user answer and schedule next bot messages
+  // Robustly handle user answer: update message, store answer, update state, and proceed flow
   handleUserAnswer(answer: any, questionId: string): void {
     const state = this.flowState.value;
     const currentQuestion = this.getCurrentQuestion();
@@ -440,19 +440,24 @@ export class FlowService {
       return;
     }
 
-    // Add user answer to chat history
-    const userMessage: ChatMessage = {
-      id: `answer-${questionId}`,
-      sender: 'user',
-      type: 'answer',
-      content: answer,
-      relatedQuestionId: questionId,
-      isSent: true,
-      timestamp: Date.now(),
-    };
-    this.addMessage(userMessage);
+    // Update the user input message in chat history to sent mode with the answer
+    const messages = state.messages ? [...state.messages] : [];
+    const userInputIndex = messages.findIndex(
+      (msg) =>
+        msg.sender === 'user' &&
+        msg.relatedQuestionId === questionId &&
+        !msg.isSent
+    );
+    if (userInputIndex !== -1) {
+      messages[userInputIndex] = {
+        ...messages[userInputIndex],
+        isSent: true,
+        answer: answer, // Store the answer in the message
+        content: currentQuestion.prompt, // Keep prompt for reference
+      };
+    }
 
-    // Store answer in state
+    // Store answer in state (for API/export)
     const newAnswers = new Map(state.answers);
     newAnswers.set(questionId, answer);
 
@@ -462,6 +467,7 @@ export class FlowService {
     // Update state
     this.flowState.next({
       ...state,
+      messages,
       answers: newAnswers,
       progress: newProgress,
     });
@@ -480,72 +486,60 @@ export class FlowService {
     }
   }
 
-  // NEW: Schedule bot messages to appear with delays
+  // NEW: Schedule bot messages to appear with correct flow (statements then question then user input)
   private scheduleNextBotMessages(): void {
     const state = this.flowState.value;
-    const currentQuestion = this.getCurrentQuestion();
+    let currentIndex = state.progress.currentQuestionIndex;
+    const questions = state.questions;
+    if (!questions || questions.length === 0) return;
 
-    if (!currentQuestion) {
-      console.warn('No current question to schedule');
-      return;
-    }
-
-    // Check if there's a statement before this question
-    const currentIndex = state.progress.currentQuestionIndex;
-    const previousQuestion =
-      currentIndex > 0 ? state.questions[currentIndex - 1] : null;
-
+    // Collect all consecutive statements starting from currentIndex
     let messagesToSchedule: ChatMessage[] = [];
-    let totalDelay = 0;
-
-    // If previous question was a statement, schedule it first
-    if (previousQuestion && previousQuestion.type === 'statement') {
-      const statementMessage: ChatMessage = {
-        id: `statement-${previousQuestion.id}`,
-        sender: 'bot',
-        type: 'statement',
-        content: previousQuestion.prompt,
-        isSent: false,
-        timestamp: Date.now(),
-        showProfilePicture: false, // Will be set later
-      };
-      messagesToSchedule.push(statementMessage);
-      totalDelay += 2000; // 2 second delay for statement
+    let foundQuestion = false;
+    let questionToShow: BaseQuestion | null = null;
+    let i = currentIndex;
+    while (i < questions.length && !foundQuestion) {
+      const q = questions[i];
+      if (q.type === 'statement') {
+        messagesToSchedule.push({
+          id: `statement-${q.id}`,
+          sender: 'bot',
+          type: 'statement',
+          content: q.prompt,
+          isSent: true,
+          timestamp: Date.now(),
+          showProfilePicture: false,
+        });
+        i++;
+      } else {
+        // It's a question
+        questionToShow = q;
+        messagesToSchedule.push({
+          id: `question-${q.id}`,
+          sender: 'bot',
+          type: 'question',
+          content: q.prompt,
+          questionType: q.type,
+          isSent: true,
+          timestamp: Date.now(),
+          showProfilePicture: true,
+        });
+        foundQuestion = true;
+        i++;
+      }
     }
 
-    // Schedule the current question
-    const questionMessage: ChatMessage = {
-      id: `question-${currentQuestion.id}`,
-      sender: 'bot',
-      type: 'question',
-      content: currentQuestion.prompt,
-      questionType: currentQuestion.type,
-      isSent: false,
-      timestamp: Date.now(),
-      showProfilePicture: true, // Always show profile pic on last bot message
-    };
-    messagesToSchedule.push(questionMessage);
-
-    // Add messages to chat history (unsent)
+    // Add all messages to chat history
     messagesToSchedule.forEach((message) => {
       this.addMessage(message);
     });
 
-    // Schedule message sending with delays
-    messagesToSchedule.forEach((message, index) => {
-      const delay = index === 0 ? 2000 : 2000; // 2s for first, 2s for second
-
+    // If a question was found, schedule user input for it after 2s
+    if (questionToShow) {
       setTimeout(() => {
-        this.markMessageAsSent(message.id);
-
-        // If this is the last bot message, schedule user input after 2 seconds
-        if (index === messagesToSchedule.length - 1) {
-          setTimeout(() => {
-            this.scheduleUserInput(currentQuestion);
-          }, 2000);
-        }
-      }, delay);
-    });
+        this.scheduleUserInput(questionToShow!);
+      }, 2000);
+    }
   }
 
   // NEW: Schedule user input to appear
@@ -562,46 +556,5 @@ export class FlowService {
     };
 
     this.addMessage(userInputMessage);
-  }
-
-  // NEW: Mark a message as sent (visible in chat)
-  private markMessageAsSent(messageId: string): void {
-    const state = this.flowState.value;
-    const messages = state.messages ? [...state.messages] : [];
-
-    const messageIndex = messages.findIndex((msg) => msg.id === messageId);
-    if (messageIndex !== -1) {
-      messages[messageIndex] = {
-        ...messages[messageIndex],
-        isSent: true,
-      };
-
-      this.flowState.next({
-        ...state,
-        messages,
-      });
-    }
-  }
-
-  // NEW: Update profile picture visibility for bot messages
-  private updateProfilePictureVisibility(): void {
-    const state = this.flowState.value;
-    const messages = state.messages ? [...state.messages] : [];
-
-    // Find the last bot message and ensure it has profile picture
-    for (let i = messages.length - 1; i >= 0; i--) {
-      if (messages[i].sender === 'bot') {
-        messages[i] = {
-          ...messages[i],
-          showProfilePicture: true,
-        };
-        break;
-      }
-    }
-
-    this.flowState.next({
-      ...state,
-      messages,
-    });
   }
 }

@@ -9,6 +9,7 @@ export interface QuestionComponentConfig {
   question: BaseQuestion;
   isSent?: boolean;
   onAnswer?: (answer: any) => void;
+  answer?: any; // Add answer property for sent mode
 }
 
 @Component({
@@ -31,6 +32,10 @@ export abstract class BaseQuestionComponent {
 
   ngOnInit() {
     this.bubbleConfig.isSent = this.config.isSent || false;
+    // Initialize answer from config.answer if present
+    if (typeof this.config.answer !== 'undefined') {
+      this.answer = this.config.answer;
+    }
     this.initializeQuestion();
   }
 

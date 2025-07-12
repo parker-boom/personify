@@ -4,18 +4,22 @@
   gap: 0.75rem;
   margin-bottom: 1rem;
   position: relative;
+  width: 100%; // Ensure full width utilization
 
   &.bot-message {
     align-self: flex-start;
+    justify-content: flex-start; // Align content to the left
+    // Removed margin-left
 
     .bubble-content {
-      background: #f0f0f0;
-      color: #333;
+      background: #000;
+      color: white;
       border-radius: 1.25rem 1.25rem 1.25rem 0.25rem;
+      max-width: 750px; // Bot message max-width increased by 25%
 
       .dark-mode & {
-        background: #2a2a2a;
-        color: #e0e0e0;
+        background: #000;
+        color: white;
       }
     }
   }
@@ -23,11 +27,13 @@
   &.user-message {
     align-self: flex-end;
     flex-direction: row-reverse;
+    justify-content: flex-end; // Align content to the right
 
     .bubble-content {
       background: #007aff;
       color: white;
       border-radius: 1.25rem 1.25rem 0.25rem 1.25rem;
+      // User max-width is set by the component
 
       &.unsent {
         background: #fafafa;
@@ -49,7 +55,8 @@
     }
   }
 
-  &.sent .bubble-content {
+  // Only apply sent/unsent styling to user messages, not bot messages
+  &.user-message.sent .bubble-content {
     background: #333;
     color: white;
 
@@ -59,7 +66,7 @@
     }
   }
 
-  &.unsent .bubble-content {
+  &.user-message.unsent .bubble-content {
     background: #fafafa;
     color: #333;
     border: 2px solid #e0e0e0;
@@ -100,7 +107,8 @@
   word-wrap: break-word;
   line-height: 1.4;
   font-size: 0.95rem;
-  max-width: 100%;
+  width: fit-content; // Allow content to determine width
+  min-width: 60px; // Minimum width for very short messages
 
   // Ensure proper text wrapping
   white-space: pre-wrap;

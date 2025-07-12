@@ -3,23 +3,22 @@
     <div class="conversation-area chat-scrollable">
       <!-- Chat message history -->
       <ng-container *ngFor="let message of messages$ | async; let i = index">
-        <app-text-bubble-wrapper
-          [config]="getBubbleConfig(message, i)"
-          (onSend)="onSend(message)"
+        <div
+          class="chat-row"
+          [ngClass]="message.sender === 'bot' ? 'bot-row' : 'user-row'"
         >
           <!-- Bot statement or question -->
           <ng-container *ngIf="message.sender === 'bot'">
-            <div class="bot-message-content">{{ message.content }}</div>
+            <app-text-bubble-wrapper
+              [config]="getBubbleConfig(message, i)"
+              (onSend)="onSend(message)"
+            >
+              <div class="bot-message-content">{{ message.content }}</div>
+            </app-text-bubble-wrapper>
           </ng-container>
 
-          <!-- User answer (sent) -->
-          <ng-container *ngIf="message.sender === 'user' && message.isSent">
-            <div class="user-message-content">{{ message.content }}</div>
-          </ng-container>
-
-          <!-- User input (draft/question) -->
-          <ng-container *ngIf="message.sender === 'user' && !message.isSent">
-            <!-- Render the appropriate question component here -->
+          <!-- User input (draft/question) or sent answer -->
+          <ng-container *ngIf="message.sender === 'user'">
             <ng-container [ngSwitch]="message.questionType">
               <app-short-text-question
                 *ngSwitchCase="'short_text'"
@@ -53,7 +52,7 @@
               ></app-toggle-question>
             </ng-container>
           </ng-container>
-        </app-text-bubble-wrapper>
+        </div>
       </ng-container>
     </div>
   </div>

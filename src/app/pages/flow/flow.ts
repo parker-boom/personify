@@ -57,7 +57,7 @@ export class Flow implements OnInit {
   getBubbleConfig(message: ChatMessage, index: number) {
     return {
       isBotMessage: message.sender === 'bot',
-      isSent: message.isSent,
+      isSent: message.sender === 'bot' ? true : message.isSent, // Bot messages are always "sent"
       showProfilePicture: message.showProfilePicture,
       maxWidth: message.sender === 'bot' ? '420px' : '340px',
       showSendButton: message.sender === 'user' && !message.isSent,
@@ -65,7 +65,7 @@ export class Flow implements OnInit {
     };
   }
 
-  // Returns the config for a question component (for user input)
+  // Returns the config for a question component (for user input or sent answer)
   getQuestionConfig(message: ChatMessage) {
     // Ensure type is always a valid QuestionType
     const type: QuestionType =
@@ -87,7 +87,8 @@ export class Flow implements OnInit {
           ? { default: (message as any).default }
           : {}),
       },
-      isSent: false,
+      isSent: message.isSent,
+      answer: message.answer, // Use the answer property for sent mode
       onAnswer: (answer: any) => this.onAnswerSubmitted(answer, message),
     };
   }

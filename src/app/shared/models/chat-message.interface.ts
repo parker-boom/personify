@@ -11,4 +11,5 @@ export interface ChatMessage {
   isSent: boolean; // Whether the message is visible in the chat
   timestamp: number; // For ordering/animation
   showProfilePicture?: boolean; // For bot messages, only on last in a sequence
+  answer?: any; // User's answer for sent user messages
 }
