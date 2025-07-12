@@ -21,10 +21,10 @@
   <!-- Two copy cards -->
   <div class="copy-card-wrapper">
     <!-- Card 1 -->
-    <div class="copy-card">
+    <div class="copy-card" (click)="copyToClipboard(traitsText)">
       <p class="card-question">What traits should ChatGPT have?</p>
-      <textarea [(ngModel)]="traitsText" class="card-textarea"></textarea>
-      <button class="copy-btn" (click)="copyToClipboard(traitsText)">
+      <textarea [(ngModel)]="traitsText" class="card-textarea" readonly></textarea>
+      <button class="copy-btn">
         COPY
         <svg class="clipboard-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
@@ -34,10 +34,10 @@
     </div>
 
     <!-- Card 2 -->
-    <div class="copy-card">
+    <div class="copy-card" (click)="copyToClipboard(extraText)">
       <p class="card-question">Anything else ChatGPT should know?</p>
-      <textarea [(ngModel)]="extraText" class="card-textarea"></textarea>
-      <button class="copy-btn" (click)="copyToClipboard(extraText)">
+      <textarea [(ngModel)]="extraText" class="card-textarea" readonly></textarea>
+      <button class="copy-btn">
         COPY
         <svg class="clipboard-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
@@ -52,11 +52,19 @@
     <p class="memory-subtitle"><em>Want ChatGPT to remember even more?</em></p>
 
     <button class="memory-btn" (click)="copyToClipboard(memoryLink)">
-      <svg class="memory-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="12" cy="12" r="10"></circle>
-        <path d="M15 9l-6 6"></path>
-        <path d="M9 9h6v6"></path>
-      </svg>
+      <span class="logo-combo">
+        <!-- OpenAI Swirl -->
+        <svg class="openai-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2.1a5 5 0 0 1 4.33 2.5 5 5 0 0 1 5.57 7.07 5 5 0 0 1-2.55 9.33H12"></path>
+          <path d="M4.12 6.34a5 5 0 0 1 4.1-4.24 5 5 0 0 1 4.57 1.25"></path>
+          <path d="M2.5 12a5 5 0 0 1 5-5h14"></path>
+          <path d="M19.88 17.66a5 5 0 0 1-4.1 4.24 5 5 0 0 1-4.57-1.25"></path>
+          <path d="M21.5 12a5 5 0 0 1-5 5H2.5"></path>
+          <path d="M9.67 20.79A5 5 0 0 1 4.1 19 5 5 0 0 1 2.5 12"></path>
+        </svg>
+        <!-- Personify Gradient Letter -->
+        <span class="logo-personify brand-text">P</span>
+      </span>
       <span class="memory-label">Save to Memory</span>
       <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="9 6 15 12 9 18"></polyline>
