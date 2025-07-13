@@ -179,30 +179,5 @@
 
   &.content-with-sidebar {
     margin-left: calc(18% + 2rem);
-
-    @media (max-width: 1400px) {
-      margin-left: calc(336px + 2rem);
-    }
-  }
-}
-
-// Responsive Design
-@media (max-width: 900px) {
-  .sidebar {
-    width: 90%;
-    min-width: auto;
-    max-width: none;
-    left: 0.5rem;
-    right: 0.5rem;
-  }
-
-  .main-content.content-with-sidebar {
-    margin-left: 0;
-    margin-top: 80px;
-  }
-
-  .sidebar-toggle-btn {
-    top: 1rem;
-    left: 1rem;
   }
 }

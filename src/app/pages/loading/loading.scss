@@ -34,12 +34,17 @@
   z-index: 1;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background: conic-gradient(from 0deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    background: conic-gradient(
+      from 0deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
     animation: pulse 2s ease-in-out infinite;
     z-index: 2;
   }
@@ -54,31 +59,36 @@
 .element-2 {
   background: linear-gradient(45deg, #ff2ecd, #6a5cff);
   animation-delay: -0.5s;
-  transform: translate(-50%, -50%) rotate(60deg) translateX(105px) rotate(-60deg);
+  transform: translate(-50%, -50%) rotate(60deg) translateX(105px)
+    rotate(-60deg);
 }
 
 .element-3 {
   background: linear-gradient(45deg, #6a5cff, #ff6a00);
   animation-delay: -1s;
-  transform: translate(-50%, -50%) rotate(120deg) translateX(105px) rotate(-120deg);
+  transform: translate(-50%, -50%) rotate(120deg) translateX(105px)
+    rotate(-120deg);
 }
 
 .element-4 {
   background: linear-gradient(45deg, #ff6a00, #ff2ecd);
   animation-delay: -1.5s;
-  transform: translate(-50%, -50%) rotate(180deg) translateX(105px) rotate(-180deg);
+  transform: translate(-50%, -50%) rotate(180deg) translateX(105px)
+    rotate(-180deg);
 }
 
 .element-5 {
   background: linear-gradient(45deg, #ff2ecd, #6a5cff);
   animation-delay: -2s;
-  transform: translate(-50%, -50%) rotate(240deg) translateX(105px) rotate(-240deg);
+  transform: translate(-50%, -50%) rotate(240deg) translateX(105px)
+    rotate(-240deg);
 }
 
 .element-6 {
   background: linear-gradient(45deg, #6a5cff, #ff6a00);
   animation-delay: -2.5s;
-  transform: translate(-50%, -50%) rotate(300deg) translateX(105px) rotate(-300deg);
+  transform: translate(-50%, -50%) rotate(300deg) translateX(105px)
+    rotate(-300deg);
 }
 
 @keyframes spin {
@@ -86,12 +96,14 @@
     transform: translate(-50%, -50%) rotate(0deg) translateX(105px) rotate(0deg);
   }
   100% {
-    transform: translate(-50%, -50%) rotate(360deg) translateX(105px) rotate(-360deg);
+    transform: translate(-50%, -50%) rotate(360deg) translateX(105px)
+      rotate(-360deg);
   }
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.3;
     transform: scale(1);
   }
@@ -135,40 +147,3 @@
     transform: translateY(0);
   }
 }
-
-// Responsive design
-@media (max-width: 768px) {
-  .animation-container {
-    width: 225px;
-    height: 225px;
-  }
-
-  .spinner-element {
-    width: 67px;
-    height: 67px;
-  }
-
-  .element-1,
-  .element-2,
-  .element-3,
-  .element-4,
-  .element-5,
-  .element-6 {
-    transform: translate(-50%, -50%) rotate(0deg) translateX(78px) rotate(0deg);
-  }
-
-  @keyframes spin {
-    0% {
-      transform: translate(-50%, -50%) rotate(0deg) translateX(78px) rotate(0deg);
-    }
-    100% {
-      transform: translate(-50%, -50%) rotate(360deg) translateX(78px) rotate(-360deg);
-    }
-  }
-
-  .loading-message {
-    font-size: 1.5rem;
-  }
-}
-
- 

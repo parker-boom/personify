@@ -122,34 +122,3 @@
 .cta-button:hover .chevron-icon {
   transform: translateX(2px);
 }
-
-@media (max-width: 768px) {
-  .main-title {
-    font-size: 2.5rem;
-    max-width: 500px;
-  }
-  .subtitle {
-    font-size: 1.5rem;
-  }
-  .content-wrapper {
-    padding: 1.5rem;
-  }
-  .cta-button {
-    bottom: 2rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .main-title {
-    font-size: 2rem;
-    max-width: 400px;
-  }
-  .subtitle {
-    font-size: 1.25rem;
-  }
-  .cta-button {
-    font-size: 1rem;
-    padding: 0.875rem 1.5rem;
-    bottom: 1.5rem;
-  }
-}
