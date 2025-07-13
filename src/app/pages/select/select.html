@@ -1,109 +1,105 @@
-<app-layout>
-  <div class="select-content" [class.dark-mode]="themeService.isDarkMode">
-    <div class="select-structure">
-      <!-- Top 1/3: Title and Subtitle -->
-      <div class="select-header">
-        <h1 class="select-title">What should ChatGPT know about you?</h1>
-        <p class="select-subtitle">
-          Select the areas you'd like to personalize
-        </p>
-      </div>
+<div class="select-content" [class.dark-mode]="themeService.isDarkMode">
+  <div class="select-structure">
+    <!-- Top 1/3: Title and Subtitle -->
+    <div class="select-header">
+      <h1 class="select-title">What should ChatGPT know about you?</h1>
+      <p class="select-subtitle">Select the areas you'd like to personalize</p>
+    </div>
 
-      <!-- Bottom 2/3: Category Columns -->
-      <div class="select-categories">
-        <div class="category-columns">
+    <!-- Bottom 2/3: Category Columns -->
+    <div class="select-categories">
+      <div class="category-columns">
+        <div
+          *ngFor="let category of categories"
+          class="category-column"
+          [style.width.px]="getCategoryWidth(category.weight)"
+        >
+          <!-- Category Header -->
           <div
-            *ngFor="let category of categories"
-            class="category-column"
-            [style.width.px]="getCategoryWidth(category.weight)"
+            class="category-header"
+            [style.background-color]="category.color"
+            [style.border-color]="category.color"
+            [style.height.px]="getCategoryHeight(category.weight)"
           >
-            <!-- Category Header -->
-            <div
-              class="category-header"
-              [style.background-color]="category.color"
-              [style.border-color]="category.color"
-              [style.height.px]="getCategoryHeight(category.weight)"
-            >
-              <div class="category-header-content">
-                <div
-                  class="category-emoji"
-                  [style.font-size.rem]="getCategoryEmojiSize(category.weight)"
-                >
-                  {{ category.emoji }}
-                </div>
-                <div
-                  class="category-title"
-                  [style.font-size.rem]="getCategoryTitleSize(category.weight)"
-                >
-                  {{ category.label }}
-                </div>
+            <div class="category-header-content">
+              <div
+                class="category-emoji"
+                [style.font-size.rem]="getCategoryEmojiSize(category.weight)"
+              >
+                {{ category.emoji }}
+              </div>
+              <div
+                class="category-title"
+                [style.font-size.rem]="getCategoryTitleSize(category.weight)"
+              >
+                {{ category.label }}
               </div>
             </div>
+          </div>
 
-            <!-- Subcategories -->
-            <div class="subcategory-list">
-              <div
-                *ngFor="let subcategory of category.subcategories"
-                class="subcategory-item"
-                [style.background-color]="getSubcategoryColor(category.color)"
-                [style.border-color]="category.color"
-                [style.width.px]="getSubcategoryWidth(category.weight)"
-                (click)="toggleSubcategory(category.name, subcategory.id)"
-              >
-                <div class="subcategory-label">
-                  <span
-                    *ngIf="subcategory.suggested"
-                    class="suggested-star"
-                    [style.color]="category.color"
-                    >★</span
-                  >
-                  {{ subcategory.label }}
-                </div>
-                <div
-                  class="subcategory-toggle"
-                  [class.selected]="
-                    isSubcategorySelected(category.name, subcategory.id)
-                  "
-                  [style.border-color]="category.color"
-                  [style.background-color]="
-                    isSubcategorySelected(category.name, subcategory.id)
-                      ? category.color
-                      : 'transparent'
-                  "
+          <!-- Subcategories -->
+          <div class="subcategory-list">
+            <div
+              *ngFor="let subcategory of category.subcategories"
+              class="subcategory-item"
+              [style.background-color]="getSubcategoryColor(category.color)"
+              [style.border-color]="category.color"
+              [style.width.px]="getSubcategoryWidth(category.weight)"
+              (click)="toggleSubcategory(category.name, subcategory.id)"
+            >
+              <div class="subcategory-label">
+                <span
+                  *ngIf="subcategory.suggested"
+                  class="suggested-star"
+                  [style.color]="category.color"
+                  >★</span
                 >
-                  <svg
-                    *ngIf="isSubcategorySelected(category.name, subcategory.id)"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="white"
-                    stroke-width="3"
-                  >
-                    <polyline points="20 6 9 17 4 12"></polyline>
-                  </svg>
-                </div>
+                {{ subcategory.label }}
+              </div>
+              <div
+                class="subcategory-toggle"
+                [class.selected]="
+                  isSubcategorySelected(category.name, subcategory.id)
+                "
+                [style.border-color]="category.color"
+                [style.background-color]="
+                  isSubcategorySelected(category.name, subcategory.id)
+                    ? category.color
+                    : 'transparent'
+                "
+              >
+                <svg
+                  *ngIf="isSubcategorySelected(category.name, subcategory.id)"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="white"
+                  stroke-width="3"
+                >
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      <!-- Start Customizing Button -->
-      <button
-        *ngIf="hasSelections$ | async"
-        class="start-customizing-btn"
-        (click)="startCustomizing()"
-      >
-        Start customizing
-        <svg
-          class="chevron-icon"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <polyline points="9 18 15 12 9 6"></polyline>
-        </svg>
-      </button>
     </div>
+
+    <!-- Start Customizing Button -->
+    <button
+      *ngIf="hasSelections$ | async"
+      class="start-customizing-btn"
+      (click)="startCustomizing()"
+    >
+      Start customizing
+      <svg
+        class="chevron-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </button>
   </div>
-</app-layout>
+</div>

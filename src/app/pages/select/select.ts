@@ -1,9 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import categoriesJson from './category.json';
 import { Category } from '../../shared/models/category.interface';
-import { LayoutComponent } from '../../shared/components/layout/layout';
 import { SelectionService } from '../../shared/services/selection';
 import { FlowService } from '../../shared/services/flow';
 import { ThemeService } from '../../theme.service';
@@ -29,12 +28,11 @@ function pastelize(hex: string, amount = 0.75): string {
 @Component({
   selector: 'app-select',
   standalone: true,
-  imports: [LayoutComponent, CommonModule],
+  imports: [CommonModule],
   templateUrl: './select.html',
   styleUrl: './select.scss',
 })
 export class Select {
-  @ViewChild(LayoutComponent) layoutComponent?: LayoutComponent;
   categories: (Category & { color: string })[] = [];
   hasSelections$!: Observable<boolean>;
 
@@ -128,14 +126,6 @@ export class Select {
     const currentSelections =
       this.selectionService.getCategorySelection(categoryName);
 
-    // Check if this is the first selection overall
-    const allCurrentSelections = Object.values(
-      this.selectionService.selectionState.value.categorySelections
-    );
-    const wasEmpty = allCurrentSelections.every(
-      (selections: string[]) => selections.length === 0
-    );
-
     if (currentSelections.includes(subcategoryId)) {
       // Remove from selection
       const newSelections = currentSelections.filter(
@@ -146,11 +136,6 @@ export class Select {
       // Add to selection
       const newSelections = [...currentSelections, subcategoryId];
       this.selectionService.setCategorySelection(categoryName, newSelections);
-
-      // If this is the first selection, open the sidebar
-      if (wasEmpty) {
-        setTimeout(() => this.layoutComponent?.openSidebar(), 100);
-      }
     }
   }
 
