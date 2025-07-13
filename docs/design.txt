@@ -71,7 +71,57 @@
 
 ### Flow Page
 **Layout:** Uses LayoutComponent with sidebar for progress tracking
-**Note:** Sidebar shows question progress, not selection progress
+**Design:** Chat-style conversational interface with progressive message loading
+
+**Content Structure:**
+1. **Chat Interface:** Bot and user message bubbles with realistic conversation flow
+2. **Message Types:** Bot statements, bot questions, user input responses
+3. **Question Components:** Six interactive question types (slider, text, multi-select, dropdown, toggle)
+4. **Progress Sidebar:** Shows current question progress and category completion status
+5. **Skip/Complete Options:** Users can skip remaining questions or complete full flow
+6. **Profile Pictures:** Bot messages show profile picture based on context (first message, category transitions)
+
+**Message Design:**
+- **Bot Messages:** Left-aligned with rounded bubbles and optional profile picture
+- **User Messages:** Right-aligned with question-specific interactive components
+- **Progressive Loading:** Messages appear with 2-second delays for natural conversation flow
+- **Send Animation:** User responses transform from input to sent state with smooth animations
+
+### Loading Page
+**Layout:** Full-screen centered animation with cycling messages
+
+**Content Structure:**
+1. **Animation Container:** Six spinning elements creating engaging loading visual
+2. **Loading Messages:** Cycling messages every 3 seconds ("Personalizing your experience", "Crafting your AI companion", etc.)
+3. **Theme Integration:** Animation colors and background adapt to current theme
+4. **API Processing:** Automatically processes user answers through backend while showing loading state
+
+**Animation Design:**
+- **Spinner Elements:** Six colored elements with staggered rotation animations
+- **Message Cycling:** Smooth transitions between loading messages
+- **Color Adaptation:** Loading elements use theme-appropriate colors
+
+### Results Page
+**Layout:** Full-screen centered content with three-section layout
+
+**Content Structure:**
+1. **Title:** "Time to Personify Your ChatGPT" with signature branding
+2. **Instructions:** "Copy these & paste them in ChatGPT:" with settings path helper
+3. **Settings Helper:** Visual guide showing "SETTINGS → CUSTOMIZE CHATGPT" path
+4. **Copy Cards:** Two main cards for CustomInstructionQ1 and CustomInstructionQ2
+5. **Memory Section:** Special ChatGPT memory integration with link generation
+
+**Copy Card Design:**
+- **Two-column layout:** Side-by-side cards for the two custom instruction fields
+- **Interactive textareas:** Read-only textareas with real API response data
+- **Copy buttons:** Animated copy buttons with clipboard icons and success states
+- **Real-time feedback:** "COPY" transforms to "COPIED" with checkmark animation
+
+**Memory Integration:**
+- **Fused logo:** Personify + OpenAI logo combination
+- **Memory button:** "Save to ChatGPT's Memory" with automatic URL generation
+- **ChatGPT linking:** Memory prompt automatically converts to ChatGPT URL with pre-filled prompt
+- **URL encoding:** Spaces converted to + symbols for proper ChatGPT link format
 
 ## Component Architecture
 - **App Level:** Global theme toggle, always visible
