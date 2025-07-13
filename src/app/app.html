@@ -1,4 +1,12 @@
-<!-- Global Theme Toggle - Always visible in top right -->
-<app-theme-toggle></app-theme-toggle>
+<!-- Mobile Message - Shows on mobile devices -->
+<app-mobile-message
+  *ngIf="mobileDetectionService.isMobile$ | async"
+></app-mobile-message>
 
-<router-outlet></router-outlet>
+<!-- Desktop Content - Shows on desktop devices -->
+<div *ngIf="!(mobileDetectionService.isMobile$ | async)">
+  <!-- Global Theme Toggle - Always visible in top right -->
+  <app-theme-toggle></app-theme-toggle>
+
+  <router-outlet></router-outlet>
+</div>

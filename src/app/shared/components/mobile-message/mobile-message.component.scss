@@ -1,0 +1,85 @@
+.mobile-message-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: background-color 0.3s ease;
+
+  :host-context(.dark-mode) & {
+    background: #000000;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .brand-text {
+    font-weight: 700;
+    font-family: "Inter Tight", "Inter", sans-serif;
+    font-size: 3rem;
+    letter-spacing: -0.02em;
+    margin: 0;
+    display: inline-block;
+    background: linear-gradient(90deg, #ff6a00 0%, #ff2ecd 50%, #6a5cff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    animation: holo-fade 2s ease-in-out infinite alternate;
+  }
+
+  .message {
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin: 0;
+    color: #000000;
+    line-height: 1.6;
+    font-family: "Inter", sans-serif;
+
+    :host-context(.dark-mode) & {
+      color: #ffffff;
+    }
+  }
+
+  .emoji {
+    font-size: 3rem;
+    line-height: 1;
+  }
+}
+
+@keyframes holo-fade {
+  0% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+// Mobile responsiveness
+@media (max-width: 480px) {
+  .mobile-message-container {
+    .brand-text {
+      font-size: 2.5rem;
+    }
+
+    .message {
+      font-size: 1.25rem;
+    }
+
+    .emoji {
+      font-size: 2.5rem;
+    }
+  }
+}
