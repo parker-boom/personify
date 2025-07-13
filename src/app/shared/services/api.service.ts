@@ -26,7 +26,10 @@ export interface ProcessAnswersResponse {
   providedIn: 'root',
 })
 export class ApiService {
-  private readonly baseUrl = 'http://localhost:3001/api';
+  private readonly baseUrl =
+    window.location.hostname === 'localhost'
+      ? 'http://localhost:3001/api'
+      : '/api';
 
   constructor(private http: HttpClient) {}
 

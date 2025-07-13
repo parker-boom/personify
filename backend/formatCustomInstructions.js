@@ -5,8 +5,6 @@ dotenv.config();
 
 const openai = new OpenAI();
 
-// ---- YOUR VERY LONG SPEC GOES HERE -----------------------------
-//   Cut-down example shown; paste the real thing instead.
 const SPEC = `
 You are a model specifically defined for one purpose: to transform a list of information about a user into custom instructions for a different AI system.  You must follow these instructions carefully and only ever respond in the specified JSON form. 
 ---
@@ -102,18 +100,4 @@ export async function formatCustomInstructions(answersJson) {
   });
 
   return JSON.parse(res.choices[0].message.content);
-}
-
-/* CLI smoke-test
-   node formatCustomInstructions.js '{"answers":[]}'
-*/
-if (import.meta.url === process.argv[1]) {
-  const raw = process.argv[2] ?? '{"answers":[]}';
-  try {
-    const out = await formatCustomInstructions(raw);
-    console.log(JSON.stringify(out, null, 2));
-  } catch (e) {
-    console.error("❌", e.message);
-    process.exit(1);
-  }
 }
