@@ -178,11 +178,11 @@ $brand-gradient: linear-gradient(90deg, #ff6a00 0%, #ff2ecd 50%, #6a5cff 100%);
   }
 
   .dark-mode & {
-    background: #fff;
-    color: #000;
+    background: #222;
+    color: #fff;
 
     &:hover {
-      background: #f0f0f0;
+      background: #333;
     }
   }
 }
