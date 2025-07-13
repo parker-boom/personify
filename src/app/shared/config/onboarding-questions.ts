@@ -67,7 +67,7 @@ export const CATEGORY_STATEMENTS = [
     id: 'learning-statement',
     categoryId: 'learning',
     prompt:
-      'Moving on, I am  going to ask you a few questions about how you prefer to learn things. This will make ChatGPT more useful for studying!',
+      'Moving on, I am going to ask you a few questions about how you prefer to learn things. This will make ChatGPT more useful for studying!',
     type: 'statement' as const,
   },
   {

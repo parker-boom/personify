@@ -63,8 +63,8 @@ export class ToggleQuestionComponent
 {
   @ViewChild('containerRef') containerRef!: ElementRef<HTMLDivElement>;
 
-  leftOption = 'No';
-  rightOption = 'Yes';
+  leftOption = 'Yes';
+  rightOption = 'No';
   selectedValue: boolean | null = null;
 
   override ngOnInit() {

@@ -77,6 +77,11 @@
   flex: 1;
   padding: 1.5rem;
   overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+.sidebar-content::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 
 // Progress tracking styles
