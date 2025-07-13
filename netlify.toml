@@ -1,6 +1,6 @@
 [build]
   command = "ng build --configuration=production"
-  publish = "dist/personify"
+  publish = "dist/personify/browser"
 
 [functions]
   directory = "netlify/functions"
