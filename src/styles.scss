@@ -34,6 +34,19 @@ body.dark-mode,
 .dark-mode {
   background: #000;
   color: #fff;
+
+  /* ------------------------------------------------------------------ */
+  /* Dark-mode colour palette overrides                               */
+  /* These custom properties are only active while .dark-mode is set. */
+  /* They tweak chat-bubble colours so conversation is easier to read */
+  /* without changing anything in light mode.                         */
+  /* ------------------------------------------------------------------ */
+  --bot-bg-color: #5b2d91;          /* Rich violet for bot messages   */
+  --bot-text-color: #ffffff;        /* Ensure high contrast text      */
+
+  /* Bright blue that stands out on black while matching brand vibe */
+  --user-sent-bg-color: #2478ff;    /* User sent bubble background    */
+  --user-sent-text-color: #ffffff;  /* Keep white text for clarity    */
 }
 
 * {
