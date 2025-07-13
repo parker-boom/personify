@@ -389,7 +389,10 @@ export class Flow implements OnInit, OnDestroy {
   }
 
   completeFlow() {
-    this.router.navigate(['/loading']);
+    const answersData = this.collectAndLogAnswers();
+    this.router.navigate(['/loading'], {
+      state: { answers: answersData },
+    });
   }
 
   // Collect all answers and log them to console
@@ -447,14 +450,18 @@ export class Flow implements OnInit, OnDestroy {
   // Skip the rest of the flow - collect answers and go to loading
   skipRest() {
     console.log('⏭️  User chose to skip the rest of the flow');
-    this.collectAndLogAnswers();
-    this.router.navigate(['/loading']);
+    const answersData = this.collectAndLogAnswers();
+    this.router.navigate(['/loading'], {
+      state: { answers: answersData },
+    });
   }
 
   // Complete the flow - collect answers and go to loading
   finishFlow() {
     console.log('✅ User completed the full flow');
-    this.collectAndLogAnswers();
-    this.router.navigate(['/loading']);
+    const answersData = this.collectAndLogAnswers();
+    this.router.navigate(['/loading'], {
+      state: { answers: answersData },
+    });
   }
 }

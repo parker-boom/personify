@@ -3,20 +3,23 @@ $brand-gradient: linear-gradient(90deg, #ff6a00 0%, #ff2ecd 50%, #6a5cff 100%);
 .result-container {
   width: 100vw;
   min-height: 100vh;
-  padding: 4rem 2rem 2rem;
+  padding: 3rem 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   background: inherit;
+  gap: 2rem;
 }
 
 .result-title {
-  font-size: 3.25rem;
+  font-size: 3rem;
   font-weight: 700;
   text-align: center;
-  margin: 0 0 2.5rem; // Increased gap from 1.5rem to 2.5rem
+  margin: 0;
   font-family: "Inter Tight", "Inter", sans-serif;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
 }
 
 .brand-text {
@@ -29,123 +32,144 @@ $brand-gradient: linear-gradient(90deg, #ff6a00 0%, #ff2ecd 50%, #6a5cff 100%);
 }
 
 .copy-instruction {
-  font-size: 1.5rem; // Increased from 1.25rem
-  margin: 0 0 0.5rem;
+  font-size: 1.25rem;
+  margin: 0;
   font-weight: 600;
   text-align: center;
+  opacity: 0.8;
+  font-family: "Inter", sans-serif;
 }
 
 .settings-helper {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 2.5rem;
-  font-size: 0.9rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  gap: 0.5rem;
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 500;
+  opacity: 0.6;
+  font-family: "Inter", sans-serif;
 }
 
 .settings-bubble {
-  padding: 0.5rem 1rem;
-  background: #343434;
-  color: #fff;
-  border-radius: 0.75rem;
-  font-weight: 700;
+  padding: 0.25rem 0.75rem;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
 
   .dark-mode & {
-    background: #666;
-    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
   }
 }
 
 .arrow-icon {
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 1rem;
+  height: 1rem;
+  opacity: 0.6;
 }
 
 .copy-card-wrapper {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1000px;
   display: flex;
-  gap: 2rem;
+  gap: 1.5rem;
   justify-content: center;
-  margin-bottom: 1.5rem;
 
   @media (max-width: 900px) {
     flex-direction: column;
+    max-width: 600px;
   }
 }
 
 .copy-card {
-  flex: 1 1 0;
+  flex: 1;
   background: #fff;
-  border-radius: 1rem;
+  border-radius: 1.25rem;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-  border: 1px solid #e0e0e0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.05);
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
   }
 
   .dark-mode & {
-    background: #0f0f0f;
-    box-shadow: 0 8px 32px rgba(255, 255, 255, 0.1);
-    border: 1px solid #333;
+    background: #111;
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
 
     &:hover {
-      box-shadow: 0 12px 40px rgba(255, 255, 255, 0.15);
+      box-shadow: 0 8px 30px rgba(255, 255, 255, 0.08);
     }
   }
 }
 
 .card-question {
-  margin: 1rem 1rem 0.5rem;
-  font-size: 1.25rem;
-  font-weight: 800;
+  margin: 1.5rem 1.5rem 1rem;
+  font-size: 1.1rem;
+  font-weight: 700;
   font-style: italic;
+  font-family: "Inter", sans-serif;
+  opacity: 0.9;
 }
 
 .card-textarea {
-  flex: 1 1 auto;
-  min-height: 325px;
-  padding: 1rem;
+  flex: 1;
+  min-height: 160px;
+  max-height: 160px;
+  padding: 0 1.5rem 1rem;
   border: none;
-  resize: vertical;
-  font-size: 0.95rem;
+  resize: none;
+  font-size: 0.9rem;
   font-family: "Inter", sans-serif;
   color: inherit;
   background: transparent;
   outline: none;
   cursor: pointer;
+  line-height: 1.5;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .copy-btn {
   width: 100%;
   border: none;
-  border-bottom-left-radius: 1rem;
-  border-bottom-right-radius: 1rem;
-  background: #d2d2d2;
-  color: #000000;
-  font-size: 1.25rem;
+  border-bottom-left-radius: 1.25rem;
+  border-bottom-right-radius: 1.25rem;
+  background: #000;
+  color: #fff;
+  font-size: 1rem;
   font-weight: 700;
-  padding: 0.85rem;
+  padding: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   cursor: pointer;
   transition: all 0.2s ease;
+  font-family: "Inter", sans-serif;
+  letter-spacing: 0.02em;
+
+  &:hover {
+    background: #111;
+  }
 
   &.copied {
     background: #4caf50;
     color: white;
-    transform: scale(1.02);
+    transform: scale(1.01);
 
     .dark-mode & {
       background: #4caf50;
@@ -154,11 +178,11 @@ $brand-gradient: linear-gradient(90deg, #ff6a00 0%, #ff2ecd 50%, #6a5cff 100%);
   }
 
   .dark-mode & {
-    background: #1e1e1e;
-    color: #fff;
+    background: #fff;
+    color: #000;
 
     &:hover {
-      background: #2c2c2c;
+      background: #f0f0f0;
     }
   }
 }
@@ -176,69 +200,75 @@ $brand-gradient: linear-gradient(90deg, #ff6a00 0%, #ff2ecd 50%, #6a5cff 100%);
 
 .memory-section {
   text-align: center;
-  margin-top: auto;
-  margin-bottom: 2rem;
+  margin-top: 1rem;
 }
 
 .memory-subtitle {
-  font-size: 2rem; // Substantially increased from 1.25rem
-  font-weight: 600;
-  margin-bottom: 2rem;
-  font-family: "Inter Tight", "Inter", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  font-family: "Inter", sans-serif;
+  opacity: 0.8;
 }
 
 .memory-btn {
-  min-width: 400px;
-  padding: 1.5rem 2rem;
-  border-radius: 1.5rem;
-  border: 3px solid transparent;
-  background: linear-gradient(#ffffff, #d0d0d0) padding-box,
+  min-width: 380px;
+  padding: 1.25rem 2rem;
+  border-radius: 1.25rem;
+  border: 2px solid transparent;
+  background: linear-gradient(#ffffff, #ffffff) padding-box,
     $brand-gradient border-box;
   color: #000;
   font-weight: 700;
-  font-size: 1.75rem;
+  font-size: 1.1rem;
   display: inline-flex;
   align-items: center;
-  justify-content: flex-start;
-  gap: 1.5rem;
+  justify-content: space-between;
+  gap: 1rem;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  font-family: "Inter", sans-serif;
 
   &:hover {
-    background: linear-gradient(#f5f5f5, #f5f5f5) padding-box,
+    background: linear-gradient(#f8f8f8, #f8f8f8) padding-box,
       $brand-gradient border-box;
     transform: translateY(-2px);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
   }
 
   .dark-mode & {
-    background: linear-gradient(#1a1a1a, #1a1a1a) padding-box,
+    background: linear-gradient(#111, #111) padding-box,
       $brand-gradient border-box;
     color: #fff;
 
     &:hover {
-      background: linear-gradient(#2a2a2a, #2a2a2a) padding-box,
+      background: linear-gradient(#1a1a1a, #1a1a1a) padding-box,
         $brand-gradient border-box;
     }
   }
 }
 
 .fused-logo {
-  width: 4rem;
-  height: 4rem;
+  width: 3rem;
+  height: 3rem;
   border-radius: 0.5rem;
+  flex-shrink: 0;
 }
 
 .memory-label {
-  font-size: 1.75rem;
+  font-size: 1.1rem;
   font-weight: 700;
+  flex: 1;
+  text-align: left;
+  margin-left: 0.5rem;
 }
 
 .chevron-icon {
-  width: 2rem;
-  height: 2rem;
+  width: 1.25rem;
+  height: 1.25rem;
   transition: transform 0.2s ease;
+  flex-shrink: 0;
 }
 
 .memory-btn:hover .chevron-icon {
@@ -257,5 +287,32 @@ $brand-gradient: linear-gradient(90deg, #ff6a00 0%, #ff2ecd 50%, #6a5cff 100%);
   }
   to {
     opacity: 0.7;
+  }
+}
+
+@media (max-width: 768px) {
+  .result-container {
+    padding: 2rem 1rem;
+  }
+
+  .result-title {
+    font-size: 2.5rem;
+  }
+
+  .memory-btn {
+    min-width: 300px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .result-title {
+    font-size: 2rem;
+  }
+
+  .memory-btn {
+    min-width: 280px;
+    padding: 1rem 1.5rem;
+    font-size: 0.95rem;
   }
 }

@@ -5,9 +5,7 @@
   </h1>
 
   <!-- Copy instruction subtitle -->
-  <p class="copy-instruction">
-    <strong>Copy these &amp; paste them in ChatGPT:</strong>
-  </p>
+  <p class="copy-instruction">Copy these &amp; paste them in ChatGPT:</p>
 
   <!-- Settings path helper -->
   <div class="settings-helper">
@@ -107,22 +105,21 @@
 
   <!-- Memory section -->
   <div class="memory-section">
-    <p class="memory-subtitle"><em>Want it to remember even more?</em></p>
+    <p class="memory-subtitle">Want it to remember even more?</p>
 
     <button
       class="memory-btn"
       (click)="copyToClipboard(memoryLink, 'memory')"
       [class.copied]="copyingMemory"
     >
-      <span class="logo-combo">
-        <!-- Fused Logo -->
+      <div class="logo-combo">
         <img
           class="fused-logo"
           src="/images/fusedLogo.png"
           alt="Personify + OpenAI"
         />
-      </span>
-      <span class="memory-label">Save to ChatGPT's Memory</span>
+        <span class="memory-label">Save to ChatGPT's Memory</span>
+      </div>
       <svg
         class="chevron-icon"
         viewBox="0 0 24 24"
