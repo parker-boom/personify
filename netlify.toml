@@ -6,14 +6,14 @@
   directory = "netlify/functions"
   node_bundler = "esbuild"
 
-# SPA fallback for Angular router deep-links
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-
 # Route anything under /api/* to the OpenAI proxy function
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/openaiPromptGeneration/:splat"
+  status = 200
+
+# SPA fallback for Angular router deep-links
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
   status = 200 

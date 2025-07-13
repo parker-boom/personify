@@ -27,7 +27,7 @@ export interface ProcessAnswersResponse {
 })
 export class ApiService {
   private readonly baseUrl =
-    window.location.hostname === 'localhost'
+    window.location.hostname === 'localhost' && window.location.port === '4200'
       ? 'http://localhost:3001/api'
       : '/api';
 
