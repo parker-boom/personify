@@ -92,9 +92,11 @@ export class Sidebar {
   skipRest() {
     // Skip the rest of the flow - collect answers and navigate to loading
     console.log('⏭️  User chose to skip the rest of the flow');
-    this.collectAndLogAnswers();
+    const answersData = this.collectAndLogAnswers();
     this.closeSidebar.emit();
-    this.router.navigate(['/loading']);
+    this.router.navigate(['/loading'], {
+      state: { answers: answersData },
+    });
   }
 
   // Collect all answers and log them to console (same as flow component)
