@@ -1,5 +1,5 @@
 // Import global styles
-@import '../../app.scss';
+@import "../../app.scss";
 
 // Reuse brand-text from home.scss for Personify gradient
 .brand-text {
@@ -38,24 +38,24 @@
 
 .select-header {
   width: 100vw;
-  min-height: 25vh;
-  max-height: 25vh;
+  min-height: 20vh;
+  max-height: 20vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   text-align: center;
   position: sticky;
   top: 0;
   background: inherit;
   z-index: 10;
-  padding-bottom: 1.5rem;
+  padding-bottom: 1rem;
 }
 
 .select-title {
   font-size: 2.8rem;
   font-weight: 700;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.5rem;
   font-family: "Inter Tight", "Inter", sans-serif;
   letter-spacing: -0.02em;
   line-height: 1.1;
@@ -63,8 +63,8 @@
 }
 
 .select-subtitle {
-  font-size: 1.25rem;
-  font-weight: 400;
+  font-size: 1.4rem;
+  font-weight: 500;
   color: #222;
   opacity: 0.85;
   margin-bottom: 0;
@@ -89,6 +89,187 @@
   justify-content: center;
   overflow: visible;
   position: relative;
+}
+
+// New 4-column layout
+.category-columns {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  max-width: 1600px;
+  padding: 0 2rem;
+  position: relative;
+}
+
+.category-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  flex: 1;
+  min-width: 0; // Ensures flex items can shrink
+}
+
+// Category Header (Rectangle)
+.category-header {
+  border-radius: 1.5rem;
+  border: 2px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 6px 24px 0 rgba(0, 0, 0, 0.12);
+  transition: all 0.3s ease;
+  position: relative;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+
+  &:hover {
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.18);
+    transform: translateY(-1px);
+    background: rgba(255, 255, 255, 1);
+  }
+}
+
+.dark-mode .category-header {
+  background: rgba(255, 255, 255, 0.95);
+
+  &:hover {
+    background: rgba(255, 255, 255, 1);
+  }
+}
+
+.category-header-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  min-width: 0;
+}
+
+.category-emoji {
+  margin-bottom: 0.3rem;
+  display: block;
+  line-height: 1;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.15));
+}
+
+.category-title {
+  font-weight: 800;
+  color: #111;
+  text-align: center;
+  line-height: 1.2;
+  word-break: break-word;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin: 0;
+  font-family: "Inter Tight", "Inter", sans-serif;
+  letter-spacing: -0.01em;
+}
+
+/* Keep category title text black even in dark mode */
+.dark-mode .category-title {
+  color: #111;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+// Subcategory List
+.subcategory-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  align-items: center;
+}
+
+.subcategory-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 1.2rem;
+  border: 2px solid;
+  padding: 0.7rem 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.06);
+  min-height: 42px;
+  backdrop-filter: blur(10px);
+
+  &:hover {
+    box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.12);
+    transform: translateY(-1px);
+  }
+}
+
+.subcategory-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: #111;
+  letter-spacing: -0.01em;
+  flex: 1;
+  min-width: 0;
+}
+
+.suggested-star {
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+  animation: twinkle 2s ease-in-out infinite;
+}
+
+/* Keep subcategory text black even in dark mode */
+.dark-mode .subcategory-label {
+  color: #111;
+}
+
+// Subcategory Toggle
+.subcategory-toggle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+
+  &:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: scale(1.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  &.selected {
+    background: currentColor;
+    border-color: currentColor;
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+// Twinkle animation for suggested stars
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
 }
 
 // Start Customizing Button (matching home page design)
@@ -138,60 +319,7 @@
   transform: translateX(2px);
 }
 
-.content-wrapper {
-  text-align: center;
-  max-width: 800px;
-  width: 100%;
-}
-
-.select-placeholder {
-  padding: 3rem;
-  border-radius: 12px;
-  background-color: rgba(0, 0, 0, 0.02);
-  border: 2px dashed rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-
-  .dark-mode & {
-    background-color: rgba(255, 255, 255, 0.02);
-    border-color: rgba(255, 255, 255, 0.1);
-  }
-}
-
-.page-title {
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.page-description {
-  font-size: 1.2rem;
-  margin-bottom: 2rem;
-  opacity: 0.8;
-  line-height: 1.6;
-}
-
-.placeholder-info {
-  text-align: left;
-  background-color: rgba(0, 0, 0, 0.05);
-  padding: 1.5rem;
-  border-radius: 8px;
-  margin-top: 2rem;
-
-  .dark-mode & {
-    background-color: rgba(255, 255, 255, 0.05);
-  }
-
-  p {
-    margin: 0.5rem 0;
-    font-family: 'Courier New', monospace;
-    font-size: 0.9rem;
-  }
-}
-
+// Responsive adjustments
 @media (max-width: 900px) {
   .select-structure {
     height: auto;
@@ -208,6 +336,15 @@
   }
   .start-customizing-btn {
     bottom: 2rem;
+  }
+  .category-columns {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .category-column {
+    width: 100%;
+    max-width: 400px;
   }
 }
 
