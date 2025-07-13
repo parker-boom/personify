@@ -1,3 +1,11 @@
+/**
+ * Question Factory Service
+ *
+ * Implements factory pattern for creating typed question instances from JSON data.
+ * Converts raw question data into appropriate BaseQuestion subclasses based on type.
+ * Used by FlowService to transform category questions into interactive components.
+ */
+
 import { Injectable } from '@angular/core';
 import {
   BaseQuestion,
@@ -15,6 +23,12 @@ import {
   providedIn: 'root',
 })
 export class QuestionFactory {
+  /**
+   * Create a single typed question instance from JSON data
+   * @param jsonQuestion Raw question data from category.json
+   * @param context Category and subcategory context
+   * @returns Typed BaseQuestion subclass instance
+   */
   createQuestion(jsonQuestion: any, context: QuestionContext): BaseQuestion {
     switch (jsonQuestion.type) {
       case 'slider':
@@ -44,6 +58,12 @@ export class QuestionFactory {
     }
   }
 
+  /**
+   * Create multiple question instances from JSON array
+   * @param jsonQuestions Array of raw question data
+   * @param context Base context for all questions
+   * @returns Array of typed BaseQuestion instances
+   */
   createQuestionsFromJson(
     jsonQuestions: any[],
     context: QuestionContext

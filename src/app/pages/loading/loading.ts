@@ -1,3 +1,14 @@
+/**
+ * Loading Page Component
+ *
+ * Orchestrates API processing of user answers with animated loading feedback.
+ * Receives answer data via router state, processes through ApiService,
+ * and navigates to results page. Features cycling loading messages and
+ * error handling with fallback navigation.
+ *
+ * Uses: ThemeService, Router, ApiService
+ */
+
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -16,6 +27,7 @@ export class LoadingComponent implements OnInit, OnDestroy {
   private messageInterval: any;
   private answersData: AnswerData[] = [];
 
+  // Cycling loading messages for user engagement
   loadingMessages = [
     'Personalizing your experience',
     'Crunching the numbers',
@@ -26,11 +38,11 @@ export class LoadingComponent implements OnInit, OnDestroy {
   ];
 
   constructor(
-    public themeService: ThemeService,
+    public themeService: ThemeService, // Public for template access
     private router: Router,
     private apiService: ApiService
   ) {
-    // Get answers data from navigation state
+    // Get answers data from navigation state (passed from flow page)
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras?.state) {
       this.answersData = navigation.extras.state['answers'] || [];
@@ -43,11 +55,15 @@ export class LoadingComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    // Clean up interval to prevent memory leaks
     if (this.messageInterval) {
       clearInterval(this.messageInterval);
     }
   }
 
+  /**
+   * Start cycling through loading messages every 3 seconds
+   */
   private startMessageCycle() {
     this.messageInterval = setInterval(() => {
       this.currentMessageIndex =
@@ -55,6 +71,9 @@ export class LoadingComponent implements OnInit, OnDestroy {
     }, 3000); // Change message every 3 seconds
   }
 
+  /**
+   * Process user answers through API and handle response/errors
+   */
   private processAnswers() {
     console.log('🔄 Processing answers:', this.answersData);
 
@@ -65,7 +84,7 @@ export class LoadingComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // Call the API service
+    // Call the API service to process answers
     this.apiService.processAnswers(this.answersData).subscribe({
       next: (response) => {
         console.log('✅ API call successful:', response);
@@ -78,8 +97,6 @@ export class LoadingComponent implements OnInit, OnDestroy {
       error: (error) => {
         console.error('❌ API call failed:', error);
 
-        // TODO: Handle error - could show error message or redirect
-        // For now, redirect to flow page
         this.router.navigate(['/flow']);
       },
     });

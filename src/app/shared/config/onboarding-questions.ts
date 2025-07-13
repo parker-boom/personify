@@ -1,5 +1,17 @@
+/**
+ * Onboarding Questions Configuration
+ *
+ * Defines the initial questions shown to all users at the start of the flow.
+ * These questions appear before category-specific questions and help establish
+ * basic context about the user. Easy to modify without touching code.
+ */
+
 import { QuestionContext } from '../models/question.interface';
 
+/**
+ * Universal onboarding questions shown to all users
+ * Appears at the beginning of every flow regardless of selections
+ */
 export const ONBOARDING_QUESTIONS = [
   {
     id: 'onboarding-intro',
@@ -48,6 +60,10 @@ export const ONBOARDING_QUESTIONS = [
   },
 ];
 
+/**
+ * Category introduction statements
+ * Shown when transitioning to questions from specific categories
+ */
 export const CATEGORY_STATEMENTS = [
   {
     id: 'personal-statement',
@@ -79,12 +95,20 @@ export const CATEGORY_STATEMENTS = [
   },
 ];
 
+/**
+ * Default context for onboarding questions
+ * Used by QuestionFactory when creating onboarding question instances
+ */
 export const ONBOARDING_CONTEXT: QuestionContext = {
   categoryId: 'onboarding',
   subcategoryId: 'introduction',
   order: 0,
 };
 
+/**
+ * Final statement shown at the end of the flow
+ * Appears after all questions are completed
+ */
 export const ENDING_STATEMENT = {
   id: 'ending-statement',
   categoryId: 'end',

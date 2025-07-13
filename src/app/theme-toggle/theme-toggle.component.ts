@@ -1,3 +1,13 @@
+/**
+ * Theme Toggle Component
+ *
+ * Global theme toggle button with sun/moon icons for dark/light mode switching.
+ * Positioned absolutely in top-right corner across all pages.
+ * Uses inline template and styles for self-contained component.
+ *
+ * Uses: ThemeService for theme state management
+ */
+
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ThemeService } from '../theme.service';
@@ -16,6 +26,7 @@ import { ThemeService } from '../theme.service';
           : 'Switch to dark mode'
       "
     >
+      <!-- Sun icon for light mode -->
       <svg
         *ngIf="!(themeService.isDarkMode$ | async)"
         class="theme-icon"
@@ -34,6 +45,7 @@ import { ThemeService } from '../theme.service';
         <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
       </svg>
+      <!-- Moon icon for dark mode -->
       <svg
         *ngIf="themeService.isDarkMode$ | async"
         class="theme-icon"
@@ -83,5 +95,5 @@ import { ThemeService } from '../theme.service';
   ],
 })
 export class ThemeToggleComponent {
-  constructor(public themeService: ThemeService) {}
+  constructor(public themeService: ThemeService) {} // Public for template access
 }

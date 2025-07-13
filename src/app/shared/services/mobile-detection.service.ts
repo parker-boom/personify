@@ -1,3 +1,11 @@
+/**
+ * Mobile Detection Service
+ *
+ * Detects mobile/tablet devices and provides reactive updates on screen size changes.
+ * Used by app component to conditionally show mobile message or main content.
+ * Threshold set at 768px (tablet breakpoint).
+ */
+
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
@@ -20,11 +28,13 @@ export class MobileDetectionService {
   }
 
   private setupResizeListener(): void {
+    // Listen for window resize events to update mobile status
     window.addEventListener('resize', () => {
       this.checkMobile();
     });
   }
 
+  // Synchronous getter for current mobile status
   get isMobile(): boolean {
     return this.isMobileSubject.value;
   }

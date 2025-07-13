@@ -1,3 +1,16 @@
+/**
+ * Sidebar Component
+ *
+ * Dual-purpose sidebar that adapts based on current page context:
+ * - Select page: Shows selected categories/subcategories with remove buttons
+ * - Flow page: Shows progress tracking with completion status
+ *
+ * Uses dependency injection pattern and reactive observables for state management.
+ * Provides skip functionality for flow completion.
+ *
+ * Uses: SelectionService, FlowService, ThemeService, Router
+ */
+
 import { Component, inject, EventEmitter, Output } from '@angular/core';
 import { SelectionService } from '../../services/selection';
 import { FlowService } from '../../services/flow';
@@ -17,6 +30,7 @@ import { Router } from '@angular/router';
 export class Sidebar {
   @Output() closeSidebar = new EventEmitter<void>();
 
+  // Dependency injection pattern for services
   private selectionService = inject(SelectionService);
   private flowService = inject(FlowService);
   private router = inject(Router);
@@ -68,8 +82,14 @@ export class Sidebar {
     map((state) => state.questions.length > 0)
   );
 
-  constructor(public themeService: ThemeService) {}
+  constructor(public themeService: ThemeService) {} // Public for template access
 
+  /**
+   * Calculate current question number for display
+   * @param answeredQuestions Number of questions answered
+   * @param totalQuestions Total number of questions
+   * @returns Current question number (1-based)
+   */
   getCurrentQuestionNumber(
     answeredQuestions: number,
     totalQuestions: number
@@ -77,10 +97,19 @@ export class Sidebar {
     return Math.min(answeredQuestions + 1, totalQuestions);
   }
 
+  /**
+   * Remove entire category from selections
+   * @param category Category to remove
+   */
   removeCategory(category: Category) {
     this.selectionService.setCategorySelection(category.name, []);
   }
 
+  /**
+   * Remove specific subcategory from category selections
+   * @param category Parent category
+   * @param subcategory Subcategory to remove
+   */
   removeSubcategory(category: Category, subcategory: Subcategory) {
     const current = this.selectionService.getCategorySelection(category.name);
     this.selectionService.setCategorySelection(
@@ -89,6 +118,10 @@ export class Sidebar {
     );
   }
 
+  /**
+   * Skip remaining questions and proceed to results
+   * Collects all current answers and navigates to loading page
+   */
   skipRest() {
     // Skip the rest of the flow - collect answers and navigate to loading
     console.log('⏭️  User chose to skip the rest of the flow');
@@ -99,7 +132,10 @@ export class Sidebar {
     });
   }
 
-  // Collect all answers and log them to console (same as flow component)
+  /**
+   * Collect all answers and format for API consumption
+   * @returns Array of formatted answer data
+   */
   private collectAndLogAnswers() {
     const state = this.flowService.getCurrentState();
     const allAnswers = this.flowService.getAllAnswers();

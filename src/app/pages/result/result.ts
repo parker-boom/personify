@@ -1,3 +1,14 @@
+/**
+ * Result Page Component
+ *
+ * Displays final custom instructions and memory prompt with copy functionality.
+ * Receives API response data via router state from loading page.
+ * Features copy-to-clipboard for instructions and ChatGPT memory integration
+ * with automatic URL generation for seamless user experience.
+ *
+ * Uses: ThemeService, Router, FormsModule for textareas
+ */
+
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -18,13 +29,13 @@ export class Result {
   extraText = '';
   memoryLink = '';
 
-  // Copy animation states
+  // Copy animation states for user feedback
   copyingTraits = false;
   copyingExtra = false;
   copyingMemory = false;
 
   constructor(public themeService: ThemeService, private router: Router) {
-    // Get API response data from navigation state
+    // Get API response data from navigation state (passed from loading page)
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras?.state) {
       const apiResponse = navigation.extras.state[
@@ -47,10 +58,15 @@ export class Result {
       this.extraText = `I prefer metric units, use British English spelling, and I'm learning Japanese—sprinkle in occasional vocabulary explanations when relevant.`;
     }
     if (!this.memoryLink) {
-      this.memoryLink = 'https://openai.com/personify/save-to-memory';
+      this.memoryLink = 'https://chatgpt.com/';
     }
   }
 
+  /**
+   * Generate ChatGPT memory link with encoded prompt
+   * @param memoryPrompt Raw memory prompt from API
+   * @returns Formatted ChatGPT URL with encoded prompt
+   */
   private generateMemoryLink(memoryPrompt: string): string {
     if (!memoryPrompt || memoryPrompt.trim() === '') {
       return 'https://chatgpt.com/';
@@ -85,6 +101,11 @@ export class Result {
     }
   }
 
+  /**
+   * Copy content to clipboard with animated feedback
+   * @param content Text content to copy
+   * @param type Type of content for animation state
+   */
   copyToClipboard(
     content: string,
     type: 'traits' | 'extra' | 'memory' = 'traits'
@@ -92,7 +113,7 @@ export class Result {
     if (navigator && navigator.clipboard) {
       navigator.clipboard.writeText(content);
 
-      // Set the appropriate copying state
+      // Set the appropriate copying state for animation
       switch (type) {
         case 'traits':
           this.copyingTraits = true;

@@ -1,20 +1,36 @@
-export type QuestionType =
-  | 'slider'
-  | 'short_text'
-  | 'long_text'
-  | 'multi_select'
-  | 'dropdown'
-  | 'toggle'
-  | 'select'
-  | 'statement';
+/**
+ * Question Type System
+ *
+ * Defines the type hierarchy for interactive questions in the flow.
+ * BaseQuestion provides common properties, with specific question types
+ * extending it for their unique requirements. Used by QuestionFactory
+ * to create typed question instances from JSON data.
+ */
 
+export type QuestionType =
+  | 'slider' // Numeric range input
+  | 'short_text' // Single-line text input
+  | 'long_text' // Multi-line text input
+  | 'multi_select' // Multiple choice with checkboxes
+  | 'dropdown' // Single choice dropdown
+  | 'toggle' // Boolean on/off switch
+  | 'select' // Single choice buttons
+  | 'statement'; // Informational message (no input)
+
+/**
+ * Context information for question creation
+ * Provides category and subcategory association
+ */
 export interface QuestionContext {
   categoryId: string;
   subcategoryId: string;
   order: number;
 }
 
-// Base question class for common properties
+/**
+ * Base question class for common properties
+ * All question types extend this abstract class
+ */
 export abstract class BaseQuestion {
   id: string;
   prompt: string;
@@ -35,7 +51,10 @@ export abstract class BaseQuestion {
   }
 }
 
-// Specific question types extending the base
+/**
+ * Slider question for numeric range input
+ * Renders as interactive slider component
+ */
 export class SliderQuestion extends BaseQuestion {
   range: { min: number; max: number };
   default: number;
@@ -48,6 +67,10 @@ export class SliderQuestion extends BaseQuestion {
   }
 }
 
+/**
+ * Text question for short or long text input
+ * Handles both single-line and multi-line text
+ */
 export class TextQuestion extends BaseQuestion {
   maxLength?: number;
   placeholder?: string;
@@ -59,6 +82,10 @@ export class TextQuestion extends BaseQuestion {
   }
 }
 
+/**
+ * Multi-select question for multiple choice
+ * Allows users to select multiple options from a list
+ */
 export class MultiSelectQuestion extends BaseQuestion {
   options: string[];
   maxSelections?: number;
@@ -72,6 +99,10 @@ export class MultiSelectQuestion extends BaseQuestion {
   }
 }
 
+/**
+ * Dropdown question for single choice selection
+ * Renders as dropdown menu component
+ */
 export class DropdownQuestion extends BaseQuestion {
   options: string[];
   placeholder?: string;
@@ -83,6 +114,10 @@ export class DropdownQuestion extends BaseQuestion {
   }
 }
 
+/**
+ * Toggle question for boolean on/off input
+ * Renders as switch component
+ */
 export class ToggleQuestion extends BaseQuestion {
   default: boolean;
 
@@ -92,6 +127,10 @@ export class ToggleQuestion extends BaseQuestion {
   }
 }
 
+/**
+ * Select question for single choice buttons
+ * Renders as button group component
+ */
 export class SelectQuestion extends BaseQuestion {
   options: string[];
   default?: string;
@@ -103,6 +142,10 @@ export class SelectQuestion extends BaseQuestion {
   }
 }
 
+/**
+ * Statement question for informational messages
+ * Displays text without requiring user input
+ */
 export class StatementQuestion extends BaseQuestion {
   constructor(data: any, context: QuestionContext) {
     super(data, context);
