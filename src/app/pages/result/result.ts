@@ -63,6 +63,28 @@ export class Result {
     return `https://chatgpt.com/?q=${encodedPrompt}`;
   }
 
+  /**
+   * Open the ChatGPT memory link in a new browser tab.
+   * This is triggered by the "Save to ChatGPT's Memory" button.
+   */
+  openMemoryLink(): void {
+    if (!this.memoryLink) {
+      console.warn('⚠️ No memory link available to open');
+      return;
+    }
+
+    // Open the link in a new tab/window. Fallback to same tab if blocked.
+    const newWindow = window.open(this.memoryLink, '_blank');
+    if (
+      !newWindow ||
+      newWindow.closed ||
+      typeof newWindow.closed === 'undefined'
+    ) {
+      // If popup blocked, navigate in the current tab instead
+      window.location.href = this.memoryLink;
+    }
+  }
+
   copyToClipboard(
     content: string,
     type: 'traits' | 'extra' | 'memory' = 'traits'
@@ -81,8 +103,7 @@ export class Result {
           setTimeout(() => (this.copyingExtra = false), 1000);
           break;
         case 'memory':
-          this.copyingMemory = true;
-          setTimeout(() => (this.copyingMemory = false), 1000);
+          // No longer copying for memory; the button now opens the link.
           break;
       }
     }

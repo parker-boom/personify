@@ -11,7 +11,7 @@
 
   <!-- Settings path helper -->
   <div class="settings-helper">
-    <span class="settings-bubble">SETTINGS</span>
+    <span class="settings-bubble">PROFILE PICTURE</span>
     <svg
       class="arrow-icon"
       viewBox="0 0 24 24"
@@ -111,7 +111,7 @@
 
     <button
       class="memory-btn"
-      (click)="copyToClipboard(memoryLink, 'memory')"
+      (click)="openMemoryLink()"
       [class.copied]="copyingMemory"
     >
       <div class="logo-combo">
@@ -120,7 +120,7 @@
           src="/images/fusedLogo.png"
           alt="Personify + OpenAI"
         />
-        <span class="memory-label">Save to ChatGPT's Memory</span>
+        <span class="memory-label">Add to ChatGPT's Memory</span>
       </div>
       <svg
         class="chevron-icon"
