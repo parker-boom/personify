@@ -55,17 +55,17 @@
 .select-title {
   font-size: 2.8rem;
   font-weight: 700;
-  margin-bottom: 0.5rem;
   font-family: "Inter Tight", "Inter", sans-serif;
   letter-spacing: -0.02em;
+  margin-bottom: 0rem;
   line-height: 1.1;
   color: #111;
 }
 
 .select-subtitle {
-  font-size: 1.4rem;
-  font-weight: 500;
-  color: #222;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #525252;
   opacity: 0.85;
   margin-bottom: 0;
   font-family: "Inter", sans-serif;
@@ -98,8 +98,9 @@
   align-items: flex-start;
   justify-content: center;
   width: 100%;
-  max-width: 1600px;
+  max-width: 1300px;
   padding: 0 2rem;
+  padding-top: 3.5rem;
   position: relative;
 }
 
@@ -109,7 +110,7 @@
   align-items: center;
   gap: 1.5rem;
   flex: 1;
-  min-width: 0; // Ensures flex items can shrink
+  min-width: 0;
 }
 
 // Category Header (Rectangle)
@@ -275,8 +276,8 @@
 // Start Customizing Button (matching home page design)
 .start-customizing-btn {
   position: absolute;
-  bottom: 3rem;
-  margin-bottom: 3rem;
+  bottom: 1rem;
+  margin-bottom: 1.5rem;
   left: 50%;
   transform: translateX(-50%);
   padding: 1rem 2rem;

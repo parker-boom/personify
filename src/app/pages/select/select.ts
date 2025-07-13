@@ -71,8 +71,8 @@ export class Select {
     // Base width: 260px, vary by ±50px based on weight (5-10 range) - reduced from 280px
     const minWeight = 5,
       maxWeight = 10;
-    const baseWidth = 260;
-    const variation = 50;
+    const baseWidth = 230;
+    const variation = 30;
     const normalizedWeight = (weight - minWeight) / (maxWeight - minWeight);
     return baseWidth + variation * normalizedWeight;
   }

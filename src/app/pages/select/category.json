@@ -2,7 +2,7 @@
   {
     "name": "personal",
     "label": "Personal Info",
-    "weight": 7,
+    "weight": 6,
     "emoji": "😎",
     "subcategories": [
       {
@@ -60,14 +60,14 @@
             "type": "long_text"
           }
         ],
-        "id": "PI3"
+        "id": "PI4"
       }
     ]
   },
   {
     "name": "school",
     "label": "Academics",
-    "weight": 10,
+    "weight": 9,
     "emoji": "🎓",
     "subcategories": [
       {
@@ -156,98 +156,9 @@
     ]
   },
   {
-    "name": "learning",
-    "label": "Learning Style",
-    "weight": 8,
-    "emoji": "🧠",
-    "subcategories": [
-      {
-        "name": "pace",
-        "label": "Pace",
-        "suggested": true,
-        "questions": [
-          {
-            "prompt": "How broken down should topics be before ChatGPT explains them?",
-            "type": "slider",
-            "range": {
-              "min": 1,
-              "max": 10
-            },
-            "default": 5
-          }
-        ],
-        "id": "LS1"
-      },
-      {
-        "name": "style",
-        "label": "Learning Mode",
-        "suggested": true,
-        "questions": [
-          {
-            "prompt": "What helps you learn best?",
-            "type": "multi_select",
-            "options": [
-              "Examples",
-              "Analogies",
-              "Visuals",
-              "Step-by-step",
-              "Concept-first",
-              "Metaphors",
-              "Other"
-            ]
-          }
-        ],
-        "id": "LS2"
-      },
-      {
-        "name": "feedback",
-        "label": "Feedback Style",
-        "suggested": true,
-        "questions": [
-          {
-            "prompt": "How should ChatGPT correct you?",
-            "type": "dropdown",
-            "options": [
-              "Be direct",
-              "Be gentle",
-              "Ask questions first",
-              "Only correct when asked"
-            ]
-          },
-          {
-            "prompt": "Is it okay if ChatGPT points out mistakes without being asked?",
-            "type": "toggle"
-          }
-        ],
-        "id": "LS3"
-      },
-      {
-        "name": "tasks",
-        "label": "Tasks",
-        "suggested": false,
-        "questions": [
-          {
-            "prompt": "What kinds of academic tasks do you usually use ChatGPT for?",
-            "type": "multi_select",
-            "options": [
-              "Explaining things",
-              "Homework",
-              "Brainstorming",
-              "Summarizing",
-              "Studying",
-              "Writing help",
-              "Project planning"
-            ]
-          }
-        ],
-        "id": "LS4"
-      }
-    ]
-  },
-  {
     "name": "response",
     "label": "How to Respond",
-    "weight": 6,
+    "weight": 8,
     "emoji": "🤖",
     "subcategories": [
       {
@@ -276,7 +187,7 @@
       },
       {
         "name": "length",
-        "label": "Response Length",
+        "label": "Length",
         "suggested": true,
         "questions": [
           {
@@ -361,6 +272,95 @@
           }
         ],
         "id": "RS5"
+      }
+    ]
+  },
+  {
+    "name": "learning",
+    "label": "Learning Style",
+    "weight": 7,
+    "emoji": "🧠",
+    "subcategories": [
+      {
+        "name": "pace",
+        "label": "Pace",
+        "suggested": true,
+        "questions": [
+          {
+            "prompt": "How broken down should topics be before ChatGPT explains them?",
+            "type": "slider",
+            "range": {
+              "min": 1,
+              "max": 10
+            },
+            "default": 5
+          }
+        ],
+        "id": "LS1"
+      },
+      {
+        "name": "style",
+        "label": "Modals",
+        "suggested": true,
+        "questions": [
+          {
+            "prompt": "What helps you learn best?",
+            "type": "multi_select",
+            "options": [
+              "Examples",
+              "Analogies",
+              "Visuals",
+              "Step-by-step",
+              "Concept-first",
+              "Metaphors",
+              "Other"
+            ]
+          }
+        ],
+        "id": "LS2"
+      },
+      {
+        "name": "feedback",
+        "label": "Feedback",
+        "suggested": true,
+        "questions": [
+          {
+            "prompt": "How should ChatGPT correct you?",
+            "type": "dropdown",
+            "options": [
+              "Be direct",
+              "Be gentle",
+              "Ask questions first",
+              "Only correct when asked"
+            ]
+          },
+          {
+            "prompt": "Is it okay if ChatGPT points out mistakes without being asked?",
+            "type": "toggle"
+          }
+        ],
+        "id": "LS3"
+      },
+      {
+        "name": "tasks",
+        "label": "Tasks",
+        "suggested": false,
+        "questions": [
+          {
+            "prompt": "What kinds of academic tasks do you usually use ChatGPT for?",
+            "type": "multi_select",
+            "options": [
+              "Explaining things",
+              "Homework",
+              "Brainstorming",
+              "Summarizing",
+              "Studying",
+              "Writing help",
+              "Project planning"
+            ]
+          }
+        ],
+        "id": "LS4"
       }
     ]
   }
